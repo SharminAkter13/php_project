@@ -20,12 +20,12 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="assets/index2.html" class="h1"><b>Donor</b>Hub</a>
+      <a href="index.php" class="h1"><b>Donor</b>Hub</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="assets/index3.html" method="post">
+      <form action="home.php" method="post">
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email">
           <div class="input-group-append">
@@ -53,7 +53,9 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
+            <a href="home.php">
             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </a>
           </div>
           <!-- /.col -->
         </div>
