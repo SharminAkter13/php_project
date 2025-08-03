@@ -35,13 +35,38 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="home.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+
+             <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                users
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="./add_users.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add User</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./manage_user.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Manage Users</p>
+                </a>
+              </li>
+             
+            </ul>
+          </li>
            
           <li class="nav-item">
             <a href="#" class="nav-link">
