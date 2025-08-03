@@ -19,8 +19,6 @@
         <link href="assets/lib/flaticon/font/flaticon.css" rel="stylesheet">
         <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
         <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
 
         <!-- Template Stylesheet -->
         <link href="assets/css/style.css" rel="stylesheet">
@@ -35,24 +33,24 @@
                         <div class="top-bar-left">
                             <div class="text">
                                 <i class="fa fa-phone-alt"></i>
-                                <p>+123 456 7890</p>
+                                <p>+880 12543 41534</p>
                             </div>
                             <div class="text">
                                 <i class="fa fa-envelope"></i>
-                                <p>info@example.com</p>
+                                <p>donorhub@gmail.com</p>
                             </div>
                         </div>
                     </div>
                    <div class="col-md-4">
-                        <div class="top-bar-right">
-                            <div class="social">
-                                <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-                                <a href="#" data-bs-toggle="tooltip" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#" data-bs-toggle="tooltip" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" data-bs-toggle="tooltip" title="Instagram"><i class="fab fa-instagram"></i></a>
-                            </div>
+                    <div class="top-bar-right">
+                        <div class="social">
+                            <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="Instagram"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
+                </div>
 
                 </div>
             </div>
@@ -62,7 +60,7 @@
         <!-- Nav Bar Start -->
         <div class="navbar navbar-expand-lg bg-dark navbar-dark">
             <div class="container-fluid">
-                <a href="index.html" class="navbar-brand">Helpz</a>
+                <a href="index.html" class="navbar-brand">DonorHub</a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -85,6 +83,8 @@
                             </div>
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="login.php" class="nav-item nav-link">Sign In</a>
+
                     </div>
                 </div>
             </div>
