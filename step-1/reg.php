@@ -57,9 +57,11 @@
         <div class="mb-3">
           <select class="form-control" name="user_role" required>
             <option value="">Select Role</option>
-            <option value="donor">Donor</option>
             <option value="admin">Admin</option>
-            <option value="staff">Staff</option>
+            <option value="donor">Donor</option>
+            <option value="staff">Volunteer</option>
+            <option value="staff">Campaign Manager</option>
+            <option value="staff">Beneficiary</option>
           </select>
         </div>
 
