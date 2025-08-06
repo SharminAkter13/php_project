@@ -147,7 +147,7 @@ a:focus {
 /**********************************/
 /********** Top Bar CSS ***********/
 /**********************************/
-/* .top-bar {
+.top-bar {
     position: absolute;
     height: 45px;
     width: 100%;
@@ -228,68 +228,9 @@ a:focus {
     .top-bar {
         padding: 0 60px;
     }
-} */
+}
 
-.top-bar {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-    font-family: 'Roboto', sans-serif;
-  }
 
-  .top-bar .container-fluid {
-    max-width: 1200px;
-    padding: 0 15px;
-  }
-
-  .top-bar-left .contact-info {
-    display: flex;
-    align-items: center;
-    margin-right: 25px;
-  }
-
-  .top-bar-left .contact-info i {
-    margin-right: 8px;
-    font-size: 18px;
-  }
-
-  .top-bar-left .contact-info span {
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  .social-icons a {
-    color: white;
-    font-size: 18px;
-    margin-left: 15px;
-    transition: all 0.3s ease;
-  }
-
-  .social-icons a:hover {
-    color: #1da1f2; /* Change color on hover (Twitter blue) */
-    transform: translateY(-5px);
-  }
-
-  .social-icons a[data-bs-toggle="tooltip"] {
-    text-decoration: none;
-  }
-
-  /* Tooltips */
-  .social-icons a[data-bs-toggle="tooltip"] {
-    position: relative;
-  }
-
-  /* For smaller screen sizes, make the text smaller and stack the icons */
-  @media (max-width: 767px) {
-    .top-bar-left .contact-info {
-      margin-right: 15px;
-      font-size: 12px;
-    }
-
-    .social-icons {
-      margin-top: 10px;
-    }
-  }
 /**********************************/
 /*********** Nav Bar CSS **********/
 /**********************************/
