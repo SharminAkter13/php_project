@@ -67,7 +67,7 @@
 
                 <!-- Donor Dashboard Sections -->
                 <li class="nav-item" id="donor-donations">
-                    <a href="#" class="nav-link">
+                    <a href="./donations.php" class="nav-link">
                         <i class="nav-icon fas fa-heart"></i>
                         <p>Donations</p>
                     </a>
@@ -75,7 +75,7 @@
 
                 <!-- Volunteer Dashboard Sections -->
                 <li class="nav-item" id="volunteer-events">
-                    <a href="#" class="nav-link">
+                    <a href="./events.php" class="nav-link">
                         <i class="nav-icon fas fa-calendar-check"></i>
                         <p>Events</p>
                     </a>
@@ -83,7 +83,7 @@
 
                 <!-- Campaign Manager Dashboard Sections -->
                 <li class="nav-item" id="campaign-manager-campaigns">
-                    <a href="#" class="nav-link">
+                    <a href="./campaigns.php" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>Campaigns</p>
                     </a>
@@ -91,7 +91,7 @@
 
                 <!-- Beneficiary Dashboard Sections -->
                 <li class="nav-item" id="beneficiary-campaigns">
-                    <a href="#" class="nav-link">
+                    <a href="beneficiary" class="nav-link">
                         <i class="nav-icon fas fa-hand-holding-heart"></i>
                         <p>Beneficiary Campaigns</p>
                     </a>

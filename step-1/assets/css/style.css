@@ -211,7 +211,7 @@ a:focus {
     width: 45px;
     height: 100%;
     font-size: 16px;
-    color: #F54927;
+    color: #FDBE33;
     border-right: 1px solid rgba(255, 255, 255, .3);
 }
 
@@ -221,7 +221,7 @@ a:focus {
 
 .top-bar .social a:hover {
     color: #ffffff;
-    background: #F54927;
+    background: #FDBE33;
 }
 
 @media (min-width: 992px) {
