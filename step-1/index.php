@@ -84,7 +84,8 @@
                         </div>
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
-                    <a href="reg.php" class="nav-item nav-link">Sign In</a>
+                    <a href="login.php" class="nav-item nav-link">Sign In</a>
+                    <a href="reg.php" class="nav-item nav-link">Sign Up</a>
 
                 </div>
             </div>
