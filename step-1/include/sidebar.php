@@ -91,7 +91,7 @@
 
                 <!-- Beneficiary Dashboard Sections -->
                 <li class="nav-item" id="beneficiary-campaigns">
-                    <a href="beneficiary" class="nav-link">
+                    <a href="beneficiary.php" class="nav-link">
                         <i class="nav-icon fas fa-hand-holding-heart"></i>
                         <p>Beneficiary Campaigns</p>
                     </a>
