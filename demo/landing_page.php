@@ -13,117 +13,189 @@
 </head>
 
 <body>
-    <div class="top-bar d-none d-md-block">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="top-bar-left">
-                        <div class="text">
-                            <i class="fa fa-phone-alt"></i>
-                            <p>+880 12543 41534</p>
-                        </div>
-                        <div class="text">
-                            <i class="fa fa-envelope"></i>
-                            <p>donorhub@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="top-bar-right">
-                        <div class="social">
-                            <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="fab fa-twitter"></i></a>
-                            <a href="#" data-bs-toggle="tooltip" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" data-bs-toggle="tooltip" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" data-bs-toggle="tooltip" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <div class="conatianer-fluid">
+        <div class="top-bar d-none d-md-block">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="top-bar-left">
+                            <div class="text">
+                                <i class="fa fa-phone-alt"></i>
+                                <p>+880 12543 41534</p>
+                            </div>
+                            <div class="text">
+                                <i class="fa fa-envelope"></i>
+                                <p>donorhub@gmail.com</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-md-4">
+                        <div class="top-bar-right">
+                            <div class="social">
+                                <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" data-bs-toggle="tooltip" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" data-bs-toggle="tooltip" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" data-bs-toggle="tooltip" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
-    <div class="navbar navbar-expand-lg bg-dark navbar-dark">
-        <div class="container-fluid">
-            <a href="index.html" class="navbar-brand">DonorHub</a>
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
+        <!-- Carousel wrapper -->
+
+        <section >
+            <div id="carouselVideoExample" class="carousel slide " data-bs-ride="carousel">
+            <!-- Indicators -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselVideoExample" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+                <button type="button" data-bs-target="#carouselVideoExample" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+                <button type="button" data-bs-target="#carouselVideoExample" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+            </div>
+
+            <!-- Inner -->
+            <div class="carousel-inner">
+                <!-- Single item -->
+                <div class="carousel-item active" data-bs-interval="1500">
+                <video class="img-fluid w-100" autoplay="" muted="">
+                    <source src="dist/images/video4.mp4" type="video/mp4">
+                </video>
+                <div class="carousel-caption d-none d-md-block">
+                    <p>Sports Cars</p>
+                    <h5>
+                    START YOUR ENGINE
+                    </h5>
+                    <p>
+                    DISCOVER THE FERRARI LINE UP <a href="#"><i class="bi bi-chevron-compact-right bg-white"></i></a>
+                    </p>
+                </div>
+                </div>
+
+                <!-- Single item -->
+                <div class="carousel-item" data-bs-interval="1500">
+                <video class="img-fluid w-100 " autoplay="" muted="">
+                    <source src="dist/images/dcinologo_whitebag (720p).mp4" type="video/mp4">
+                </video>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Second slide label</h5>
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                </div>
+                </div>
+
+                <!-- Single item -->
+                <div class="carousel-item" data-bs-interval="1500">
+                <video class="img-fluid w-100" autoplay="" muted="">
+                    <source src="dist/images/video6.mp4" type="video/mp4">
+                </video>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Third slide label</h5>
+                    <p>
+                    Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+                    </p>
+                </div>
+                </div>
+            </div>
+            <!-- Inner -->
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-mdb-target="#carouselVideoExample" data-mdb-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
+            <button class="carousel-control-next" type="button" data-mdb-target="#carouselVideoExample" data-mdb-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            </div>
+            <!-- Carousel wrapper -->
 
-            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav ms-auto">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="causes.html" class="nav-item nav-link">Causes</a>
-                    <a href="event.html" class="nav-item nav-link">Events</a>
-                    <a href="blog.html" class="nav-item nav-link">Blog</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu">
-                            <a href="single.html" class="dropdown-item">Detail Page</a>
-                            <a href="service.html" class="dropdown-item">What We Do</a>
-                            <a href="team.html" class="dropdown-item">Meet The Team</a>
-                            <a href="donate.html" class="dropdown-item">Donate Now</a>
-                            <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
+        </section>
+    <div class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a href="index.html" class="navbar-brand">DonorHub</a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto">
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="causes.html" class="nav-item nav-link">Causes</a>
+                        <a href="event.html" class="nav-item nav-link">Events</a>
+                        <a href="blog.html" class="nav-item nav-link">Blog</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu">
+                                <a href="single.html" class="dropdown-item">Detail Page</a>
+                                <a href="service.html" class="dropdown-item">What We Do</a>
+                                <a href="team.html" class="dropdown-item">Meet The Team</a>
+                                <a href="donate.html" class="dropdown-item">Donate Now</a>
+                                <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
+                            </div>
                         </div>
-                    </div>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
-                    <a href="login.php" class="nav-item nav-link">Sign In</a>
-                    <a href="reg.php" class="nav-item nav-link">Sign Up</a>
+                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="login.php" class="nav-item nav-link">Sign In</a>
+                        <a href="reg.php" class="nav-item nav-link">Sign Up</a>
 
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="carousel">
+            <div class="container-fluid">
+                <div class="owl-carousel">
+                    <div class="carousel-item">
+                        <div class="carousel-img">
+                            <img src="assets/img/carousel-1.jpg" alt="Image">
+                        </div>
+                        <div class="carousel-text">
+                            <h1>Let's be kind for children</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet elit. Phasellus ut mollis mauris. Vivamus egestas eleifend dui ac consequat at lectus in malesuada
+                            </p>
+                            <div class="carousel-btn">
+                                <a class="btn btn-custom" href="">Donate Now</a>
+                                <a class="btn btn-custom btn-play" data-bs-toggle="modal" data-bs-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">Watch Video</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-img">
+                            <img src="assets/img/carousel-2.jpg" alt="Image">
+                        </div>
+                        <div class="carousel-text">
+                            <h1>Get Involved with helping hand</h1>
+                            <p>
+                                Morbi sagittis turpis id suscipit feugiat. Suspendisse eu augue urna. Morbi sagittis, orci sodales varius fermentum, tortor
+                            </p>
+                            <div class="carousel-btn">
+                                <a class="btn btn-custom" href="">Donate Now</a>
+                                <a class="btn btn-custom btn-play" data-bs-toggle="modal" data-bs-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">Watch Video</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-img">
+                            <img src="assets/img/carousel-3.jpg" alt="Image">
+                        </div>
+                        <div class="carousel-text">
+                            <h1>Bringing smiles to millions</h1>
+                            <p>
+                                Sed ultrices, est eget feugiat accumsan, dui nibh egestas tortor, ut rhoncus nibh ligula euismod quam. Proin pellentesque odio
+                            </p>
+                            <div class="carousel-btn">
+                                <a class="btn btn-custom" href="">Donate Now</a>
+                                <a class="btn btn-custom btn-play" data-bs-toggle="modal" data-bs-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">Watch Video</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
-    <div class="carousel">
-        <div class="container-fluid">
-            <div class="owl-carousel">
-                <div class="carousel-item">
-                    <div class="carousel-img">
-                        <img src="assets/img/carousel-1.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-text">
-                        <h1>Let's be kind for children</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Phasellus ut mollis mauris. Vivamus egestas eleifend dui ac consequat at lectus in malesuada
-                        </p>
-                        <div class="carousel-btn">
-                            <a class="btn btn-custom" href="">Donate Now</a>
-                            <a class="btn btn-custom btn-play" data-bs-toggle="modal" data-bs-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">Watch Video</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-img">
-                        <img src="assets/img/carousel-2.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-text">
-                        <h1>Get Involved with helping hand</h1>
-                        <p>
-                            Morbi sagittis turpis id suscipit feugiat. Suspendisse eu augue urna. Morbi sagittis, orci sodales varius fermentum, tortor
-                        </p>
-                        <div class="carousel-btn">
-                            <a class="btn btn-custom" href="">Donate Now</a>
-                            <a class="btn btn-custom btn-play" data-bs-toggle="modal" data-bs-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">Watch Video</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-img">
-                        <img src="assets/img/carousel-3.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-text">
-                        <h1>Bringing smiles to millions</h1>
-                        <p>
-                            Sed ultrices, est eget feugiat accumsan, dui nibh egestas tortor, ut rhoncus nibh ligula euismod quam. Proin pellentesque odio
-                        </p>
-                        <div class="carousel-btn">
-                            <a class="btn btn-custom" href="">Donate Now</a>
-                            <a class="btn btn-custom btn-play" data-bs-toggle="modal" data-bs-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">Watch Video</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -822,7 +894,7 @@
                     <p>&copy; <a href="#">Your Site Name</a>, All Right Reserved.</p>
                 </div>
                 <div class="col-md-6">
-                    <p>Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                    <p>Designed By <a href="#"> Sharmin Akter</a></p>
                 </div>
             </div>
         </div>

@@ -6,25 +6,20 @@
     <title>HELPZ - Free Charity Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS Libraries -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ99G1IWbNnGYgAG94fS5kQ8F1S4k6v/j1S6h8H/m/z/3n3o/j3g3o/j3g3o/" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="assets/lib/flaticon/font/flaticon.css" rel="stylesheet">
-    <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="assets/lib/animate/animate.min.s" rel="stylesheet">
     <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Top Bar Start -->
     <div class="top-bar d-none d-md-block">
         <div class="container-fluid">
             <div class="row">
@@ -43,7 +38,7 @@
                 <div class="col-md-4">
                     <div class="top-bar-right">
                         <div class="social">
-                            <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="fab fa-x-twitter"></i></a>
                             <a href="#" data-bs-toggle="tooltip" title="Facebook"><i class="fab fa-facebook-f"></i></a>
                             <a href="#" data-bs-toggle="tooltip" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#" data-bs-toggle="tooltip" title="Instagram"><i class="fab fa-instagram"></i></a>
@@ -54,25 +49,22 @@
             </div>
         </div>
     </div>
-    <!-- Top Bar End -->
-
-    <!-- Nav Bar Start -->
     <div class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid">
             <a href="index.html" class="navbar-brand">DonorHub</a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav ml-auto">
+                <div class="navbar-nav ms-auto">
                     <a href="index.html" class="nav-item nav-link active">Home</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
                     <a href="causes.html" class="nav-item nav-link">Causes</a>
                     <a href="event.html" class="nav-item nav-link">Events</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu">
                             <a href="single.html" class="dropdown-item">Detail Page</a>
                             <a href="service.html" class="dropdown-item">What We Do</a>
@@ -89,84 +81,64 @@
             </div>
         </div>
     </div>
-    <!-- Nav Bar End -->
+    <section>
+        <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselImages" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+                <button type="button" data-bs-target="#carouselImages" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselImages" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
 
-
-    <!-- Carousel Start -->
-    <div class="carousel">
-        <div class="container-fluid">
-            <div class="owl-carousel">
-                <div class="carousel-item">
-                    <div class="carousel-img">
-                        <img src="assets/img/carousel-1.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-text">
-                        <h1>Let's be kind for children</h1>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="3000">
+                    <img src="assets/img/carousel-1.jpg" class="d-block w-100" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2>
+                            Giving is not just about making a donation, it’s about making a change
+                        </h2>
                         <p>
-                            Lorem ipsum dolor sit amet elit. Phasellus ut mollis mauris. Vivamus egestas eleifend dui ac consequat at lectus in malesuada
+                            Help the urban area people with the little we can.
                         </p>
-                        <div class="carousel-btn">
-                            <a class="btn btn-custom" href="">Donate Now</a>
-                            <a class="btn btn-custom btn-play" data-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">Watch Video</a>
-                        </div>
+                        <a href="#" class="btn btn-custom mt-3">Donate Now</a>
                     </div>
                 </div>
-                <div class="carousel-item">
-                    <div class="carousel-img">
-                        <img src="assets/img/carousel-2.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-text">
-                        <h1>Get Involved with helping hand</h1>
+
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="assets/img/carousel-2.jpg" class="d-block w-100" alt="Second slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2>
+                            Get Involved and Make a Real Difference
+                        </h2>
                         <p>
-                            Morbi sagittis turpis id suscipit feugiat. Suspendisse eu augue urna. Morbi sagittis, orci sodales varius fermentum, tortor
+                            Your contribution helps us provide essential resources to those in need.
                         </p>
-                        <div class="carousel-btn">
-                            <a class="btn btn-custom" href="">Donate Now</a>
-                            <a class="btn btn-custom btn-play" data-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">Watch Video</a>
-                        </div>
+                        <a href="#" class="btn btn-custom mt-3">Donate Now</a>
                     </div>
                 </div>
-                <div class="carousel-item">
-                    <div class="carousel-img">
-                        <img src="assets/img/carousel-3.jpg" alt="Image">
-                    </div>
-                    <div class="carousel-text">
-                        <h1>Bringing smiles to millions</h1>
+
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="assets/img/carousel-3.jpg" class="d-block w-100" alt="Third slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2>
+                            Bringing smiles and hope to communities
+                        </h2>
                         <p>
-                            Sed ultrices, est eget feugiat accumsan, dui nibh egestas tortor, ut rhoncus nibh ligula euismod quam. Proin pellentesque odio
+                            Join our mission to create a brighter future for everyone.
                         </p>
-                        <div class="carousel-btn">
-                            <a class="btn btn-custom" href="">Donate Now</a>
-                            <a class="btn btn-custom btn-play" data-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">Watch Video</a>
-                        </div>
+                        <a href="#" class="btn btn-custom mt-3">Donate Now</a>
                     </div>
                 </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-    </div>
-    <!-- Carousel End -->
-
-    <!-- Video Modal Start-->
-    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <!-- 16:9 aspect ratio -->
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Video Modal End -->
-
-
-    <!-- About Start -->
-    <div class="about">
+    </section>    <div class="about">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -180,13 +152,13 @@
                     <div class="about-tab">
                         <ul class="nav nav-pills nav-justified">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="pill" href="#tab-content-1">About</a>
+                                <a class="nav-link active" data-bs-toggle="pill" href="#tab-content-1">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="pill" href="#tab-content-2">Mission</a>
+                                <a class="nav-link" data-bs-toggle="pill" href="#tab-content-2">Mission</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="pill" href="#tab-content-3">Vision</a>
+                                <a class="nav-link" data-bs-toggle="pill" href="#tab-content-3">Vision</a>
                             </li>
                         </ul>
 
@@ -206,10 +178,6 @@
             </div>
         </div>
     </div>
-    <!-- About End -->
-
-
-    <!-- Service Start -->
     <div class="service">
         <div class="container">
             <div class="section-header text-center">
@@ -286,10 +254,6 @@
             </div>
         </div>
     </div>
-    <!-- Service End -->
-
-
-    <!-- Facts Start -->
     <div class="facts" data-parallax="scroll" data-image-src="assets/img/facts.jpg">
         <div class="container">
             <div class="row">
@@ -332,10 +296,6 @@
             </div>
         </div>
     </div>
-    <!-- Facts End -->
-
-
-    <!-- Causes Start -->
     <div class="causes">
         <div class="container">
             <div class="section-header text-center">
@@ -442,10 +402,6 @@
             </div>
         </div>
     </div>
-    <!-- Causes End -->
-
-
-    <!-- Donate Start -->
     <div class="donate" data-parallax="scroll" data-image-src="assets/img/donate.jpg">
         <div class="container">
             <div class="row align-items-center">
@@ -471,16 +427,15 @@
                             <div class="control-group">
                                 <input type="email" class="form-control" placeholder="Email" required="required" />
                             </div>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-custom active">
-                                    <input type="radio" name="options" checked> $10
-                                </label>
-                                <label class="btn btn-custom">
-                                    <input type="radio" name="options"> $20
-                                </label>
-                                <label class="btn btn-custom">
-                                    <input type="radio" name="options"> $30
-                                </label>
+                            <div class="btn-group" role="group" aria-label="Donate amount">
+                                <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
+                                <label class="btn btn-custom" for="option1">$10</label>
+
+                                <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                <label class="btn btn-custom" for="option2">$20</label>
+
+                                <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+                                <label class="btn btn-custom" for="option3">$30</label>
                             </div>
                             <div>
                                 <button class="btn btn-custom" type="submit">Donate Now</button>
@@ -491,10 +446,6 @@
             </div>
         </div>
     </div>
-    <!-- Donate End -->
-
-
-    <!-- Event Start -->
     <div class="event">
         <div class="container">
             <div class="section-header text-center">
@@ -543,10 +494,6 @@
             </div>
         </div>
     </div>
-    <!-- Event End -->
-
-
-    <!-- Team Start -->
     <div class="team">
         <div class="container">
             <div class="section-header text-center">
@@ -625,10 +572,6 @@
             </div>
         </div>
     </div>
-    <!-- Team End -->
-
-
-    <!-- Volunteer Start -->
     <div class="volunteer" data-parallax="scroll" data-image-src="assets/img/volunteer.jpg">
         <div class="container">
             <div class="row align-items-center">
@@ -666,10 +609,6 @@
             </div>
         </div>
     </div>
-    <!-- Volunteer End -->
-
-
-    <!-- Testimonial Start -->
     <div class="testimonial">
         <div class="container">
             <div class="section-header text-center">
@@ -717,6 +656,7 @@
                         <p>
                             Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu metus tortor, auctor id gravid vivera quis
                         </p>
+                    </p>
                     </div>
                 </div>
                 <div class="testimonial-item">
@@ -736,10 +676,6 @@
             </div>
         </div>
     </div>
-    <!-- Testimonial End -->
-
-
-    <!-- Contact Start -->
     <div class="contact">
         <div class="container">
             <div class="section-header text-center">
@@ -775,10 +711,6 @@
             </div>
         </div>
     </div>
-    <!-- Contact End -->
-
-
-    <!-- Blog Start -->
     <div class="blog">
         <div class="container">
             <div class="section-header text-center">
@@ -840,10 +772,6 @@
             </div>
         </div>
     </div>
-    <!-- Blog End -->
-
-
-    <!-- Footer Start -->
     <div class="footer">
         <div class="container">
             <div class="row">
@@ -905,30 +833,18 @@
             </div>
         </div>
     </div>
-    <!-- Footer End -->
-
-    <!-- Back to top button -->
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-    <!-- Pre Loader -->
-    <div id="loader" class="show">
+    <!-- <div id="loader" class="show">
         <div class="loader"></div>
-    </div>
+    </div> -->
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="assets/lib/easing/easing.min.js"></script>
     <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="assets/lib/waypoints/waypoints.min.js"></script>
-    <script src="assets/lib/counterup/counterup.min.js"></script>
-    <script src="assets/lib/parallax/parallax.min.js"></script>
-
-    <!-- Contact Javascript File -->
     <script src="assets/mail/jqBootstrapValidation.min.js"></script>
     <script src="assets/mail/contact.js"></script>
 
-    <!-- Template Javascript -->
     <script src="assets/js/main.js"></script>
 </body>
 
