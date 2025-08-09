@@ -9,9 +9,8 @@
     <link href="img/favicon.ico" rel="icon">
 
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ99G1IWbNnGYgAG94fS5kQ8F1S4k6v/j1S6h8H/m/z/3n3o/j3g3o/j3g3o/" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="assets/lib/flaticon/font/flaticon.css" rel="stylesheet">
     <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
     <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -39,10 +38,10 @@
                 <div class="col-md-4">
                     <div class="top-bar-right">
                         <div class="social">
-                            <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-                            <a href="#" data-bs-toggle="tooltip" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" data-bs-toggle="tooltip" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" data-bs-toggle="tooltip" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="Twitter"><i class="bi bi-twitter-x"></i></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="Facebook"><i class="bi bi-facebook"></i></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="LinkedIn"><i class="bi bi-linkedin"></i></i></a>
+                            <a href="#" data-bs-toggle="tooltip" title="Instagram"><i class="bi bi-instagram"></i></i></a>
                         </div>
                     </div>
                 </div>
@@ -139,7 +138,8 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-    </section>    <div class="about">
+    </section>
+    <div class="about">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -657,7 +657,7 @@
                         <p>
                             Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu metus tortor, auctor id gravid vivera quis
                         </p>
-                    </p>
+                        </p>
                     </div>
                 </div>
                 <div class="testimonial-item">

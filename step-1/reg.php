@@ -1,3 +1,57 @@
+<?php
+session_start();
+// require_once 'db.php'; // Include database connection
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+    $user_role = $_POST['user_role'];
+
+    // Validate passwords match
+    if ($password !== $confirm_password) {
+        $_SESSION['error'] = 'Passwords do not match!';
+        header('Location: register.php');
+        exit;
+    }
+
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Check if email already exists
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt->execute(['email' => $email]);
+    if ($stmt->rowCount() > 0) {
+        $_SESSION['error'] = 'Email already registered!';
+        header('Location: register.php');
+        exit;
+    }
+
+    // Insert user data into the database
+    // $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, email, password, user_role) VALUES (:first_name, :last_name, :email, :password, :user_role)");
+    // $stmt->execute([
+    //     'first_name' => $first_name,
+    //     'last_name' => $last_name,
+    //     'email' => $email,
+    //     'password' => $hashed_password,
+    //     'user_role' => $user_role
+    // ]);
+
+    // Redirect to login page after successful registration
+    $_SESSION['success'] = 'Registration successful. Please log in.';
+    header('Location: login.php');
+    exit;
+}
+?>
+
+<!-- HTML part -->
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
