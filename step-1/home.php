@@ -1,20 +1,20 @@
 
  <!-- header  -->
     <?php
-    include("include/header.php")
+    include("include/admin/header.php")
     ?>
     <!-- /.header -->
 
 
     <!-- Navbar  -->
     <?php
-    include("include/nav.php")
+    include("include/admin/nav.php")
     ?>
     <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
     <?php
-    include("include/sidebar.php")
+    include("include/admin/sidebar.php")
     ?>
      <!-- Main content -->
     <section class="content">
@@ -901,7 +901,7 @@
 
   <!-- Main Footer -->
     <?php
-        include("include/footer.php");
+        include("include/admin/footer.php");
     ?>
 
   <!-- Main Footer -->
