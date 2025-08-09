@@ -13,10 +13,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ99G1IWbNnGYgAG94fS5kQ8F1S4k6v/j1S6h8H/m/z/3n3o/j3g3o/j3g3o/" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="assets/lib/flaticon/font/flaticon.css" rel="stylesheet">
-    <link href="assets/lib/animate/animate.min.s" rel="stylesheet">
+    <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
     <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/custom.css" rel="stylesheet">
 </head>
 
 <body>
