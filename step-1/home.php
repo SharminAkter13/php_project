@@ -16,6 +16,22 @@
     <?php
     include("include/sidebar.php")
     ?>
+     <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+      
+        <?php
+       include("placholder.php");
+        ?>
+       
+      </div>
+      <!-- /.card -->
+
+    </section>
+  </div>
+  <!-- /.content-wrapper -->
 
   <!-- ./Main Sidebar Container -->
 
