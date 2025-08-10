@@ -866,129 +866,97 @@ a:focus {
 
 
 
-/*******************************/
-/********** Causes CSS *********/
-/*******************************/
-.causes {
+/*** Carousel Start ***/
+.carousel-header #carouselId .carousel-control-prev,
+.carousel-header #carouselId .carousel-control-next {
+    background: transparent;
+}
+
+.carousel-header #carouselId .carousel-inner .carousel-item {
     position: relative;
+    min-height: 100vh 
+}
+
+.carousel-header #carouselId .carousel-inner .carousel-item img {
+    position: absolute;
     width: 100%;
-    padding: 45px 0;
+    height: 100%;
+    object-fit: cover;
 }
 
-.causes .causes-carousel {
-    width: calc(100% + 30px);
-    margin-left: -15px;
-    margin-right: -15px;
-}
-
-.causes .causes-item {
-    margin: 0 15px;
-    overflow: hidden;
-    background: #f8f9fa;
-}
-
-.causes .causes-img {
-    overflow: hidden;
-}
-
-.causes .causes-img img {
+.carousel-header #carouselId .carousel-inner .carousel-item .carousel-caption {
+    position: absolute;
     width: 100%;
-    transition: .3s;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding-top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, 0.4));
+    background-size: cover;
 }
 
-.causes .causes-item:hover img {
-    transform: scale(1.1);
+.carousel-control-prev,
+.carousel-control-next {
+    opacity: 0;
 }
 
-
-.causes .causes-progress {
-    width: 100%;
-    margin-top: 32px;
-    padding: 30px 30px 20px 30px;
+.carousel-control-prev .carousel-control-prev-icon,
+.carousel-control-next .carousel-control-next-icon {
+    background: transparent !important;
 }
 
-.causes .progress {
-    height: 10px;
-    border-radius: 0;
-    background: #dddddd;
-    overflow: visible;
-}
-
-.causes .progress .progress-bar {
+.carousel-header #carouselId.carousel {
     position: relative;
-    width: 0px;
-    background: #20c997;
-    overflow: visible;
-    transition: 2s;
 }
 
-.causes .progress-bar span {
+.carousel-header #carouselId.carousel .carousel-indicators {
     position: absolute;
-    top: -32px;
-    right: 0;
-    height: 23px;
-    display: inline-block;
-    padding: 2px 6px;
-    background: #20c997;
-    color: #ffffff;
-}
-
-.causes .progress-bar span::after {
-    position: absolute;
-    content: "";
-    width: 0;
-    height: 0;
-    top: 23px;
-    left: calc(50% - 6px);
-    border: 6px solid;
-    border-color: #20c997 transparent transparent transparent;
-}
-
-.causes .progress-text {
-    margin-top: 5px;
+    bottom: 0;
+    left: 0;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
 }
 
-.causes .progress-text p {
-    margin: 0;
+.carousel-header #carouselId.carousel .carousel-indicators li,
+.carousel-header #carouselId.carousel .carousel-indicators li,
+.carousel-header #carouselId.carousel .carousel-indicators li {
+    margin-right: 30px !important;
 }
 
-.causes .causes-text {
-    padding: 0 30px;
+.carousel-header #carouselId.carousel .carousel-indicators li {
+    width: 12px;
+    height: 12px;
+    border-radius: 12px !important;
+    border: 5px solid transparent;
+    transition: 0.5s;
+    
 }
 
-.causes .causes-text h3 {
-    font-size: 22px;
-    font-weight: 700;
+.carousel-header #carouselId.carousel .carousel-indicators li.active {
+    border: 5px solid var(--bs-primary) !important;
+    border-radius: 10px;
 }
 
-.causes .causes-text p {
-    margin: 0;
+.carousel-progress-bar {
+    height: 5px;
+    background-color: #e9ecef; /* Light gray background */
+    margin: 10px 0;
 }
 
-.causes .causes-btn {
-    margin-top: 25px;
-    display: flex;
-    justify-content: space-between;
+.carousel-progress-bar .progress-bar {
+    height: 100%;
+    width: 0; /* Start with 0 width */
+    background-color: var(--bs-primary); /* Your theme's primary color */
+    transition: width 5s linear; /* Adjust the time to match your carousel's interval */
 }
+/*** Carousel End ***/
 
-.causes .causes-btn .btn {
-    padding: 10px 0;
-    width: 50%;
-}
-
-.causes .causes-btn .btn:last-child {
-    color: #ffffff;
-    background: #20c997;
-    border-color: #20c997;
-}
-
-.causes .causes-btn .btn:last-child:hover {
-    color: #ffffff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-}
 
 
 

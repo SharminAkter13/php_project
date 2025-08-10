@@ -64,12 +64,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=3" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Edit Users</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="home.php?page=4" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>View Users</p>
@@ -89,25 +83,25 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="home.php?page=5" class="nav-link">
+                            <a href="home.php?page=17" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Donation</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=6" class="nav-link">
+                            <a href="home.php?page=18" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Donations</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=7" class="nav-link">
+                            <a href="home.php?page=19" class="nav-link">
                                 <i class="far fa-chart-bar nav-icon"></i>
                                 <p>Donation Reports</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=8" class="nav-link">
+                            <a href="home.php?page=20" class="nav-link">
                                 <i class="far fa-clock nav-icon"></i>
                                 <p>Donation History</p>
                             </a>
@@ -126,25 +120,25 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="home.php?page=9" class="nav-link">
+                            <a href="home.php?page=5" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Event</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=10" class="nav-link">
+                            <a href="home.php?page=6" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Events</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=11" class="nav-link">
+                            <a href="home.php?page=7" class="nav-link">
                                 <i class="far fa-calendar-check nav-icon"></i>
                                 <p>Event Calendar</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=12" class="nav-link">
+                            <a href="home.php?page=8" class="nav-link">
                                 <i class="far fa-clock nav-icon"></i>
                                 <p>Event History</p>
                             </a>
@@ -163,25 +157,25 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="home.php?page=13" class="nav-link">
+                            <a href="home.php?page=9" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Campaign</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=14" class="nav-link">
+                            <a href="home.php?page=10" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Campaigns</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=15" class="nav-link">
+                            <a href="home.php?page=11" class="nav-link">
                                 <i class="far fa-chart-bar nav-icon"></i>
                                 <p>Campaign Reports</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=16" class="nav-link">
+                            <a href="home.php?page=1                                                                                                                                                                                                                                                                                                                   2" class="nav-link">
                                 <i class="far fa-clock nav-icon"></i>
                                 <p>Campaign History</p>
                             </a>
