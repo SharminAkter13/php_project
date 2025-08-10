@@ -27,11 +27,11 @@
             
         }else if($page==7){
             
-            include("pages/admin/events/edit_events.php");
+            include("pages/admin/events/events_calendar.php");
             
         }else if($page==8){
             
-            include("pages/admin/events/view_events.php");
+            include("pages/admin/events/events_history.php");
             
         }else if($page==9){
             
@@ -43,11 +43,11 @@
             
         }else if($page==11){
             
-            include("pages/admin/campaigns/edit_campaigns.php");
+            include("pages/admin/campaigns/campaigns_report.php");
             
         }else if($page==12){
             
-            include("pages/admin/campaigns/view_campaigns.php");
+            include("pages/admin/campaigns/campaigns_history.php");
             
         }else if($page==13){
             
@@ -59,11 +59,11 @@
             
         }else if($page==15){
             
-            include("pages/admin/beneficiary/edit_beneficiary.php");
+            include("pages/admin/beneficiary/beneficiary_report.php");
             
         }else if($page==16){
             
-            include("pages/admin/beneficiary/view_beneficiary.php");
+            include("pages/admin/beneficiary/beneficiary_history.php");
             
         }else if($page==17){
             
@@ -75,11 +75,11 @@
             
         }else if($page==19){
             
-            include("pages/admin/donations/edit_donations.php");
+            include("pages/admin/donations/donations_report.php");
             
         }else if($page==20){
             
-            include("pages/admin/donations/view_donations.php");
+            include("pages/admin/donations/donations_history.php");
             
         }
     }
