@@ -1,21 +1,3 @@
-<!-- header -->
-<?php
-include("include/header.php")
-?>
-<!-- /.header -->
-
-<!-- Navbar -->
-<?php
-include("include/nav.php")
-?>
-<!-- /.navbar -->
-
-<!-- Main Sidebar Container -->
-<?php
-include("include/sidebar.php")
-?>
-<!-- ./Main Sidebar Container -->
-
 <!-- Add donation -->
 
 <div class="content-wrapper" style="min-height: 2838.44px;">
@@ -89,9 +71,3 @@ include("include/sidebar.php")
   </section>
   <!-- /.content -->
 </div>
-
-<!-- Main Footer -->
-<?php
-include("include/footer.php");
-?>
-<!-- Main Footer -->

@@ -1,22 +1,4 @@
-<!-- header  -->
-<?php
-include("include/header.php")
-?>
-<!-- /.header -->
 
-
-<!-- Navbar  -->
-<?php
-include("include/nav.php")
-?>
-<!-- /.navbar -->
-
-<!-- Main Sidebar Container -->
-<?php
-include("include/sidebar.php")
-?>
-
-<!-- ./Main Sidebar Container -->
 
 
 <!-- Add Users -->
@@ -147,15 +129,3 @@ include("include/sidebar.php")
     <!-- /.content -->
   </div>
   <!-- ./Add users -->
-<!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-</aside>
-<!-- /.control-sidebar -->
-
-<!-- Main Footer -->
-<?php
-include("include/footer.php");
-?>
-
-<!-- Main Footer -->
