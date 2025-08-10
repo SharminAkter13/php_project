@@ -1,23 +1,3 @@
-<!-- header  -->
-<?php
-include("include/header.php")
-?>
-<!-- /.header -->
-
-
-<!-- Navbar  -->
-<?php
-include("include/nav.php")
-?>
-<!-- /.navbar -->
-
-<!-- Main Sidebar Container -->
-<?php
-include("include/sidebar.php")
-?>
-
-<!-- ./Main Sidebar Container -->
-
 
 <!-- Add Users -->
 
@@ -29,23 +9,13 @@ include("include/sidebar.php")
           <div class="col-sm-6">
             <h1>Users Interface</h1>
           </div>
-<h1 class="h4">Add User</h1>
-<?php if ($error): ?><div class="alert alert-danger"><?= htmlspecialchars($error) ?></div><?php endif; ?>
-<form method="post" class="row g-3">
-  <div class="col-md-4"><label class="form-label">First name</label><input name="first_name" class="form-control" required></div>
-  <div class="col-md-4"><label class="form-label">Last name</label><input name="last_name" class="form-control" required></div>
-  <div class="col-md-4"><label class="form-label">Email</label><input name="email" type="email" class="form-control" required></div>
-  <div class="col-md-4"><label class="form-label">Password</label><input name="password" type="password" class="form-control" required></div>
-  <div class="col-md-4">
-    <label class="form-label">Role</label>
-    <select name="role_id" class="form-select">
-      <?php while($r = $roles->fetch_assoc()): ?>
-        <option value="<?= $r['id'] ?>"><?= htmlspecialchars($r['name']) ?></option>
-      <?php endwhile; ?>
-    </select>
-  </div>
-  <div class="col-12"><button class="btn btn-success">Create User</button></div>
-</form>        </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+              <li class="breadcrumb-item active">Add Users</li>
+            </ol>
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
     </section>
 
@@ -78,15 +48,3 @@ include("include/sidebar.php")
     <!-- /.content -->
   </div>
   <!-- ./Add users -->
-<!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-</aside>
-<!-- /.control-sidebar -->
-
-<!-- Main Footer -->
-<?php
-include("include/footer.php");
-?>
-
-<!-- Main Footer -->

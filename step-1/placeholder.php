@@ -4,18 +4,18 @@
 	   
 	   if($page==1){
            
-           include("pages/admin/user/add_users.php"); 
+           include("pages/admin/users/add_users.php"); 
 		   
         }else if($page==2){
             
-            include("pages/admin/user/manage_users.php");
+            include("pages/admin/users/manage_users.php");
             
         }else if($page==3){
-            include("pages/admin/user/edit_users.php");
+            include("pages/admin/users/edit_users.php");
             
         }else if($page==4){
             
-            include("pages/admin/user/view_users.php");
+            include("pages/admin/users/view_users.php");
             
         }else if($page==5){
             

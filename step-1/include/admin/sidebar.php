@@ -51,31 +51,27 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="./add_users.php" class="nav-link">
+                            <a href="home.php?page=1" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                               <h1 class="h4">Add User</h1>
-<?php if ($error): ?><div class="alert alert-danger"><?= htmlspecialchars($error) ?></div><?php endif; ?>
-<form method="post" class="row g-3">
-  <div class="col-md-4"><label class="form-label">First name</label><input name="first_name" class="form-control" required></div>
-  <div class="col-md-4"><label class="form-label">Last name</label><input name="last_name" class="form-control" required></div>
-  <div class="col-md-4"><label class="form-label">Email</label><input name="email" type="email" class="form-control" required></div>
-  <div class="col-md-4"><label class="form-label">Password</label><input name="password" type="password" class="form-control" required></div>
-  <div class="col-md-4">
-    <label class="form-label">Role</label>
-    <select name="role_id" class="form-select">
-      <?php while($r = $roles->fetch_assoc()): ?>
-        <option value="<?= $r['id'] ?>"><?= htmlspecialchars($r['name']) ?></option>
-      <?php endwhile; ?>
-    </select>
-  </div>
-  <div class="col-12"><button class="btn btn-success">Create User</button></div>
-</form>
+                                <p>Add User</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./manage_user.php" class="nav-link">
+                            <a href="home.php?page=2" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Users</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.php?page=3" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Edit Users</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.php?page=4" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Users</p>
                             </a>
                         </li>
                     </ul>
