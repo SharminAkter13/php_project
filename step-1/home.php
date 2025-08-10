@@ -23,7 +23,7 @@
       <div class="card">
       
         <?php
-       include("placholder.php");
+       include("placeholder.php");
         ?>
        
       </div>
