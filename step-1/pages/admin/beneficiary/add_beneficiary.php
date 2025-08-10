@@ -1,131 +1,91 @@
+<?php
+// Include database connection if needed
+// include('db_connect.php');
 
+// Handle form submission
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     $name = $_POST['beneficiary_name'];
+//     $email = $_POST['beneficiary_email'];
+//     $phone = $_POST['beneficiary_phone'];
+//     $address = $_POST['beneficiary_address'];
+//     $needs = $_POST['beneficiary_needs'];
 
-
-<!-- Add Users -->
-
-<div class="content-wrapper" style="min-height: 2838.44px;">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Users Interface</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Add Users</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-
+//     // Example SQL (adjust table/column names)
+//     // $query = "INSERT INTO beneficiaries (name, email, phone, address, needs) VALUES ('$name', '$email', '$phone', '$address', '$needs')";
+//     // mysqli_query($conn, $query);
     
-    <!-- Beneficiary Header -->
-    <div class="beneficiary-header">
-        <h1>Welcome, Beneficiary!</h1>
-        <p>Here you can track the campaigns supporting you and request funds.</p>
-    </div>
+//     echo "<div class='alert alert-success text-center'>Beneficiary added successfully!</div>";
+// }
+?>
 
-    <div class="container">
-        <div class="row">
-            <!-- Campaign Details -->
-            <div class="col-md-8">
-                <h2 class="text-center">Campaigns Supporting You</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Beneficiary - DonorHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
 
-                <!-- Campaign Card -->
-                <div class="campaign-card">
-                    <h3>Clean Water Initiative</h3>
-                    <p><strong>Goal:</strong> $100,000</p>
-                    <p><strong>Amount Raised:</strong> $30,000</p>
-                    <p><strong>Amount Allocated to You:</strong> $10,000</p>
-                    <p><strong>Campaign Description:</strong></p>
-                    <p>This campaign focuses on providing clean drinking water to rural areas. A portion of the raised funds are allocated to beneficiaries like you who are in need of water-related support.</p>
-                    <h4>Progress</h4>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
-                    </div>
-                    <button class="request-btn btn-block" data-toggle="modal" data-target="#fundRequestModal" data-campaign="Clean Water Initiative">Request Funds</button>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+
+                <h4 class="mb-0"><i class="fas fa-hand-holding-heart me-2"></i>Add Beneficiary</h4>
                 </div>
-
-                <!-- Campaign Card -->
-                <div class="campaign-card">
-                    <h3>Education Fund for Underprivileged Children</h3>
-                    <p><strong>Goal:</strong> $50,000</p>
-                    <p><strong>Amount Raised:</strong> $20,000</p>
-                    <p><strong>Amount Allocated to You:</strong> $5,000</p>
-                    <p><strong>Campaign Description:</strong></p>
-                    <p>This initiative provides educational resources and scholarships to children from low-income families. Funds are allocated to beneficiaries like you to improve access to education.</p>
-                    <h4>Progress</h4>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">40%</div>
-                    </div>
-                    <button class="request-btn btn-block" data-toggle="modal" data-target="#fundRequestModal" data-campaign="Education Fund for Underprivileged Children">Request Funds</button>
-                </div>
-            </div>
-
-            <!-- Request Form (Sidebar) -->
-            <div class="col-md-4">
-                <div class="campaign-card">
-                    <h3>Request Funds</h3>
-                    <p>Use the form below to request funds for the campaigns you are supporting.</p>
-                    <div class="request-form-container">
-                        <form id="fundRequestForm">
-                            <div class="form-group">
-                                <label for="requestedAmount">Requested Amount ($)</label>
-                                <input type="number" class="form-control" id="requestedAmount" placeholder="Enter amount" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="reason">Reason for Request</label>
-                                <textarea class="form-control" id="reason" rows="4" placeholder="Explain why you need the funds" required></textarea>
-                            </div>
-                            <button type="submit" class="request-btn btn-block">Submit Request</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2025 DonorHub. All Rights Reserved.</p>
-        <p>For support, visit our <a href="#">Help Center</a>.</p>
-    </div>
-
-    <!-- Modal for Fund Request -->
-    <div class="modal fade" id="fundRequestModal" tabindex="-1" role="dialog" aria-labelledby="fundRequestModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="fundRequestModalLabel">Request Funds</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>You're about to request funds for the <strong id="modalCampaignName"></strong> campaign. Please fill in the details below:</p>
-                    <form id="modalFundRequestForm">
-                        <div class="form-group">
-                            <label for="modalRequestedAmount">Requested Amount ($)</label>
-                            <input type="number" class="form-control" id="modalRequestedAmount" placeholder="Amount" required>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        <div class="mb-3">
+                            <label for="beneficiary_name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" placeholder="Enter beneficiary's full name" required>
                         </div>
-                        <div class="form-group">
-                            <label for="modalReason">Reason for Request</label>
-                            <textarea class="form-control" id="modalReason" rows="4" placeholder="Reason" required></textarea>
+
+                        <div class="mb-3">
+                            <label for="beneficiary_email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="beneficiary_email" name="beneficiary_email" placeholder="Enter email" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
+
+                        <div class="mb-3">
+                            <label for="beneficiary_phone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="beneficiary_phone" name="beneficiary_phone" placeholder="Enter phone number" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="beneficiary_address" class="form-label">Address</label>
+                            <textarea class="form-control" id="beneficiary_address" name="beneficiary_address" rows="3" placeholder="Enter full address" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="beneficiary_needs" class="form-label">Needs / Support Required</label>
+                            <textarea class="form-control" id="beneficiary_needs" name="beneficiary_needs" rows="3" placeholder="Describe the needs" required></textarea>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="reset" class="btn btn-secondary me-2">Reset</button>
+                            <button type="submit" class="btn btn-primary">Add Beneficiary</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- ./Add users -->
+<!-- Bootstrap & FontAwesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
