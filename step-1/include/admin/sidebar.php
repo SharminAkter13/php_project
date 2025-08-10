@@ -32,6 +32,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
                 <!-- Dashboard Section -->
                 <li class="nav-item">
                     <a href="home.php" class="nav-link active">
@@ -43,7 +44,7 @@
                 <!-- User Management Section for Admin -->
                 <li class="nav-item" id="admin-users">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-edit"></i>
+                        <i class="nav-icon fas fa-users-cog"></i>
                         <p>
                             Users
                             <i class="fas fa-angle-left right"></i>
@@ -51,25 +52,25 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="home.php?page=1" class="nav-link">
+                            <a href="home.php?page=add" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add User</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=2" class="nav-link">
+                            <a href="home.php?page=manage" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Users</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=3" class="nav-link">
+                            <a href="home.php?page=edit" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Edit Users</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=4" class="nav-link">
+                            <a href="home.php?page=view" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>View Users</p>
                             </a>
@@ -77,56 +78,155 @@
                     </ul>
                 </li>
 
-                <!-- Donor Dashboard Sections -->
+                <!-- Donations Section -->
                 <li class="nav-item" id="donor-donations">
-                    <a href="./donations.php" class="nav-link">
-                        <i class="nav-icon fas fa-heart"></i>
-                        <p>Donations</p>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-donate"></i>
+                        <p>
+                            Donations
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="./donations.php?page=add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Donation</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./donations.php?page=manage" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Donations</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./donations.php?page=reports" class="nav-link">
+                                <i class="far fa-chart-bar nav-icon"></i>
+                                <p>Donation Reports</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./donations.php?page=history" class="nav-link">
+                                <i class="far fa-clock nav-icon"></i>
+                                <p>Donation History</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                <!-- Volunteer Dashboard Sections -->
+                <!-- Events Section -->
                 <li class="nav-item" id="volunteer-events">
-                    <a href="./events.php" class="nav-link">
-                        <i class="nav-icon fas fa-calendar-check"></i>
-                        <p>Events</p>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>
+                            Events
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="./events.php?page=add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Event</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./events.php?page=manage" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Events</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./events.php?page=calendar" class="nav-link">
+                                <i class="far fa-calendar-check nav-icon"></i>
+                                <p>Event Calendar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./events.php?page=history" class="nav-link">
+                                <i class="far fa-clock nav-icon"></i>
+                                <p>Event History</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                <!-- Campaign Manager Dashboard Sections -->
+                <!-- Campaigns Section -->
                 <li class="nav-item" id="campaign-manager-campaigns">
-                    <a href="./campaigns.php" class="nav-link">
-                        <i class="nav-icon fas fa-cogs"></i>
-                        <p>Campaigns</p>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-bullhorn"></i>
+                        <p>
+                            Campaigns
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="./campaigns.php?page=add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Campaign</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./campaigns.php?page=manage" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Campaigns</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./campaigns.php?page=reports" class="nav-link">
+                                <i class="far fa-chart-bar nav-icon"></i>
+                                <p>Campaign Reports</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./campaigns.php?page=history" class="nav-link">
+                                <i class="far fa-clock nav-icon"></i>
+                                <p>Campaign History</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                <!-- Beneficiary Dashboard Sections -->
+                <!-- Beneficiary Section -->
                 <li class="nav-item" id="beneficiary-campaigns">
-                    <a href="beneficiary.php" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-hand-holding-heart"></i>
-                        <p>Beneficiary Campaigns</p>
+                        <p>
+                            Beneficiary Campaigns
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="beneficiary.php?page=add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Beneficiary</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="beneficiary.php?page=manage" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Beneficiaries</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="beneficiary.php?page=reports" class="nav-link">
+                                <i class="far fa-chart-bar nav-icon"></i>
+                                <p>Beneficiary Reports</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="beneficiary.php?page=history" class="nav-link">
+                                <i class="far fa-clock nav-icon"></i>
+                                <p>Beneficiary History</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
             </ul>
         </nav>
     </div>
 </aside>
-
-<script>
-    // // Get user role from session or backend (this is just a mockup)
-    // var userRole = 'Admin';  // Example role, should be fetched from the session or API
-
-    // // Show/hide sections based on role
-    // if (userRole === 'Admin') {
-    //     document.getElementById('admin-users').style.display = 'block';
-    // } else if (userRole === 'Donor') {
-    //     document.getElementById('donor-donations').style.display = 'block';
-    // } else if (userRole === 'Volunteer') {
-    //     document.getElementById('volunteer-events').style.display = 'block';
-    // } else if (userRole === 'Campaign Manager') {
-    //     document.getElementById('campaign-manager-campaigns').style.display = 'block';
-    // } else if (userRole === 'Beneficiary') {
-    //     document.getElementById('beneficiary-campaigns').style.display = 'block';
-    // }
-</script>
