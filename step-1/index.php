@@ -15,6 +15,8 @@
     <link href="assets/lib/flaticon/font/flaticon.css" rel="stylesheet">
     <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
     <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
+
 
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/custom.css" rel="stylesheet">
@@ -311,10 +313,10 @@
                     <div class="col-lg-6 col-xl-3">
                         <div class="causes-item">
                             <div class="causes-img">
-                                <img src="img/causes-4.jpg" class="img-fluid w-100" alt="Image">
+                                <img src="assets/img/img/cause-1.jpg" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-white"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-white"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
                                     <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
@@ -335,10 +337,10 @@
                     <div class="col-lg-6 col-xl-3">
                         <div class="causes-item">
                             <div class="causes-img">
-                                <img src="img/causes-2.jpg" class="img-fluid w-100" alt="Image">
+                                <img src="assets/img/img/cause-2.png" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-white"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-white"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
                                     <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
@@ -359,10 +361,10 @@
                     <div class="col-lg-6 col-xl-3">
                         <div class="causes-item">
                             <div class="causes-img">
-                                <img src="img/causes-3.jpg" class="img-fluid w-100" alt="Image">
+                                <img src="assets/img/img/cause-3.jpg" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-white"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-white"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
                                     <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
@@ -383,10 +385,10 @@
                     <div class="col-lg-6 col-xl-3">
                         <div class="causes-item">
                             <div class="causes-img">
-                                <img src="img/causes-1.jpg" class="img-fluid w-100" alt="Image">
+                                <img src="assets/img/img/cause-4.jpg" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-white"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-white"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
                                     <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
@@ -851,6 +853,8 @@
     <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
     <script src="assets/mail/jqBootstrapValidation.min.js"></script>
     <script src="assets/mail/contact.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
++
 
     <script src="assets/js/main.js"></script>
     <script src="assets/dist/js/main.js"></script>
