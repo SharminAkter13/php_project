@@ -1,85 +1,221 @@
-<!-- Add Users -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Campaigns</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container-fluid my-4 py-5 ">
+      <div class="row">
+        <div class="col-md-9 offset-md-3">
+            <h1 class="mb-4">Manage Campaigns</h1>
 
-<div class="content-wrapper" style="min-height: 2838.44px;">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Users Interface</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-                        <li class="breadcrumb-item active">Add Users</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+            <!-- Add Campaign Button -->
+            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#campaignModal" id="addCampaignBtn">
+            + Add New Campaign
+            </button>
 
-    <!-- Main content -->
-    <section class="content">
-
-
-        <!-- Campaign Header -->
-        <div class="campaign-header">
-            <h1>Campaign for Clean Water</h1>
-            <p>Help us provide clean drinking water to communities in need.</p>
-        </div>
-
-        <div class="container campaign-container">
-            <div class="row">
-                <!-- Campaign Details -->
-                <div class="col-md-8">
-                    <div class="campaign-card">
-                        <h3>Campaign Details</h3>
-                        <p><strong>Goal:</strong> $100,000</p>
-                        <p><strong>Total Raised:</strong> $30,000</p>
-                        <p><strong>Start Date:</strong> January 1, 2025</p>
-                        <p><strong>End Date:</strong> December 31, 2025</p>
-                        <p><strong>About the Campaign:</strong></p>
-                        <p>Our mission is to provide clean, accessible drinking water to communities in rural areas. By donating, you will help us fund water purification systems, wells, and sanitation projects that will impact thousands of lives.</p>
-                        <h4>Progress</h4>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
-                        </div>
-                    </div>
-
-                    <!-- Donation Form -->
-                    <div class="campaign-card">
-                        <h3>Make a Donation</h3>
-                        <p>Contribute to our campaign and help us reach our goal!</p>
-                        <div class="donation-form-container">
-                            <form id="donationForm">
-                                <div class="form-group">
-                                    <label for="donationAmount">Donation Amount ($)</label>
-                                    <input type="number" class="form-control" id="donationAmount" placeholder="Enter amount" required>
-                                </div>
-                                <button type="submit" class="donation-btn btn-block">Donate Now</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Donors List -->
-                <div class="col-md-4">
-                    <div class="campaign-card">
-                        <h3>Recent Donors</h3>
-                        <ul id="donorList" class="list-group">
-                            <li class="list-group-item">John Doe - $500</li>
-                            <li class="list-group-item">Jane Smith - $200</li>
-                            <li class="list-group-item">Samuel Lee - $100</li>
-                            <li class="list-group-item">Maria Garcia - $50</li>
-                        </ul>
-                    </div>
-                </div>
+            <!-- Campaigns Table -->
+            <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>Campaign Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Funds Raised</th>
+                    <th>Donors</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="campaignTableBody">
+                <tr>
+                    <td>Education for All</td>
+                    <td>2025-01-10</td>
+                    <td>2025-04-10</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>$12,500</td>
+                    <td>70</td>
+                    <td>
+                    <button class="btn btn-sm btn-warning edit-btn">Edit</button>
+                    <button class="btn btn-sm btn-danger delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Clean Water Project</td>
+                    <td>2024-08-01</td>
+                    <td>2024-12-01</td>
+                    <td><span class="badge bg-secondary">Completed</span></td>
+                    <td>$18,300</td>
+                    <td>95</td>
+                    <td>
+                    <button class="btn btn-sm btn-warning edit-btn">Edit</button>
+                    <button class="btn btn-sm btn-danger delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <!-- More rows here -->
+                </tbody>
+            </table>
             </div>
         </div>
+    </div>
+  </div>
 
+  <!-- Add/Edit Campaign Modal -->
+  <div class="modal fade" id="campaignModal" tabindex="-1" aria-labelledby="campaignModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="campaignForm" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="campaignModalLabel">Add Campaign</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="campaignIndex" />
 
-    </section>
-    <!-- /.content -->
-</div>
-<!-- ./Add users -->
-<!-- Main Footer -->
+          <div class="mb-3">
+            <label for="campaignName" class="form-label">Campaign Name</label>
+            <input type="text" class="form-control" id="campaignName" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="startDate" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="startDate" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="endDate" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="endDate" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" required>
+              <option value="" disabled selected>Select status</option>
+              <option value="Active">Active</option>
+              <option value="Completed">Completed</option>
+              <option value="Pending">Pending</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="fundsRaised" class="form-label">Funds Raised ($)</label>
+            <input type="number" class="form-control" id="fundsRaised" min="0" step="0.01" value="0" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="donors" class="form-label">Number of Donors</label>
+            <input type="number" class="form-control" id="donors" min="0" value="0" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Campaign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const campaignForm = document.getElementById('campaignForm');
+    const campaignTableBody = document.getElementById('campaignTableBody');
+    const campaignModal = new bootstrap.Modal(document.getElementById('campaignModal'));
+    const campaignModalLabel = document.getElementById('campaignModalLabel');
+    const addCampaignBtn = document.getElementById('addCampaignBtn');
+
+    // Helper: Create badge HTML based on status
+    function getStatusBadge(status) {
+      const statusMap = {
+        'Active': 'success',
+        'Completed': 'secondary',
+        'Pending': 'warning'
+      };
+      const badgeClass = statusMap[status] || 'primary';
+      return `<span class="badge bg-${badgeClass}">${status}</span>`;
+    }
+
+    // Reset form
+    function resetForm() {
+      campaignForm.reset();
+      document.getElementById('campaignIndex').value = '';
+      campaignModalLabel.textContent = 'Add Campaign';
+    }
+
+    // Add Campaign button click
+    addCampaignBtn.addEventListener('click', () => {
+      resetForm();
+    });
+
+    // Submit form to add/edit campaign
+    campaignForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const index = document.getElementById('campaignIndex').value;
+      const name = document.getElementById('campaignName').value.trim();
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const status = document.getElementById('status').value;
+      const fundsRaised = parseFloat(document.getElementById('fundsRaised').value).toFixed(2);
+      const donors = parseInt(document.getElementById('donors').value);
+
+      if (index === '') {
+        // Add new row
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td>${name}</td>
+          <td>${startDate}</td>
+          <td>${endDate}</td>
+          <td>${getStatusBadge(status)}</td>
+          <td>$${fundsRaised}</td>
+          <td>${donors}</td>
+          <td>
+            <button class="btn btn-sm btn-warning edit-btn">Edit</button>
+            <button class="btn btn-sm btn-danger delete-btn">Delete</button>
+          </td>
+        `;
+        campaignTableBody.appendChild(newRow);
+      } else {
+        // Edit existing row
+        const row = campaignTableBody.rows[index];
+        row.cells[0].textContent = name;
+        row.cells[1].textContent = startDate;
+        row.cells[2].textContent = endDate;
+        row.cells[3].innerHTML = getStatusBadge(status);
+        row.cells[4].textContent = `$${fundsRaised}`;
+        row.cells[5].textContent = donors;
+      }
+
+      campaignModal.hide();
+    });
+
+    // Delegate Edit and Delete buttons
+    campaignTableBody.addEventListener('click', (e) => {
+      if (e.target.classList.contains('edit-btn')) {
+        const row = e.target.closest('tr');
+        const index = [...campaignTableBody.rows].indexOf(row);
+
+        // Populate modal with current values
+        document.getElementById('campaignIndex').value = index;
+        document.getElementById('campaignName').value = row.cells[0].textContent;
+        document.getElementById('startDate').value = row.cells[1].textContent;
+        document.getElementById('endDate').value = row.cells[2].textContent;
+        document.getElementById('status').value = row.cells[3].textContent.trim();
+        document.getElementById('fundsRaised').value = parseFloat(row.cells[4].textContent.replace('$','')).toFixed(2);
+        document.getElementById('donors').value = row.cells[5].textContent;
+
+        campaignModalLabel.textContent = 'Edit Campaign';
+        campaignModal.show();
+
+      } else if (e.target.classList.contains('delete-btn')) {
+        if (confirm('Are you sure you want to delete this campaign?')) {
+          const row = e.target.closest('tr');
+          row.remove();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
