@@ -1,0 +1,90 @@
+Based on your ERD, your dashboard can be a comprehensive administrative and tracking tool. The entities in your ERD provide a rich set of data points that can be aggregated and displayed to give a complete overview of your organization's activities.
+
+Here is a breakdown of what should be included in your dashboard, organized by the major entities in your ERD:
+
+### **1. Core Dashboard Overview**
+
+This is the main landing page of the dashboard, providing high-level summaries of all your key operations.
+
+* **Financial Summary:**
+    * **Total Donations:** Aggregate sum of all `amount` from the `donations` table.
+    * **Total Pledged:** Aggregate sum of all `pledge_amount` from the `pledges` table.
+    * **Total Fulfilled Pledges:** Sum of donations linked to pledges where `donations.pledge_id` is not null.
+    * **Outstanding Pledges:** Total Pledged Amount - Total Fulfilled Pledges.
+
+* **User & Donor Summary:**
+    * **Total Donors:** Count of unique `donors.id`.
+    * **Total Users:** Count of `users.id`.
+    * **Total Volunteers:** Count of `volunteer.id`.
+
+### **2. Pledge Tracking Panel**
+
+This section directly addresses your `UC-06` and leverages data from the `pledges`, `transactions`, and `donors` tables.
+
+* **Pledge List Table:**
+    * **Columns:** `pledges.id`, `donors.name` (from the `donors` table using `donors.id`), `pledges.pledge_amount`, `pledges.pledge_date`, `pledges.status`.
+    * **Functionality:**
+        * Search by `donors.name` or `pledges.id`.
+        * Filter by `pledges.status` (e.g., pending, fulfilled, overdue).
+        * Sort by `pledges.pledge_date` or `pledges.pledge_amount`.
+
+* **Detailed Pledge View (Modal/Sidebar):**
+    * **Basic Details:** `pledges.id`, `pledges.pledge_amount`, `pledges.pledge_date`, `pledges.status`.
+    * **Donor Information:** All fields from the `donors` table linked by `donors.id` (name, contact, type).
+    * **Transaction History:** A list of transactions from the `transactions` table where `transactions.pledge_id` matches the current pledge. Display `transactions.date`, `transactions.amount`, and `transactions.status`.
+    * **Linked Campaign:** Display the name of the `campaigns` table linked by `pledges.campaign_id`.
+
+### **3. Donation Tracking Panel**
+
+This panel provides a view of all financial contributions.
+
+* **Donation List Table:**
+    * **Columns:** `donations.id`, `donors.name`, `donations.amount`, `donations.date`, `donations.payment_id` (linking to payment method), `donations.fund_id`, `donations.pledge_id`.
+    * **Functionality:**
+        * Filter by `donations.fund_id` to see donations for specific funds.
+        * Filter by `donations.pledge_id` to see only donations fulfilling pledges.
+        * Search and sort similar to the pledges table.
+
+### **4. Campaign Management Panel**
+
+This section is vital for tracking your campaigns and their performance.
+
+* **Campaign List Table:**
+    * **Columns:** `campaigns.id`, `campaigns.name`, `campaigns.goal_amount`, `campaigns.start_date`, `campaigns.end_date`.
+    * **Performance Metrics:**
+        * **Amount Raised:** Sum of `donations.amount` where `donations.campaign_id` matches the campaign's `id`.
+        * **Pledged Amount:** Sum of `pledges.pledge_amount` where `pledges.campaign_id` matches the campaign's `id`.
+        * **Progress Bar:** A visual representation of `Amount Raised` vs. `Goal Amount`.
+
+* **Detailed Campaign View:**
+    * **Overview:** Display all fields from the `campaigns` table.
+    * **Linked Event:** Show details from the `events` table linked by `campaigns.event_id`.
+    * **Associated Pledges:** List all pledges linked to this campaign.
+    * **Associated Donations:** List all donations linked to this campaign.
+
+### **5. Event and Volunteer Management**
+
+These are supporting sections that can provide valuable administrative data.
+
+* **Events Table:**
+    * **Columns:** `events.id`, `events.name`, `events.date`, `events.location`.
+    * **Associated Campaigns:** Display which campaigns are tied to each event.
+* **Volunteers Table:**
+    * **Columns:** `volunteer.id`, `volunteer.name`, `volunteer.task`, `volunteer.created_at`.
+    * **User Link:** Link to the `users` table via `volunteer.user_id` to get user contact information.
+
+### **6. Fund & Beneficiary Management**
+
+* **Funds Table:**
+    * **Columns:** `funds.id`, `funds.name`, `funds.status`.
+    * **Metrics:** Show the total `donations.amount` received for each fund.
+* **Beneficiaries Table:**
+    * **Columns:** `beneficiaries.id`, `beneficiaries.name`, `beneficiaries.contact`.
+    * **Linked Campaigns:** Display which campaigns are managed for this beneficiary.
+
+### **Technical Implementation Notes**
+
+* All tables should use a consistent, responsive design (like the Bootstrap 5 code provided previously).
+* Use SQL JOIN queries to link data from different tables (e.g., to get a donor's name for a pledge).
+* Dashboards should prioritize real-time or near real-time data updates.
+* Security is crucial. Ensure that the dashboard is only accessible to authenticated users with the correct `roles` (e.g., "Administrator").

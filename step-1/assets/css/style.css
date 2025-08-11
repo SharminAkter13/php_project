@@ -331,7 +331,7 @@ a:focus {
 /*******************************/
 /********** Hero CSS ***********/
 /*******************************/
-.carousel {
+/* .carousel {
     position: relative;
     width: 100%;
     min-height: 300px;
@@ -518,8 +518,71 @@ a:focus {
         font-size: 14px;
         letter-spacing: 0;
     }
+} */
+
+
+body {
+  background: #f8f9fa;
+  font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+video.bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 0;
+}
+
+@media (pointer: coarse) and (hover: none) {
+  body {
+    background: url("../assets/img/bg-mobile-fallback.jpg") #2a5555 no-repeat center center scroll;
+    background-size: cover;
+  }
+  body video {
+    display: none;
+  }
+}
+.masthead {
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Keep the background on the masthead itself, not the body */
+  /* This is what creates the transparent color over the video in the masthead area */
+}
+
+.masthead:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85); /* This is the transparent background you want */
+}
+
+@media (min-width: 992px) {
+  .masthead {
+    height: 100%;
+    width: 75vw;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .masthead:before {
+    transform: skewX(-9deg);
+    transform-origin: top right;
+  }
+}
 
 /*******************************/
 /******* Page Header CSS *******/
@@ -661,6 +724,7 @@ a:focus {
     position: relative;
     width: 100%;
     padding: 45px 0;
+    background-color: #ffffff;
 }
 
 .about .section-header {
@@ -716,6 +780,7 @@ a:focus {
     position: relative;
     width: 100%;
     padding: 45px 0 15px 0;
+    background-color: #ffffff
 }
 
 .service .service-item {
@@ -786,7 +851,7 @@ a:focus {
     position: relative;
     width: 100%;
     margin: 45px 0;
-    background: rgba(0, 0, 0, .5);
+    background-color: rgba(27, 1, 1, 0.877);
 }
 
 .donate .donate-content {
@@ -1092,7 +1157,7 @@ a:focus {
     text-align: center;
     font-size: 14px;
     color: #343a40;
-    border: 2px solid #20c997;
+    border: 2px solid #8520c9;
     transition: .3s;
     border-radius: 50%;
 }

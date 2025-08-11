@@ -37,46 +37,51 @@
 </head>
 <body>
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
+<div class="container my-5 p-5">
+    <div class="row">
+        <div class="col-md-9 offset-md-3">
 
-                <h4 class="mb-0"><i class="fas fa-hand-holding-heart me-2"></i>Add Beneficiary</h4>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="">
-                        <div class="mb-3">
-                            <label for="beneficiary_name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" placeholder="Enter beneficiary's full name" required>
-                        </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
 
-                        <div class="mb-3">
-                            <label for="beneficiary_email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="beneficiary_email" name="beneficiary_email" placeholder="Enter email" required>
+                        <h4 class="mb-0"><i class="fas fa-hand-holding-heart me-2"></i>Add Beneficiary</h4>
                         </div>
+                        <div class="card-body">
+                            <form method="POST" action="">
+                                <div class="mb-3">
+                                    <label for="beneficiary_name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" placeholder="Enter beneficiary's full name" required>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="beneficiary_phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="beneficiary_phone" name="beneficiary_phone" placeholder="Enter phone number" required>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="beneficiary_email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="beneficiary_email" name="beneficiary_email" placeholder="Enter email" required>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="beneficiary_address" class="form-label">Address</label>
-                            <textarea class="form-control" id="beneficiary_address" name="beneficiary_address" rows="3" placeholder="Enter full address" required></textarea>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="beneficiary_phone" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control" id="beneficiary_phone" name="beneficiary_phone" placeholder="Enter phone number" required>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="beneficiary_needs" class="form-label">Needs / Support Required</label>
-                            <textarea class="form-control" id="beneficiary_needs" name="beneficiary_needs" rows="3" placeholder="Describe the needs" required></textarea>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="beneficiary_address" class="form-label">Address</label>
+                                    <textarea class="form-control" id="beneficiary_address" name="beneficiary_address" rows="3" placeholder="Enter full address" required></textarea>
+                                </div>
 
-                        <div class="text-end">
-                            <button type="reset" class="btn btn-secondary me-2">Reset</button>
-                            <button type="submit" class="btn btn-primary">Add Beneficiary</button>
+                                <div class="mb-3">
+                                    <label for="beneficiary_needs" class="form-label">Needs / Support Required</label>
+                                    <textarea class="form-control" id="beneficiary_needs" name="beneficiary_needs" rows="3" placeholder="Describe the needs" required></textarea>
+                                </div>
+
+                                <div class="text-end">
+                                    <button type="reset" class="btn btn-secondary me-2">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Add Beneficiary</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -84,62 +84,32 @@
             </div>
         </div>
     </div>
-    <section>
-        <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselImages" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
-                <button type="button" data-bs-target="#carouselImages" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselImages" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-
-            <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="3000">
-                    <img src="assets/img/carousel-1.jpg" class="d-block w-100" alt="First slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2>
-                            Giving is not just about making a donation, it’s about making a change
-                        </h2>
-                        <p>
-                            Help the urban area people with the little we can.
-                        </p>
-                        <a href="#" class="btn btn-custom mt-3">Donate Now</a>
-                    </div>
-                </div>
-
-                <div class="carousel-item" data-bs-interval="3000">
-                    <img src="assets/img/carousel-2.jpg" class="d-block w-100" alt="Second slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2>
-                            Get Involved and Make a Real Difference
-                        </h2>
-                        <p>
-                            Your contribution helps us provide essential resources to those in need.
-                        </p>
-                        <a href="#" class="btn btn-custom mt-3">Donate Now</a>
-                    </div>
-                </div>
-
-                <div class="carousel-item" data-bs-interval="3000">
-                    <img src="assets/img/carousel-3.jpg" class="d-block w-100" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2>
-                            Bringing smiles and hope to communities
-                        </h2>
-                        <p>
-                            Join our mission to create a brighter future for everyone.
-                        </p>
-                        <a href="#" class="btn btn-custom mt-3">Donate Now</a>
-                    </div>
+    <section class="top-bg">
+      <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="assets/img/img/bg.mp4" type="video/mp4" /></video>
+        <div class="masthead">
+            <div class="masthead-content text-white">
+                <div class="container-fluid px-4 px-lg-0">
+                    <h1 class="fst-italic lh-1 mb-4">Our Website is Coming Soon</h1>
+                    <p class="mb-5">We're working hard to finish the development of this site. Sign up below to receive updates and to be notified when we launch!</p>
+                    <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                        <div class="row input-group-newsletter">
+                            <div class="col"><input class="form-control" id="email" type="email" placeholder="Enter email address..." aria-label="Enter email address..." data-sb-validations="required,email" /></div>
+                            <div class="col-auto"><button class="btn btn-primary disabled" id="submitButton" type="submit">Notify Me!</button></div>
+                        </div>
+                        <div class="invalid-feedback mt-2" data-sb-feedback="email:required">An email is required.</div>
+                        <div class="invalid-feedback mt-2" data-sb-feedback="email:email">Email is not valid.</div>
+                        <div class="d-none" id="submitSuccessMessage">
+                            <div class="text-center mb-3 mt-2">
+                                <div class="fw-bolder">Form submission successful!</div>
+                                To activate this form, sign up at
+                                <br />
+                                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                            </div>
+                        </div>
+                        <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3 mt-2">Error sending message!</div></div>
+                    </form>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </section>
     <div class="about">
@@ -258,7 +228,7 @@
             </div>
         </div>
     </div>
-    <div class="facts" data-parallax="scroll" data-image-src="assets/img/facts.jpg">
+    <div class="facts" data-parallax="scroll" data-image-src="assets/img/img/img17.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
@@ -329,7 +299,7 @@
                             </div>
                             <div class="causes-content p-4">
                                 <h4 class="mb-3">First environments activity of</h4>
-                                <p class="mb-4">Help today because tomorrow you may be the one who needs more helping!</p>
+                                <p class="mb-4">Help today because tomorrow you may be the one who needs more helping! </p><br>
                                 <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Read More</a>
                             </div>
                         </div>
@@ -353,7 +323,7 @@
                             </div>
                             <div class="causes-content p-4">
                                 <h4 class="mb-3">Build school for poor children.</h4>
-                                <p class="mb-4">Help today because tomorrow you may be the one who needs more helping!</p>
+                                <p class="mb-4">Help today because tomorrow you may be the one who needs more helping!</p><br>
                                 <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="#">Read More</a>
                             </div>
                         </div>
@@ -854,7 +824,7 @@
     <script src="assets/mail/jqBootstrapValidation.min.js"></script>
     <script src="assets/mail/contact.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script src="assets/js/main.js"></script>
     <script src="assets/dist/js/main.js"></script>
