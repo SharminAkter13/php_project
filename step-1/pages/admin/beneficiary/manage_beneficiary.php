@@ -1,19 +1,19 @@
 <?php
-// Database connection
-// include('db_connect.php');
+// // Database connection
+// // include('db_connect.php');
 
-// Example: Fetch all beneficiaries from DB
-$beneficiaries = [
-    ["id" => 1, "name" => "John Doe", "email" => "john@example.com", "phone" => "01710000000", "address" => "Dhaka, Bangladesh", "needs" => "Medical support"],
-    ["id" => 2, "name" => "Jane Smith", "email" => "jane@example.com", "phone" => "01820000000", "address" => "Chittagong, Bangladesh", "needs" => "Food & shelter"]
-];
+// // Example: Fetch all beneficiaries from DB
+// $beneficiaries = [
+//     ["id" => 1, "name" => "John Doe", "email" => "john@example.com", "phone" => "01710000000", "address" => "Dhaka, Bangladesh", "needs" => "Medical support"],
+//     ["id" => 2, "name" => "Jane Smith", "email" => "jane@example.com", "phone" => "01820000000", "address" => "Chittagong, Bangladesh", "needs" => "Food & shelter"]
+// ];
 
-// Delete action
-if (isset($_GET['delete'])) {
-    $deleteId = $_GET['delete'];
-    // mysqli_query($conn, "DELETE FROM beneficiaries WHERE id=$deleteId");
-    echo "<div class='alert alert-success text-center'>Beneficiary ID $deleteId deleted successfully!</div>";
-}
+// // Delete action
+// if (isset($_GET['delete'])) {
+//     $deleteId = $_GET['delete'];
+//     // mysqli_query($conn, "DELETE FROM beneficiaries WHERE id=$deleteId");
+//     echo "<div class='alert alert-success text-center'>Beneficiary ID $deleteId deleted successfully!</div>";
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
