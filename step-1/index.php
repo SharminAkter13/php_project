@@ -15,9 +15,7 @@
     <link href="assets/lib/flaticon/font/flaticon.css" rel="stylesheet">
     <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
     <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
-
-
+ 
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/custom.css" rel="stylesheet">
 </head>
@@ -116,8 +114,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <div class="about-img" data-parallax="scroll" data-image-src="assets/img/about.jpg"></div>
-                </div>
+                    <div class="about-img" data-parallax="scroll" data-image-src="assets/img/about.jpg"></div>                </div>
                 <div class="col-lg-6">
                     <div class="section-header">
                         <p>Learn About Us</p>
@@ -271,7 +268,7 @@
         </div>
     </div>
    <!-- Causes Start -->
-        <div class="container-fluid causes py-5">
+        <div class="container-fluid causes ">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5" style="max-width: 800px;">
                     <h5 class="text-uppercase text-primary">Recent Causes</h5>
@@ -279,8 +276,8 @@
                     <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
                     </p>
                 </div>
-                <div class="row g-4">
-                    <div class="col-lg-6 col-xl-3">
+                <div class="row g-2">
+                    <div class="col-lg-3 col-md-6">
                         <div class="causes-item">
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-1.jpg" class="img-fluid w-100" alt="Image">
@@ -304,7 +301,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xl-3">
+                    <div class="col-lg-3 col-md-6">
                         <div class="causes-item">
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-2.png" class="img-fluid w-100" alt="Image">
@@ -328,7 +325,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xl-3">
+                    <div class="col-lg-3 col-md-6">
                         <div class="causes-item">
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-3.jpg" class="img-fluid w-100" alt="Image">
@@ -352,7 +349,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xl-3">
+                    <div class="col-lg-3 col-md-6">
                         <div class="causes-item">
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-4.jpg" class="img-fluid w-100" alt="Image">
@@ -597,7 +594,7 @@
             <div class="owl-carousel testimonials-carousel">
                 <div class="testimonial-item">
                     <div class="testimonial-profile">
-                        <img src="assets/img/testimonial-1.jpg" alt="Image">
+                        <img src="../assets/img/testimonial-1.jpg" alt="Image">
                         <div class="testimonial-name">
                             <h3>Person Name</h3>
                             <p>Profession</p>
@@ -825,9 +822,13 @@
     <script src="assets/mail/contact.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/dist/js/main.js"></script>
+<script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
+
+<script src="assets/js/main.js"></script>
     <script>
         
     </script>
