@@ -175,7 +175,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=1                                                                                                                                                                                                                                                                                                                   2" class="nav-link">
+                            <a href="home.php?page=12" class="nav-link">
                                 <i class="far fa-clock nav-icon"></i>
                                 <p>Campaign History</p>
                             </a>
@@ -194,25 +194,25 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="home.php?page=17" class="nav-link">
+                            <a href="home.php?page=13" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Beneficiary</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=18" class="nav-link">
+                            <a href="home.php?page=14" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Manage Beneficiaries</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=19" class="nav-link">
+                            <a href="home.php?page=15" class="nav-link">
                                 <i class="far fa-chart-bar nav-icon"></i>
                                 <p>Beneficiary Reports</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="home.php?page=20" class="nav-link">
+                            <a href="home.php?page=16" class="nav-link">
                                 <i class="far fa-clock nav-icon"></i>
                                 <p>Beneficiary History</p>
                             </a>
