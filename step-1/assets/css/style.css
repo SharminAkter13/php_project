@@ -371,6 +371,10 @@ video.bg-video {
   /* Keep the background on the masthead itself, not the body */
   /* This is what creates the transparent color over the video in the masthead area */
 }
+.masthead-content {
+  position: relative;
+  z-index: 1; /* Puts text above overlay */
+}
 
 .masthead:before {
   content: "";
@@ -381,19 +385,31 @@ video.bg-video {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.85); /* This is the transparent background you want */
+  background-color: rgba(0, 0, 0, 0.75); /* This is the transparent background you want */
+}
+button{
+    background-color: #17a2b8;
+    color: #f0f0f0;
+    font-weight: bolder;
+    border-radius: 5px;
+}
+
+button:hover{
+    background-color: #8cdeeb;
+    color: #0e0101;
+    font-weight: bolder;
 }
 
 @media (min-width: 992px) {
   .masthead {
     height: 100%;
-    width: 75vw;
+    width: 70vw;
     min-height: 0;
     padding-bottom: 0;
   }
 
   .masthead:before {
-    transform: skewX(-9deg);
+    transform: skewX(-15deg);
     transform-origin: top right;
   }
 }
