@@ -220,6 +220,36 @@
                     </ul>
                 </li>
 
+                <!-- Beneficiary Section -->
+                <li class="nav-item" id="beneficiary-campaigns">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-handshake"></i> &nbsp;                      
+                        <p>
+                             Pledges
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="home.php?page=21" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Pledges</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.php?page=22" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Pledges</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.php?page=23" class="nav-link">
+                                <i class="far fa-chart-bar nav-icon"></i>
+                                <p>Pledges Summery and Analyticts</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

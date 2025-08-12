@@ -81,6 +81,18 @@
             
             include("pages/admin/donations/donations_history.php");
             
+        }else if($page==21){
+            
+            include("pages/admin/pledges/add_pledges.php");
+            
+        }else if($page==22){
+            
+            include("pages/admin/pledges/manage_pledges.php");
+            
+        }else if($page==23){
+            
+            include("pages/admin/pledges/pledges_summery_analyticts.php");
+            
         }
     }
 ?>

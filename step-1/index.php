@@ -572,6 +572,7 @@
             </div>
         </div>
     </div>
+    <!-- Testimonial Starts -->
     <div class="testimonial">
         <div class="container">
             <div class="section-header text-center">
@@ -581,7 +582,7 @@
             <div class="owl-carousel testimonials-carousel">
                 <div class="testimonial-item">
                     <div class="testimonial-profile">
-                        <img src="../assets/img/testimonial-1.jpg" alt="Image">
+                        <img src="assets/img/testimonial-1.jpg" alt="Image">
                         <div class="testimonial-name">
                             <h3>Person Name</h3>
                             <p>Profession</p>
@@ -639,6 +640,8 @@
             </div>
         </div>
     </div>
+    <!-- Testimonial Starts -->
+
     <div class="contact">
         <div class="container">
             <div class="section-header text-center">

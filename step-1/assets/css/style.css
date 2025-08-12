@@ -673,7 +673,7 @@ button:hover{
     margin: 0;
 }
 
-/* causes start */
+/************ causes start *************/
 
 
 .causes {
@@ -683,12 +683,6 @@ button:hover{
   background-color: #ffffff;
 }
 /* Flex layout for the causes cards */
-.causes .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center; /* Center the cards */
-}
 
 /* Causes item styling */
 .causes-item {
@@ -703,12 +697,22 @@ button:hover{
 }
 
 .causes-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
 }
 
 /* Image styling */
+.causes-img {
+    perspective: 1000px; /* Gives 3D effect */
+}
+
 .causes-img img {
     border-bottom: 2px solid #f0f0f0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.causes-img img:hover {
+    transform: scale(1.05); /* Slight zoom */
+    opacity: 0.8;           /* Slight fade */
 }
 
 /* Progress bar styling with animation */
@@ -723,7 +727,7 @@ button:hover{
 .progress-bar {
     background: linear-gradient(90deg, #ff6f61, #ffcc70);
     height: 100%;
-    width: 0;
+    width: 5px;
     animation: fill-bar 2s ease forwards;
     display: flex;
     align-items: center;
@@ -734,7 +738,7 @@ button:hover{
 }
 
 @keyframes fill-bar {
-    from { width: 0; }
+    from { width: 5px; }
     to { width: var(--progress-width); }
 }
 
@@ -1116,8 +1120,12 @@ button:hover{
 
 .testimonial .testimonial-profile img {
     width: 80px;
-    margin-bottom: -1px;
+    height: 80px; /* fixed height */
+    object-fit: cover; /* keep aspect ratio and fill space */
+    border-radius: 50%; /* make it circular */
+    display: block; /* avoid inline spacing issues */
 }
+
 
 .testimonial .testimonial-name {
     padding-left: 15px;
