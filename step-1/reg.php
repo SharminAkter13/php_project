@@ -1,49 +1,84 @@
 <?php
 session_start();
-// require_once 'db.php'; // Include database connection
+require 'config.php'; // Your PDO or MySQLi connection
 
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-    $user_role = $_POST['user_role'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Validate passwords match
-    if ($password !== $confirm_password) {
-        $_SESSION['error'] = 'Passwords do not match!';
-        header('Location: register.php');
+    // Get form data safely
+    $first_name = trim($_POST['first_name'] ?? '');
+    $last_name  = trim($_POST['last_name'] ?? '');
+    $email      = trim($_POST['email'] ?? '');
+    $password   = $_POST['password'] ?? '';
+    $role_name  = trim($_POST['role'] ?? '');
+    $terms      = isset($_POST['terms']) ? 1 : 0;
+
+    // Validation
+    if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($role_name)) {
+        $_SESSION['error'] = 'All fields are required!';
+        header('Location: reg.php');
         exit;
     }
 
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Check if email already exists
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-    if ($stmt->rowCount() > 0) {
-        $_SESSION['error'] = 'Email already registered!';
-        header('Location: register.php');
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error'] = 'Invalid email format!';
+        header('Location: reg.php');
         exit;
     }
 
-    // Insert user data into the database
-    // $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, email, password, user_role) VALUES (:first_name, :last_name, :email, :password, :user_role)");
-    // $stmt->execute([
-    //     'first_name' => $first_name,
-    //     'last_name' => $last_name,
-    //     'email' => $email,
-    //     'password' => $hashed_password,
-    //     'user_role' => $user_role
-    // ]);
+    if (!$terms) {
+        $_SESSION['error'] = 'You must accept the terms!';
+        header('Location: reg.php');
+        exit;
+    }
 
-    // Redirect to login page after successful registration
-    $_SESSION['success'] = 'Registration successful. Please log in.';
-    header('Location: login.php');
-    exit;
+    try {
+        // Check if email already exists
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email LIMIT 1");
+        $stmt->execute(['email' => $email]);
+        if ($stmt->fetch()) {
+            $_SESSION['error'] = 'Email already exists!';
+            header('Location: reg.php');
+            exit;
+        }
+
+        // Look up role_id from roles table
+        $stmt = $pdo->prepare("SELECT id FROM roles WHERE name = :name LIMIT 1");
+        $stmt->execute(['name' => $role_name]);
+        $role = $stmt->fetch();
+
+        if (!$role) {
+            $_SESSION['error'] = 'Invalid role selected!';
+            header('Location: reg.php');
+            exit;
+        }
+        $role_id = $role['id'];
+
+        // Hash password
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+        // Insert new user
+        $stmt = $pdo->prepare("
+            INSERT INTO users (first_name, last_name, email, password, role_id, terms_accepted)
+            VALUES (:first_name, :last_name, :email, :password, :role_id, :terms)
+        ");
+        $stmt->execute([
+            'first_name' => $first_name,
+            'last_name'  => $last_name,
+            'email'      => $email,
+            'password'   => $hashed_password,
+            'role_id'    => $role_id,
+            'terms'      => $terms
+        ]);
+
+        $_SESSION['success'] = 'Registration successful!';
+        header('Location: login.php');
+        exit;
+
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'Database error: ' . $e->getMessage();
+        header('Location: reg.php');
+        exit;
+    }
 }
 ?>
 
@@ -90,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="card-body">
       <p class="login-box-msg">Create your account</p>
 
-      <form action="assets/reg.php" method="post">
+      <form action="login.php" method="post">
         <div class="row">
           <div class="col-md-6 mb-3">
             <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
