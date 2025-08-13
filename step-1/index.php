@@ -418,17 +418,17 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="event-item">
-                        <img src="assets/img/event-1.jpg" alt="Image">
+                        <img src="assets/img/img/event.jpg" alt="Image">
                         <div class="event-content">
                             <div class="event-meta">
-                                <p><i class="fa fa-calendar-alt"></i>01-Jan-45</p>
+                                <p><i class="fa fa-calendar-alt"></i>17-Aug-25</p>
                                 <p><i class="far fa-clock"></i>8:00 - 10:00</p>
                                 <p><i class="fa fa-map-marker-alt"></i>New York</p>
                             </div>
                             <div class="event-text">
-                                <h3>Lorem ipsum dolor sit</h3>
+                                <h3>Uniting Voices for Global Democracy: Pledge4Peace Conference 2025</h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                                    Be part of a global gathering dedicated to resolving conflict, defending democracy, and building lasting peace through people power
                                 </p>
                                 <a class="btn btn-custom" href="">Join Now</a>
                             </div>
@@ -437,18 +437,17 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="event-item">
-                        <img src="assets/img/event-2.jpg" alt="Image">
+                        <img src="assets/img/img/event-2.jpg" alt="Image">
                         <div class="event-content">
                             <div class="event-meta">
-                                <p><i class="fa fa-calendar-alt"></i>01-Jan-45</p>
+                                <p><i class="fa fa-calendar-alt"></i>20-Aug-25</p>
                                 <p><i class="far fa-clock"></i>8:00 - 10:00</p>
                                 <p><i class="fa fa-map-marker-alt"></i>New York</p>
                             </div>
                             <div class="event-text">
-                                <h3>Lorem ipsum dolor sit</h3>
+                                <h3>Humanitarian Aid in Gaza From an Aid Worker Perspective</h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
-                                </p>
+                                    Please join us for a timely and important Zoom event featuring Ella Watson-Stryker of Médecins Sans Frontières (Doctors Without Borders) who 
                                 <a class="btn btn-custom" href="">Join Now</a>
                             </div>
                         </div>
@@ -457,6 +456,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Team Section -->
+    
     <div class="team">
         <div class="container">
             <div class="section-header text-center">
@@ -467,13 +469,13 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="team-item">
                         <div class="team-img">
-                            <img src="assets/img/img/team-1.jpg" alt="Team Image">
+                            <img src="assets/img/img/team-4.jpg" alt="Team Image">
                         </div>
                         <div class="team-text">
                             <h2>Donald John</h2>
                             <p>Founder & CEO</p>
                             <div class="team-social">
-                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="bi bi-twitter-x"></i></a>
                                 <a href=""><i class="fab fa-facebook-f"></i></a>
                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
                                 <a href=""><i class="fab fa-instagram"></i></a>
@@ -487,10 +489,10 @@
                             <img src="assets/img/img/team-2.jpg" alt="Team Image">
                         </div>
                         <div class="team-text">
-                            <h2>Adam Phillips</h2>
+                            <h2>Rachel Phillips</h2>
                             <p>Chef Executive</p>
                             <div class="team-social">
-                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="bi bi-twitter-x"></i></a>
                                 <a href=""><i class="fab fa-facebook-f"></i></a>
                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
                                 <a href=""><i class="fab fa-instagram"></i></a>
@@ -504,10 +506,10 @@
                             <img src="assets/img/img/team-3.jpg" alt="Team Image">
                         </div>
                         <div class="team-text">
-                            <h2>Thomas Olsen</h2>
+                            <h2>Tiara Olsen</h2>
                             <p>Chef Advisor</p>
                             <div class="team-social">
-                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="bi bi-twitter-x"></i></a>
                                 <a href=""><i class="fab fa-facebook-f"></i></a>
                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
                                 <a href=""><i class="fab fa-instagram"></i></a>
@@ -518,13 +520,13 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="team-item">
                         <div class="team-img">
-                            <img src="assets/img/img/team-4.jpg" alt="Team Image">
+                            <img src="assets/img/img/team-1.jpg" alt="Team Image">
                         </div>
                         <div class="team-text">
                             <h2>James Alien</h2>
                             <p>Advisor</p>
                             <div class="team-social">
-                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="bi bi-twitter-x"></i></a>
                                 <a href=""><i class="fab fa-facebook-f"></i></a>
                                 <a href=""><i class="fab fa-linkedin-in"></i></a>
                                 <a href=""><i class="fab fa-instagram"></i></a>
@@ -535,6 +537,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Team Section -->
+
     <div class="volunteer" data-parallax="scroll" data-image-src="assets/img/volunteer.jpg">
         <div class="container">
             <div class="row align-items-center">

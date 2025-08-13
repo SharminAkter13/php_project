@@ -1,21 +1,19 @@
 <?php
-// Include database connection if needed
-// include('db_connect.php');
+include('config.php');
 
-// Handle form submission
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $name = $_POST['beneficiary_name'];
-//     $email = $_POST['beneficiary_email'];
-//     $phone = $_POST['beneficiary_phone'];
-//     $address = $_POST['beneficiary_address'];
-//     $needs = $_POST['beneficiary_needs'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['beneficiary_name'];
+    $email = $_POST['beneficiary_email'];
+    $phone = $_POST['beneficiary_phone'];
+    $address = $_POST['beneficiary_address'];
+    $needs = $_POST['beneficiary_needs'];
 
-//     // Example SQL (adjust table/column names)
-//     // $query = "INSERT INTO beneficiaries (name, email, phone, address, needs) VALUES ('$name', '$email', '$phone', '$address', '$needs')";
-//     // mysqli_query($conn, $query);
+    // Example SQL (adjust table/column names)
+    $query = "INSERT INTO beneficiaries (name, email, phone, address, required_support) VALUES ('$name', '$email', '$phone', '$address', '$needs')";
+    mysqli_query($dms, $query);
     
-//     echo "<div class='alert alert-success text-center'>Beneficiary added successfully!</div>";
-// }
+    echo "<div class='alert alert-success text-center'>Beneficiary added successfully!</div>";
+}
 ?>
 
 <!DOCTYPE html>
