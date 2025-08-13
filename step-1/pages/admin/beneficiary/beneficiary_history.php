@@ -84,7 +84,7 @@
             <div class="card shadow-sm border-0">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle">
+                        <table class="table table-hover align-middle ">
                             <thead class="table-primary">
                                 <tr>
                                     <th>#</th>
@@ -106,7 +106,7 @@
                                     <td>2025-08-01</td>
                                     <td>$500</td>
                                     <td>Regular monthly support</td>
-                                    <td colspan="2">
+                                    <td >
                                         <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i></button>
                                         <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
                                         <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>

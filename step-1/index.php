@@ -687,12 +687,12 @@
                 <div class="col-lg-4">
                     <div class="blog-item">
                         <div class="blog-img">
-                            <img src="assets/img/blog-1.jpg" alt="Image">
+                            <img src="assets/img/img/blog-1.jpg" alt="Image">
                         </div>
                         <div class="blog-text">
-                            <h3><a href="#">Lorem ipsum dolor sit</a></h3>
+                            <h3><a href="#">Maternity & Health Care for Rural Woman</a></h3>
                             <p>
-                                Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                               Maternity and healthcare for rural women faces unique challenges, including limited access to facilities, transportation barriers, and <a href="blog.php">more</a>
                             </p>
                         </div>
                         <div class="blog-meta">
@@ -704,12 +704,12 @@
                 <div class="col-lg-4">
                     <div class="blog-item">
                         <div class="blog-img">
-                            <img src="assets/img/blog-2.jpg" alt="Image">
+                            <img src="assets/img/img/blog-2.jpg" alt="Image">
                         </div>
                         <div class="blog-text">
-                            <h3><a href="#">Lorem ipsum dolor sit</a></h3>
+                            <h3><a href="#">Distributing Book to the Children for Better Future </a></h3>
                             <p>
-                                Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                                Distributing books to children is a vital investment in their future, fostering literacy, education, and overall development. By <a href="blog.php">more</a> 
                             </p>
                         </div>
                         <div class="blog-meta">
@@ -721,12 +721,12 @@
                 <div class="col-lg-4">
                     <div class="blog-item">
                         <div class="blog-img">
-                            <img src="assets/img/blog-3.jpg" alt="Image">
+                            <img src="assets/img/img/blog-3.jpg" alt="Image">
                         </div>
                         <div class="blog-text">
-                            <h3><a href="#">Lorem ipsum dolor sit</a></h3>
+                            <h3><a href="#">Help and  Care Disable Children</a></h3>
                             <p>
-                                Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                               Providing care and support for disabled children involves a multi-faceted approach, encompassing healthcare, education, social services, and <a href="blog.php">more</a>
                             </p>
                         </div>
                         <div class="blog-meta">
@@ -744,11 +744,11 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-contact">
                         <h2>Our Head Office</h2>
-                        <p><i class="fa fa-map-marker-alt"></i>123 Street, New York, USA</p>
+                        <p><i class="fa fa-map-marker-alt"></i> Street 4, Dhanmondi,<br> &nbsp; &nbsp; &nbsp; Dhaka-1209, Bangladesh</p>
                         <p><i class="fa fa-phone-alt"></i>+012 345 67890</p>
                         <p><i class="fa fa-envelope"></i>info@example.com</p>
                         <div class="footer-social">
-                            <a class="btn btn-custom" href=""><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-custom" href=""><i class="bi bi-twitter-x"></i></a>
                             <a class="btn btn-custom" href=""><i class="fab fa-facebook-f"></i></a>
                             <a class="btn btn-custom" href=""><i class="fab fa-youtube"></i></a>
                             <a class="btn btn-custom" href=""><i class="fab fa-instagram"></i></a>
@@ -791,10 +791,10 @@
         <div class="container copyright">
             <div class="row">
                 <div class="col-md-6">
-                    <p>&copy; <a href="#">Your Site Name</a>, All Right Reserved.</p>
+                    <p>&copy; <a href="#">DonorHub</a>, All Right Reserved.</p>
                 </div>
                 <div class="col-md-6">
-                    <p>Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                    <p>Designed By <b>Sharmin Akter</b></p>
                 </div>
             </div>
         </div>
