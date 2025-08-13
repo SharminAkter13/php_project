@@ -1,83 +1,59 @@
 <?php
 session_start();
-require 'config.php'; // Your PDO or MySQLi connection
+require 'config.php'; // contains $dms = new mysqli(...);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Fetch roles for dropdown
+$roles = $dms->query("SELECT * FROM roles");
 
-    // Get form data safely
+if (isset($_POST['submit'])) {
+    // Sanitize input
     $first_name = trim($_POST['first_name'] ?? '');
     $last_name  = trim($_POST['last_name'] ?? '');
     $email      = trim($_POST['email'] ?? '');
     $password   = $_POST['password'] ?? '';
-    $role_name  = trim($_POST['role'] ?? '');
-    $terms      = isset($_POST['terms']) ? 1 : 0;
+    $confirm_password = $_POST['confirm_password'] ?? '';
+    $role_id    = trim($_POST['id'] ?? '');
 
-    // Validation
-    if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($role_name)) {
-        $_SESSION['error'] = 'All fields are required!';
-        header('Location: reg.php');
-        exit;
+    // Basic validation
+    $errors = [];
+    if (empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($confirm_password) || empty($role_id)) {
+        $errors[] = "All fields are required.";
     }
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['error'] = 'Invalid email format!';
-        header('Location: reg.php');
-        exit;
+        $errors[] = "Invalid email format.";
+    }
+    if ($password !== $confirm_password) {
+        $errors[] = "Passwords do not match.";
+    }
+    if (strlen($password) < 6) {
+        $errors[] = "Password must be at least 6 characters.";
     }
 
-    if (!$terms) {
-        $_SESSION['error'] = 'You must accept the terms!';
-        header('Location: reg.php');
-        exit;
+    // Check if email already exists
+    $stmt = $dms->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $errors[] = "Email is already registered.";
     }
+    $stmt->close();
 
-    try {
-        // Check if email already exists
-        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email LIMIT 1");
-        $stmt->execute(['email' => $email]);
-        if ($stmt->fetch()) {
-            $_SESSION['error'] = 'Email already exists!';
-            header('Location: reg.php');
+    // If no errors, insert user
+    if (empty($errors)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $dms->prepare("INSERT INTO users (first_name, last_name, email, password, role_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssi", $first_name, $last_name, $email, $hashed_password, $role_id);
+
+        if ($stmt->execute()) {
+            $_SESSION['success'] = "Registration successful. Please login.";
+            header("Location: login.php");
             exit;
+        } else {
+            $errors[] = "Registration failed: " . $stmt->error;
         }
-
-        // Look up role_id from roles table
-        $stmt = $pdo->prepare("SELECT id FROM roles WHERE name = :name LIMIT 1");
-        $stmt->execute(['name' => $role_name]);
-        $role = $stmt->fetch();
-
-        if (!$role) {
-            $_SESSION['error'] = 'Invalid role selected!';
-            header('Location: reg.php');
-            exit;
-        }
-        $role_id = $role['id'];
-
-        // Hash password
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
-        // Insert new user
-        $stmt = $pdo->prepare("
-            INSERT INTO users (first_name, last_name, email, password, role_id, terms_accepted)
-            VALUES (:first_name, :last_name, :email, :password, :role_id, :terms)
-        ");
-        $stmt->execute([
-            'first_name' => $first_name,
-            'last_name'  => $last_name,
-            'email'      => $email,
-            'password'   => $hashed_password,
-            'role_id'    => $role_id,
-            'terms'      => $terms
-        ]);
-
-        $_SESSION['success'] = 'Registration successful!';
-        header('Location: login.php');
-        exit;
-
-    } catch (PDOException $e) {
-        $_SESSION['error'] = 'Database error: ' . $e->getMessage();
-        header('Location: reg.php');
-        exit;
+        $stmt->close();
     }
 }
 ?>
@@ -144,16 +120,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
         </div>
         <div class="mb-3">
-          <select class="form-control" name="user_role" required>
-            <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="donor">Donor</option>
-            <option value="staff">Volunteer</option>
-            <option value="staff">Campaign Manager</option>
-            <option value="staff">Beneficiary</option>
-          </select>
-        </div>
-
+                    <select id="role_id " name="id" class="form-select" required>
+                        <option value="">-- Select Roles --</option>
+                        <?php while ($row = $roles->fetch_assoc()): ?>
+                            <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
         <div class="mb-3 terms-register row">
             <div class="icheck-primary col-6">
                 <input type="checkbox" id="agreeTerms" name="terms" value="agree" required>
