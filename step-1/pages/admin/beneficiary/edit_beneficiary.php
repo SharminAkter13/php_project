@@ -1,35 +1,26 @@
 <?php
-// // include('db_connect.php');
+include('config.php');
 
-// // Get ID from URL
-// $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+// Get ID from URL
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// // Fetch existing beneficiary (replace with real DB query)
-// $beneficiary = [
-//     "id" => $id,
-//     "name" => "John Doe",
-//     "email" => "john@example.com",
-//     "phone" => "01710000000",
-//     "address" => "Dhaka, Bangladesh",
-//     "needs" => "Medical support"
-// ];
-// // Example: 
-// // $result = mysqli_query($conn, "SELECT * FROM beneficiaries WHERE id=$id");
-// // $beneficiary = mysqli_fetch_assoc($result);
 
-// // Handle form submission
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $name = $_POST['beneficiary_name'];
-//     $email = $_POST['beneficiary_email'];
-//     $phone = $_POST['beneficiary_phone'];
-//     $address = $_POST['beneficiary_address'];
-//     $needs = $_POST['beneficiary_needs'];
+$result = mysqli_query($dms, "SELECT * FROM beneficiaries WHERE id=$id");
+$beneficiary = mysqli_fetch_assoc($result);
 
-//     // Example update query
-//     // mysqli_query($conn, "UPDATE beneficiaries SET name='$name', email='$email', phone='$phone', address='$address', needs='$needs' WHERE id=$id");
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['beneficiary_name'];
+    $email = $_POST['beneficiary_email'];
+    $phone = $_POST['beneficiary_phone'];
+    $address = $_POST['beneficiary_address'];
+    $needs = $_POST['beneficiary_needs'];
 
-//     echo "<div class='alert alert-success text-center'>Beneficiary updated successfully!</div>";
-// }
+    // Example update query
+    mysqli_query($dms, "UPDATE beneficiaries SET name='$name', email='$email', phone='$phone', address='$address', required_support='$needs' WHERE id=$id");
+
+    echo "<div class='alert alert-success text-center'>Beneficiary updated successfully!</div>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

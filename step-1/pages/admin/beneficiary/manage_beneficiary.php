@@ -15,7 +15,7 @@ if ($result) {
 // Delete action
 if (isset($_GET['delete'])) {
     $deleteId = intval($_GET['delete']);
-    mysqli_query($conn, "DELETE FROM beneficiaries WHERE id=$deleteId");
+    mysqli_query($dms, "DELETE FROM beneficiaries WHERE id=$deleteId");
     echo "<div class='alert alert-success text-center'>Beneficiary ID $deleteId deleted successfully!</div>";
 }
 ?>
@@ -24,7 +24,7 @@ if (isset($_GET['delete'])) {
 
 
 
-<!-- Add Users -->
+<!-- Beneficiaries Management -->
 
 <div class="content-wrapper" style="min-height: 2838.44px;">
     <!-- Content Header (Page header) -->
