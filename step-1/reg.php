@@ -101,7 +101,7 @@ if (isset($_POST['submit'])) {
     <div class="card-body">
       <p class="login-box-msg">Create your account</p>
 
-      <form action="login.php" method="post">
+      <form action="" method="post">
         <div class="row">
           <div class="col-md-6 mb-3">
             <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
@@ -116,11 +116,11 @@ if (isset($_POST['submit'])) {
         <div class="mb-3">
           <input type="password" class="form-control" name="password" placeholder="Password" required>
         </div>
-        <div class="mb-3">
+        <div class=" mb-3">
           <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
         </div>
-        <div class="mb-3">
-                    <select id="role_id " name="id" class="form-select" required>
+          <div class=" mb-3">
+                    <select id="role_id " name="id" class="form-control" required>
                         <option value="">-- Select Roles --</option>
                         <?php while ($row = $roles->fetch_assoc()): ?>
                             <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
@@ -135,7 +135,7 @@ if (isset($_POST['submit'])) {
                 </label>
             </div>
             <div class="col-6 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary" style="width: 150px;">Register</button>
+                <button type="submit" name="submit" class="btn btn-primary" style="width: 150px;">Register</button>
             </div>
         </div>
 
