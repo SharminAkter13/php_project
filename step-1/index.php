@@ -83,7 +83,7 @@
         </div>
     </div>
     <section class="top-bg">
-      <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="assets/img/img/bg.mp4" type="video/mp4" /></video>
+      <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="assets/img/img/top-vd.mp4" type="video/mp4" /></video>
         <div class="masthead">
             <div class="masthead-content text-white">
                 <div class="container-fluid px-4 px-lg-0">
