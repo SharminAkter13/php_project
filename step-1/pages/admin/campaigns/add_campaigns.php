@@ -20,24 +20,24 @@ if (isset($_POST['submit'])) {
     $goal_amount = (float)$_POST['goal_amount'];
     $start_date = $_POST['start_date'];
     $end_date = !empty($_POST['end_date']) ? $_POST['end_date'] : null;
-    $event_id = (int)$_POST['event_id'];
+    $event_id = $_POST['event_id'];
 
     // Handle file upload
-    $image_path = null;
-    if (!empty($_FILES['image']['name'])) {
+    $file_path = null;
+    if (!empty($_FILES['file']['name'])) {
         $target_dir = "uploads/";
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0777, true);
         }
-        $image_path = $target_dir . basename($_FILES["image"]["name"]);
-        if (!move_uploaded_file($_FILES["image"]["tmp_name"], $image_path)) {
+        $file_path = $target_dir . basename($_FILES["file"]["name"]);
+        if (!move_uploaded_file($_FILES["file"]["tmp_name"], $file_path)) {
             $message = "❌ Error uploading file.";
         }
     }
 
     if (empty($message)) {
         $query = "INSERT INTO campaigns 
-                  (name, descriptions, goal_amount, start_date, end_date, event_id, image) 
+                  (name, descriptions, goal_amount, start_date, end_date, event_id, file) 
                   VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($dms, $query);
 
@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
                 $start_date,
                 $end_date,
                 $event_id,
-                $image_path
+                $file_path
             );
 
             if (mysqli_stmt_execute($stmt)) {
@@ -143,8 +143,8 @@ mysqli_close($dms);
                             <input type="date" class="form-control" id="endDate" name="end_date">
                         </div>
                         <div class="col-md-12">
-                            <label for="campaignImage" class="form-label">Campaign Image</label>
-                            <input class="form-control" type="file" id="campaignImage" name="image">
+                            <label for="campaignfile" class="form-label">Campaign Image</label>
+                            <input class="form-control" type="file" id="campaignfile" name="file">
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary w-100">Add Campaign</button>
