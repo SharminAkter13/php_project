@@ -157,7 +157,7 @@ if ($result) {
                                         <td><?= htmlspecialchars($b['email']) ?></td>
                                         <td><?= htmlspecialchars($b['phone']) ?></td>
                                         <td><?= htmlspecialchars($b['address']) ?></td>
-                                        <td><?= htmlspecialchars($b['required_support']) ?></td>
+                                        <td ><?= htmlspecialchars($b['required_support']) ?></td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-warning edit-btn"
                                                 data-bs-toggle="modal" data-bs-target="#editBeneficiaryModal"
