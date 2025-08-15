@@ -1,22 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beneficiary Reports - Donation Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+<?php
+// Database connection
+include('config.php');
 
+// Fetch all beneficiaries from the DB
+$result = mysqli_query($dms, "SELECT * FROM beneficiaries ORDER BY id DESC");
+$beneficiaries = [];
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $beneficiaries[] = $row;
+    }
+}
+$total_beneficiaries = count($beneficiaries);
+?>
 
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            border-radius: 0.75rem;
+        }
+        .fw-bold {
+            font-weight: 700 !important;
+        }
+    </style>
+<!-- Add Users -->
+
+<div class="content-wrapper" style="min-height: 2838.44px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Users Interface</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+              <li class="breadcrumb-item active">Add Users</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header ">
+          <h3 class="card-title">Add Users</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-9 offset-md-3">
+        <!-- Assuming this is a content area within a larger layout, adjusted to fill screen for standalone demo -->
+        <div class="col-md-10 offset-md-1">
 
             <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
                 <h3 class="fw-bold text-primary">Beneficiary Reports</h3>
                 <button class="btn btn-success"><i class="bi bi-download"></i> Export Report</button>
             </div>
@@ -25,27 +80,33 @@
             <div class="row g-3 mb-4">
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <h6 class="text-muted">Total Beneficiaries</h6>
-                            <h4 class="fw-bold">256</h4>
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Total Beneficiaries</h6>
+                                <h4 class="fw-bold"><?= $total_beneficiaries ?></h4>
+                            </div>
                             <i class="bi bi-people text-primary fs-3"></i>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <h6 class="text-muted">Total Donations Given</h6>
-                            <h4 class="fw-bold">$85,430</h4>
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Total Donations Given</h6>
+                                <h4 class="fw-bold">$0.00</h4> <!-- Placeholder -->
+                            </div>
                             <i class="bi bi-cash-stack text-success fs-3"></i>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <h6 class="text-muted">Active Programs</h6>
-                            <h4 class="fw-bold">12</h4>
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Active Programs</h6>
+                                <h4 class="fw-bold">N/A</h4> <!-- Placeholder -->
+                            </div>
                             <i class="bi bi-clipboard-data text-warning fs-3"></i>
                         </div>
                     </div>
@@ -62,7 +123,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Program</label>
-                            <select class="form-select">
+                            <select class="form-control">
                                 <option value="">All</option>
                                 <option>Education Support</option>
                                 <option>Medical Aid</option>
@@ -89,45 +150,46 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Program</th>
+                                <th>Needs</th>
                                 <th>Donation Amount</th>
                                 <th>Date Provided</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Rahim Uddin</td>
-                                <td>Food Distribution</td>
-                                <td>$100</td>
-                                <td>2025-07-10</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Ayesha Begum</td>
-                                <td>Medical Aid</td>
-                                <td>$250</td>
-                                <td>2025-07-15</td>
-                                <td><span class="badge bg-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Karim Ali</td>
-                                <td>Education Support</td>
-                                <td>$500</td>
-                                <td>2025-07-20</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                            </tr>
+                            <?php if (empty($beneficiaries)): ?>
+                                <tr>
+                                    <td colspan="6" class="text-center">No beneficiaries found.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($beneficiaries as $index => $b): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($b['id']) ?></td>
+                                        <td><?= htmlspecialchars($b['name']) ?></td>
+                                        <td><?= htmlspecialchars($b['required_support']) ?></td>
+                                        <td>$0.00</td> <!-- Placeholder -->
+                                        <td>N/A</td> <!-- Placeholder -->
+                                        <td><span class="badge bg-secondary">Pending</span></td> <!-- Placeholder -->
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+        </div>
+        <!-- /.card-body -->
+       
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- ./Add users -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
