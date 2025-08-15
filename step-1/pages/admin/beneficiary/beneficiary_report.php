@@ -1,8 +1,6 @@
 <?php
-// Database connection
 include('config.php');
 
-// Fetch all beneficiaries from the DB
 $result = mysqli_query($dms, "SELECT * FROM beneficiaries ORDER BY id DESC");
 $beneficiaries = [];
 if ($result) {
@@ -12,6 +10,8 @@ if ($result) {
 }
 $total_beneficiaries = count($beneficiaries);
 ?>
+
+
 
     <style>
         body {
@@ -26,7 +26,7 @@ $total_beneficiaries = count($beneficiaries);
             font-weight: 700 !important;
         }
     </style>
-<!-- Add Users -->
+<!-- Beneficiariers Report Start -->
 
 <div class="content-wrapper" style="min-height: 2838.44px;">
     <!-- Content Header (Page header) -->
@@ -67,7 +67,6 @@ $total_beneficiaries = count($beneficiaries);
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Assuming this is a content area within a larger layout, adjusted to fill screen for standalone demo -->
         <div class="col-md-10 offset-md-1">
 
             <!-- Page Header -->
@@ -189,7 +188,7 @@ $total_beneficiaries = count($beneficiaries);
     </section>
     <!-- /.content -->
   </div>
-  <!-- ./Add users -->
+<!-- Beneficiariers Report End -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
