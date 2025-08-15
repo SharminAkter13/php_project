@@ -1,10 +1,48 @@
+<?php
+session_start();
+require 'config.php'; // contains $dms = new mysqli(...);
+
+$errors = [];
+
+if (isset($_POST['submit'])) {
+    // Sanitize input
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    // Basic validation
+    if (empty($email) || empty($password)) {
+        $errors[] = "Please enter both email and password.";
+    }
+
+    if (empty($errors)) {
+        // Prepare and execute the query to find the user by email
+        $stmt = $dms->prepare("SELECT id, password FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+
+        // Verify if a user was found and the password is correct
+        if ($user && password_verify($password, $user['password'])) {
+            // Login successful
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_email'] = $email;
+            header("Location: home.php");
+            exit;
+        } else {
+            $errors[] = "Invalid email or password.";
+        }
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DonorHub  | Log in </title>
+  <title>DonorHub | Log in </title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -25,9 +63,19 @@
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="home.php" method="post">
+      <?php
+      if (!empty($errors)) {
+          echo '<div class="alert alert-danger">';
+          foreach ($errors as $error) {
+              echo "<div>$error</div>";
+          }
+          echo '</div>';
+      }
+      ?>
+
+      <form action="" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="email" class="form-control" placeholder="Email" name="email" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -35,7 +83,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" name="password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -53,9 +101,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <a href="home.php">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-            </a>
+            <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
