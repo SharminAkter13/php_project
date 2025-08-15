@@ -1,226 +1,234 @@
 <?php
-// // --- DB connection ---
-// $mysqli = new mysqli('localhost', 'root', '', 'donation_system');
-// if ($mysqli->connect_errno) {
-//     die("Failed to connect to MySQL: " . $mysqli->connect_error);
-// }
+include('config.php');
 
-// // --- Handle form submit (Add/Edit) ---
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $pledge_id = $_POST['pledge_id'] ?? '';
-//     $donor_id = $_POST['donor_id'];
-//     $campaign_id = $_POST['campaign_id'];
-//     $pledge_amount = $_POST['pledge_amount'];
-//     $pledge_date = $_POST['pledge_date'];
-//     $expected_date = $_POST['expected_date'];
-//     $status = $_POST['status'];
-//     $fulfilled_amount = $_POST['fulfilled_amount'] ?? 0;
-//     $notes = $_POST['notes'] ?? '';
+if (isset($_POST["btnDelete"])) {
+    $u_id = $_POST["txtId"] ?? null;
 
-//     if ($pledge_id) {
-//         // Update existing pledge
-//         $stmt = $mysqli->prepare("UPDATE pledges SET donor_id=?, campaign_id=?, pledge_amount=?, pledge_date=?, expected_date=?, status=?, fulfilled_amount=?, notes=? WHERE pledge_id=?");
-//         $stmt->bind_param("iiddssddi", $donor_id, $campaign_id, $pledge_amount, $pledge_date, $expected_date, $status, $fulfilled_amount, $notes, $pledge_id);
-//         $stmt->execute();
-//         $stmt->close();
-//     } else {
-//         // Insert new pledge
-//         $stmt = $mysqli->prepare("INSERT INTO pledges (donor_id, campaign_id, pledge_amount, pledge_date, expected_date, status, fulfilled_amount, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-//         $stmt->bind_param("iiddssds", $donor_id, $campaign_id, $pledge_amount, $pledge_date, $expected_date, $status, $fulfilled_amount, $notes);
-//         $stmt->execute();
-//         $stmt->close();
-//     }
-//     header("Location: manage_pledges.php");
-//     exit;
-// }
-
-// // --- Fetch all pledges ---
-// $query = "SELECT p.pledge_id, d.donor_name, c.campaign_name, p.pledge_amount, p.pledge_date, p.expected_date, p.status, p.fulfilled_amount, p.notes, p.donor_id, p.campaign_id
-//           FROM pledges p
-//           JOIN donors d ON p.donor_id = d.donor_id
-//           JOIN campaigns c ON p.campaign_id = c.campaign_id
-//           ORDER BY p.pledge_date DESC";
-// $result = $mysqli->query($query);
-
-// // --- Fetch donors and campaigns for dropdowns ---
-// $donors = $mysqli->query("SELECT donor_id, donor_name FROM donors ORDER BY donor_name");
-// $campaigns = $mysqli->query("SELECT campaign_id, campaign_name FROM campaigns ORDER BY campaign_name");
+    if ($u_id) {
+        $dms->query("DELETE FROM users WHERE id='$u_id'");
+        echo "<div class='alert alert-success'>User deleted successfully</div>";
+    } else {
+        echo "<div class='alert alert-danger'>No user ID provided</div>";
+    }
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Manage Pledges</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Custom Styles (if any) -->
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .content-wrapper {
+            padding: 20px;
+        }
+        .card-header .card-title {
+            float: none;
+        }
+        .card-tools {
+            float: right;
+        }
+    </style>
 </head>
 <body>
-  <div class="container my-4">
-    <h1 class="mb-4">Pledge Management</h1>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Manage Users</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Manage Users</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Button trigger modal -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#pledgeModal" id="addPledgeBtn">
-      + Add Pledge
-    </button>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Manage Users</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
 
-    <!-- Pledges Table -->
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Donor</th>
-            <th>Campaign</th>
-            <th>Pledge Amount</th>
-            <th>Pledge Date</th>
-            <th>Expected Date</th>
-            <th>Status</th>
-            <th>Fulfilled Amount</th>
-            <th>Notes</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php while ($row = $result->fetch_assoc()): ?>
-            <tr data-pledge='<?php echo json_encode($row); ?>'>
-              <td><?= htmlspecialchars($row['donor_name']) ?></td>
-              <td><?= htmlspecialchars($row['campaign_name']) ?></td>
-              <td>$<?= number_format($row['pledge_amount'], 2) ?></td>
-              <td><?= htmlspecialchars($row['pledge_date']) ?></td>
-              <td><?= htmlspecialchars($row['expected_date']) ?></td>
-              <td>
-                <?php
-                  $status = $row['status'];
-                  $badgeClass = match($status) {
-                    'Pending' => 'warning text-dark',
-                    'Completed' => 'success',
-                    'Cancelled' => 'danger',
-                    default => 'secondary',
-                  };
-                ?>
-                <span class="badge bg-<?= $badgeClass ?>"><?= $status ?></span>
-              </td>
-              <td>$<?= number_format($row['fulfilled_amount'], 2) ?></td>
-              <td><?= nl2br(htmlspecialchars($row['notes'])) ?></td>
-              <td>
-                <button class="btn btn-sm btn-warning edit-btn">Edit</button>
-                <a href="delete_pledge.php?id=<?= $row['pledge_id'] ?>" onclick="return confirm('Are you sure to delete this pledge?');" class="btn btn-sm btn-danger">Delete</a>
-              </td>
-            </tr>
-          <?php endwhile; ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
+            <div class="card-body">
+                <table class="table table-hover table table-light table-striped">
+                  <thead class="bg-info text-white">
+                        <tr>
+                            <th>#ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $users = $dms->query("SELECT * FROM users");
+                        while (list($id, $fname, $lname, $email) = $users->fetch_row()) {
+                            echo "<tr>
+                                <td>$id</td>
+                                <td>$fname</td>
+                                <td>$lname</td>
+                                <td>$email</td>
+                                <td class='d-flex justify-content-center align-items-center'>
+                                    <button type='button' class='btn btn-info btn-sm me-2' data-bs-toggle='modal' data-bs-target='#userViewModal'
+                                        data-id='$id'
+                                        data-fname='$fname'
+                                        data-lname='$lname'
+                                        data-email='$email'
+                                        title='View User'>
+                                        <i class='fas fa-eye'></i>
+                                    </button>
 
-  <!-- Pledge Modal -->
-  <div class="modal fade" id="pledgeModal" tabindex="-1" aria-labelledby="pledgeModalLabel" aria-hidden="true">
+                                    <!-- Delete Button - now opens confirmation modal -->
+                                    <button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='$id' title='Delete User'>
+                                        <i class='fas fa-trash-alt'></i>
+                                    </button>
+                                    
+                                    <!-- This form is now submitted by the modal's JS -->
+                                    <form id='deleteForm-$id' action='home.php?page=2' method='post' class='me-2' style='display:none;'>
+                                        <input type='hidden' name='txtId' value='$id'>
+                                        <button type='submit' name='btnDelete'></button>
+                                    </form>
+
+                                    <form action='home.php?page=3' method='post' data-bs-toggle='tooltip' title='Edit User'>
+                                        <input type='hidden' name='id' value='$id'>
+                                        <button type='submit' name='btnEdit' class='btn btn-warning btn-sm'>
+                                            <i class='fas fa-edit'></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-right">
+                    <li class="page-item"><a class="page-link" href="#">«</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">»</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- View User Modal -->
+<div class="modal fade" id="userViewModal" tabindex="-1" aria-labelledby="userViewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <form id="pledgeForm" class="modal-content" method="POST" action="manage_pledges.php">
-        <div class="modal-header">
-          <h5 class="modal-title" id="pledgeModalLabel">Add Pledge</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userViewModalLabel">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> <span id="view-id"></span></p>
+                <p><strong>First Name:</strong> <span id="view-fname"></span></p>
+                <p><strong>Last Name:</strong> <span id="view-lname"></span></p>
+                <p><strong>Email:</strong> <span id="view-email"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <input type="hidden" name="pledge_id" id="pledge_id" />
-
-          <div class="mb-3">
-            <label for="donor_id" class="form-label">Donor</label>
-            <select name="donor_id" id="donor_id" class="form-select" required>
-              <option value="" disabled selected>Select Donor</option>
-              <?php while ($donor = $donors->fetch_assoc()): ?>
-                <option value="<?= $donor['donor_id'] ?>"><?= htmlspecialchars($donor['donor_name']) ?></option>
-              <?php endwhile; ?>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label for="campaign_id" class="form-label">Campaign</label>
-            <select name="campaign_id" id="campaign_id" class="form-select" required>
-              <option value="" disabled selected>Select Campaign</option>
-              <?php while ($campaign = $campaigns->fetch_assoc()): ?>
-                <option value="<?= $campaign['campaign_id'] ?>"><?= htmlspecialchars($campaign['campaign_name']) ?></option>
-              <?php endwhile; ?>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label for="pledge_amount" class="form-label">Pledge Amount ($)</label>
-            <input type="number" step="0.01" min="0" class="form-control" id="pledge_amount" name="pledge_amount" required />
-          </div>
-
-          <div class="mb-3">
-            <label for="pledge_date" class="form-label">Pledge Date</label>
-            <input type="date" class="form-control" id="pledge_date" name="pledge_date" required />
-          </div>
-
-          <div class="mb-3">
-            <label for="expected_date" class="form-label">Expected Fulfillment Date</label>
-            <input type="date" class="form-control" id="expected_date" name="expected_date" required />
-          </div>
-
-          <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
-            <select id="status" name="status" class="form-select" required>
-              <option value="Pending" selected>Pending</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label for="fulfilled_amount" class="form-label">Fulfilled Amount ($)</label>
-            <input type="number" step="0.01" min="0" class="form-control" id="fulfilled_amount" name="fulfilled_amount" value="0" />
-          </div>
-
-          <div class="mb-3">
-            <label for="notes" class="form-label">Notes</label>
-            <textarea class="form-control" id="notes" name="notes" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Pledge</button>
-        </div>
-      </form>
     </div>
-  </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const pledgeModal = new bootstrap.Modal(document.getElementById('pledgeModal'));
-    const pledgeForm = document.getElementById('pledgeForm');
-    const pledgeModalLabel = document.getElementById('pledgeModalLabel');
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this user? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    // Add Pledge button resets form
-    document.getElementById('addPledgeBtn').addEventListener('click', () => {
-      pledgeModalLabel.textContent = 'Add Pledge';
-      pledgeForm.reset();
-      document.getElementById('pledge_id').value = '';
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- Initialize Tooltips & Modal -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Edit buttons fill form
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        const row = e.target.closest('tr');
-        const pledge = JSON.parse(row.getAttribute('data-pledge'));
+    // View Modal
+    var userViewModal = document.getElementById('userViewModal');
+    if (userViewModal) {
+        userViewModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            document.getElementById('view-id').textContent = button.getAttribute('data-id');
+            document.getElementById('view-fname').textContent = button.getAttribute('data-fname');
+            document.getElementById('view-lname').textContent = button.getAttribute('data-lname');
+            document.getElementById('view-email').textContent = button.getAttribute('data-email');
+        });
+    }
 
-        pledgeModalLabel.textContent = 'Edit Pledge';
+    // Delete Confirmation Modal
+    var deleteConfirmModal = document.getElementById('deleteConfirmModal');
+    if (deleteConfirmModal) {
+        let userIdToDelete = null;
 
-        document.getElementById('pledge_id').value = pledge.pledge_id;
-        document.getElementById('donor_id').value = pledge.donor_id;
-        document.getElementById('campaign_id').value = pledge.campaign_id;
-        document.getElementById('pledge_amount').value = pledge.pledge_amount;
-        document.getElementById('pledge_date').value = pledge.pledge_date;
-        document.getElementById('expected_date').value = pledge.expected_date;
-        document.getElementById('status').value = pledge.status;
-        document.getElementById('fulfilled_amount').value = pledge.fulfilled_amount;
-        document.getElementById('notes').value = pledge.notes;
+        // When the modal is shown, get the user ID from the button that triggered it
+        deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            userIdToDelete = button.getAttribute('data-id');
+        });
 
-        pledgeModal.show();
-      });
-    });
-  </script>
+        // When the 'Delete' button inside the modal is clicked, submit the correct form
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (userIdToDelete) {
+                const form = document.getElementById(`deleteForm-${userIdToDelete}`);
+                if (form) {
+                    form.submit();
+                }
+            }
+        });
+    }
+});
+</script>
+
 </body>
 </html>
