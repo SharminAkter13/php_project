@@ -5,8 +5,9 @@ if (isset($_POST["btnDelete"])) {
     $u_id = $_POST["txtId"] ?? null;
 
     if ($u_id) {
+        // Corrected table name to 'donations'
         $dms->query("DELETE FROM donations WHERE id='$u_id'");
-        echo "<div class='alert alert-success'>donation deleted successfully</div>";
+        echo "<div class='alert alert-success'>Donation deleted successfully</div>";
     } else {
         echo "<div class='alert alert-danger'>No donation ID provided</div>";
     }
@@ -76,53 +77,86 @@ if (isset($_POST["btnDelete"])) {
 
             <div class="card-body">
                 <table class="table table-hover table table-light table-striped">
-                  <thead class="bg-info text-white">
+                    <thead class="bg-info text-white">
                         <tr>
                             <th>#ID</th>
-                            <th>Campaign Name</th>
-                            <th> Amount</th>
+                            <th>Pledge Name</th>
+                            <th>Donor Name</th>
+                            <th>Fund Name</th>
+                            <th>Payment Method</th>
+                            <th>Amount</th>
                             <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $donations = $dms->query("SELECT * FROM donations");
-                        while (list($id, $cname, $amount, $date,$payment_id) = $donations->fetch_row()) {
-                            echo "<tr>
-                                <td>$id</td>
-                                <td>$cname</td>
-                                <td>$amount</td>
-                                <td>$date</td>
-                                <td class='d-flex justify-content-center align-items-center'>
-                                    <button type='button' class='btn btn-info btn-sm me-2' data-bs-toggle='modal' data-bs-target='#donationViewModal'
-                                        data-id='$id'
-                                        data-cname='$cname'
-                                        data-amount='$amount'
-                                        data-date='$date'
-                                        title='View donation'>
-                                        <i class='fas fa-eye'></i>
-                                    </button>
+                        // Check for database connection before running the query
+                        if ($dms->connect_error) {
+                            echo "<tr><td colspan='8' class='text-center text-danger'>Connection failed: " . $dms->connect_error . "</td></tr>";
+                        } else {
+                            // Updated SQL query with JOINs to fetch names from related tables
+                            // Assumes 'donations.name' is the donor's name and 'pledges.name' is the pledge/campaign name
+                            $sql = "SELECT d.id, d.name AS donor_name, d.amount, d.date,
+                                    p.name AS pledge_name,
+                                    f.name AS fund_name,
+                                    pm.type AS payment_method
+                                    FROM donations d
+                                    LEFT JOIN pledges p ON d.pledge_id = p.id
+                                    LEFT JOIN funds f ON d.fund_id = f.id
+                                    LEFT JOIN payment_methods pm ON d.payment_id = pm.id";
 
-                                    <!-- Delete Button - now opens confirmation modal -->
-                                    <button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='$id' title='Delete donation'>
-                                        <i class='fas fa-trash-alt'></i>
-                                    </button>
-                                    
-                                    <!-- This form is now submitted by the modal's JS -->
-                                    <form id='deleteForm-$id' action='home.php?page=18' method='post' class='me-2' style='display:none;'>
-                                        <input type='hidden' name='txtId' value='$id'>
-                                        <button type='submit' name='btnDelete'></button>
-                                    </form>
+                            $donations = $dms->query($sql);
 
-                                    <form action='home.php?page=3' method='post' data-bs-toggle='tooltip' title='Edit donation'>
-                                        <input type='hidden' name='id' value='$id'>
-                                        <button type='submit' name='btnEdit' class='btn btn-warning btn-sm'>
-                                            <i class='fas fa-edit'></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>";
+                            // Added error handling to check if the query was successful
+                            if (!$donations) {
+                                echo "<tr><td colspan='8' class='text-center text-danger'>Query failed: " . $dms->error . "</td></tr>";
+                            } else if ($donations->num_rows > 0) {
+                                while ($row = $donations->fetch_assoc()) {
+                                    echo "<tr>
+                                        <td>{$row['id']}</td>
+                                        <td>{$row['pledge_name']}</td>
+                                        <td>{$row['donor_name']}</td>
+                                        <td>{$row['fund_name']}</td>
+                                        <td>{$row['payment_method']}</td>
+                                        <td>{$row['amount']}</td>
+                                        <td>{$row['date']}</td>
+                                        <td class='d-flex justify-content-center align-items-center'>
+                                            <button type='button' class='btn btn-info btn-sm me-2' data-bs-toggle='modal' data-bs-target='#donationViewModal'
+                                                data-id='{$row['id']}'
+                                                data-pname='{$row['pledge_name']}'
+                                                data-donor='{$row['donor_name']}'
+                                                data-fund='{$row['fund_name']}'
+                                                data-payment='{$row['payment_method']}'
+                                                data-amount='{$row['amount']}'
+                                                data-date='{$row['date']}'
+                                                title='View donation'>
+                                                <i class='fas fa-eye'></i>
+                                            </button>
+
+                                            <!-- Delete Button - now opens confirmation modal -->
+                                            <button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='{$row['id']}' title='Delete donation'>
+                                                <i class='fas fa-trash-alt'></i>
+                                            </button>
+                                            
+                                            <!-- This form is now submitted by the modal's JS -->
+                                            <form id='deleteForm-{$row['id']}' action='home.php?page=18' method='post' class='me-2' style='display:none;'>
+                                                <input type='hidden' name='txtId' value='{$row['id']}'>
+                                                <button type='submit' name='btnDelete'></button>
+                                            </form>
+
+                                            <form action='home.php?page=3' method='post' data-bs-toggle='tooltip' title='Edit donation'>
+                                                <input type='hidden' name='id' value='{$row['id']}'>
+                                                <button type='submit' name='btnEdit' class='btn btn-warning btn-sm'>
+                                                    <i class='fas fa-edit'></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='8' class='text-center'>No donations found.</td></tr>";
+                            }
                         }
                         ?>
                     </tbody>
@@ -147,13 +181,16 @@ if (isset($_POST["btnDelete"])) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="donationViewModalLabel">donation Details</h5>
+                <h5 class="modal-title" id="donationViewModalLabel">Donation Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p><strong>ID:</strong> <span id="view-id"></span></p>
-                <p><strong>Campaign Name:</strong> <span id="view-cname"></span></p>
-                <p><strong> Amount:</strong> <span id="view-amount"></span></p>
+                <p><strong>Pledge Name:</strong> <span id="view-pname"></span></p>
+                <p><strong>Donor Name:</strong> <span id="view-donor"></span></p>
+                <p><strong>Fund Name:</strong> <span id="view-fund"></span></p>
+                <p><strong>Payment Method:</strong> <span id="view-payment"></span></p>
+                <p><strong>Amount:</strong> <span id="view-amount"></span></p>
                 <p><strong>Date:</strong> <span id="view-date"></span></p>
             </div>
             <div class="modal-footer">
@@ -200,7 +237,10 @@ document.addEventListener('DOMContentLoaded', function () {
         donationViewModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
             document.getElementById('view-id').textContent = button.getAttribute('data-id');
-            document.getElementById('view-cname').textContent = button.getAttribute('data-cname');
+            document.getElementById('view-pname').textContent = button.getAttribute('data-pname');
+            document.getElementById('view-donor').textContent = button.getAttribute('data-donor');
+            document.getElementById('view-fund').textContent = button.getAttribute('data-fund');
+            document.getElementById('view-payment').textContent = button.getAttribute('data-payment');
             document.getElementById('view-amount').textContent = button.getAttribute('data-amount');
             document.getElementById('view-date').textContent = button.getAttribute('data-date');
         });
