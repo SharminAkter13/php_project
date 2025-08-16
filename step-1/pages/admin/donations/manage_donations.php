@@ -5,10 +5,10 @@ if (isset($_POST["btnDelete"])) {
     $u_id = $_POST["txtId"] ?? null;
 
     if ($u_id) {
-        $dms->query("DELETE FROM users WHERE id='$u_id'");
-        echo "<div class='alert alert-success'>User deleted successfully</div>";
+        $dms->query("DELETE FROM donations WHERE id='$u_id'");
+        echo "<div class='alert alert-success'>donation deleted successfully</div>";
     } else {
-        echo "<div class='alert alert-danger'>No user ID provided</div>";
+        echo "<div class='alert alert-danger'>No donation ID provided</div>";
     }
 }
 ?>
@@ -17,7 +17,7 @@ if (isset($_POST["btnDelete"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Users</title>
+    <title>Manage Donations</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Font Awesome for Icons -->
@@ -46,12 +46,12 @@ if (isset($_POST["btnDelete"])) {
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Manage Users</h1>
+                    <h1>Manage Donations</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Manage Users</li>
+                        <li class="breadcrumb-item active">Manage Donations</li>
                     </ol>
                 </div>
             </div>
@@ -63,7 +63,7 @@ if (isset($_POST["btnDelete"])) {
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Manage Users</h3>
+                <h3 class="card-title">Manage Donations</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-minus"></i>
@@ -79,43 +79,43 @@ if (isset($_POST["btnDelete"])) {
                   <thead class="bg-info text-white">
                         <tr>
                             <th>#ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
+                            <th>Campaign Name</th>
+                            <th> Amount</th>
+                            <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $users = $dms->query("SELECT * FROM users");
-                        while (list($id, $fname, $lname, $email) = $users->fetch_row()) {
+                        $donations = $dms->query("SELECT * FROM donations");
+                        while (list($id, $cname, $amount, $date,$payment_id) = $donations->fetch_row()) {
                             echo "<tr>
                                 <td>$id</td>
-                                <td>$fname</td>
-                                <td>$lname</td>
-                                <td>$email</td>
+                                <td>$cname</td>
+                                <td>$amount</td>
+                                <td>$date</td>
                                 <td class='d-flex justify-content-center align-items-center'>
-                                    <button type='button' class='btn btn-info btn-sm me-2' data-bs-toggle='modal' data-bs-target='#userViewModal'
+                                    <button type='button' class='btn btn-info btn-sm me-2' data-bs-toggle='modal' data-bs-target='#donationViewModal'
                                         data-id='$id'
-                                        data-fname='$fname'
-                                        data-lname='$lname'
-                                        data-email='$email'
-                                        title='View User'>
+                                        data-cname='$cname'
+                                        data-amount='$amount'
+                                        data-date='$date'
+                                        title='View donation'>
                                         <i class='fas fa-eye'></i>
                                     </button>
 
                                     <!-- Delete Button - now opens confirmation modal -->
-                                    <button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='$id' title='Delete User'>
+                                    <button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='$id' title='Delete donation'>
                                         <i class='fas fa-trash-alt'></i>
                                     </button>
                                     
                                     <!-- This form is now submitted by the modal's JS -->
-                                    <form id='deleteForm-$id' action='home.php?page=2' method='post' class='me-2' style='display:none;'>
+                                    <form id='deleteForm-$id' action='home.php?page=18' method='post' class='me-2' style='display:none;'>
                                         <input type='hidden' name='txtId' value='$id'>
                                         <button type='submit' name='btnDelete'></button>
                                     </form>
 
-                                    <form action='home.php?page=3' method='post' data-bs-toggle='tooltip' title='Edit User'>
+                                    <form action='home.php?page=3' method='post' data-bs-toggle='tooltip' title='Edit donation'>
                                         <input type='hidden' name='id' value='$id'>
                                         <button type='submit' name='btnEdit' class='btn btn-warning btn-sm'>
                                             <i class='fas fa-edit'></i>
@@ -142,19 +142,19 @@ if (isset($_POST["btnDelete"])) {
     </section>
 </div>
 
-<!-- View User Modal -->
-<div class="modal fade" id="userViewModal" tabindex="-1" aria-labelledby="userViewModalLabel" aria-hidden="true">
+<!-- View donation Modal -->
+<div class="modal fade" id="donationViewModal" tabindex="-1" aria-labelledby="donationViewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="userViewModalLabel">User Details</h5>
+                <h5 class="modal-title" id="donationViewModalLabel">donation Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p><strong>ID:</strong> <span id="view-id"></span></p>
-                <p><strong>First Name:</strong> <span id="view-fname"></span></p>
-                <p><strong>Last Name:</strong> <span id="view-lname"></span></p>
-                <p><strong>Email:</strong> <span id="view-email"></span></p>
+                <p><strong>Campaign Name:</strong> <span id="view-cname"></span></p>
+                <p><strong> Amount:</strong> <span id="view-amount"></span></p>
+                <p><strong>Date:</strong> <span id="view-date"></span></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -172,7 +172,7 @@ if (isset($_POST["btnDelete"])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this user? This action cannot be undone.
+                Are you sure you want to delete this donation? This action cannot be undone.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -195,32 +195,32 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // View Modal
-    var userViewModal = document.getElementById('userViewModal');
-    if (userViewModal) {
-        userViewModal.addEventListener('show.bs.modal', function (event) {
+    var donationViewModal = document.getElementById('donationViewModal');
+    if (donationViewModal) {
+        donationViewModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
             document.getElementById('view-id').textContent = button.getAttribute('data-id');
-            document.getElementById('view-fname').textContent = button.getAttribute('data-fname');
-            document.getElementById('view-lname').textContent = button.getAttribute('data-lname');
-            document.getElementById('view-email').textContent = button.getAttribute('data-email');
+            document.getElementById('view-cname').textContent = button.getAttribute('data-cname');
+            document.getElementById('view-amount').textContent = button.getAttribute('data-amount');
+            document.getElementById('view-date').textContent = button.getAttribute('data-date');
         });
     }
 
     // Delete Confirmation Modal
     var deleteConfirmModal = document.getElementById('deleteConfirmModal');
     if (deleteConfirmModal) {
-        let userIdToDelete = null;
+        let donationIdToDelete = null;
 
-        // When the modal is shown, get the user ID from the button that triggered it
+        // When the modal is shown, get the donation ID from the button that triggered it
         deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            userIdToDelete = button.getAttribute('data-id');
+            donationIdToDelete = button.getAttribute('data-id');
         });
 
         // When the 'Delete' button inside the modal is clicked, submit the correct form
         document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-            if (userIdToDelete) {
-                const form = document.getElementById(`deleteForm-${userIdToDelete}`);
+            if (donationIdToDelete) {
+                const form = document.getElementById(`deleteForm-${donationIdToDelete}`);
                 if (form) {
                     form.submit();
                 }
