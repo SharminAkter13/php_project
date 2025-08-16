@@ -173,28 +173,39 @@ if ($event_result) {
                                         $eventName = $row['event_name'] ?? 'N/A';
 
                                         echo "<tr>
-                                            <td>{$row['id']}</td>
-                                            <td>{$row['name']}</td>
-                                            <td>{$row['start_date']}</td>
-                                            <td>{$row['end_date']}</td>
-                                            <td>{$statusBadge}</td>
-                                            <td>{$eventName}</td>
-                                            <td class='d-flex justify-content-center align-items-center'>
-                                                <button type='button' class='btn btn-warning btn-sm edit-btn me-2' data-bs-toggle='modal' data-bs-target='#campaignModal'
-                                                    data-id='{$row['id']}'
-                                                    data-name='{$row['name']}'
-                                                    data-start='{$row['start_date']}'
-                                                    data-end='{$row['end_date']}'
-                                                    data-status='{$row['status']}'
-                                                    data-event-id='{$row['event_id']}'
-                                                    title='Edit Campaign'>
-                                                    <i class='fas fa-edit'></i>
-                                                </button>
-                                                <button type='button' class='btn btn-danger btn-sm delete-btn' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='{$row['id']}' title='Delete Campaign'>
-                                                    <i class='fas fa-trash-alt'></i>
-                                                </button>
-                                            </td>
-                                        </tr>";
+                                                <td>{$row['id']}</td>
+                                                <td>{$row['name']}</td>
+                                                <td>{$row['start_date']}</td>
+                                                <td>{$row['end_date']}</td>
+                                                <td>{$statusBadge}</td>
+                                                <td>{$eventName}</td>
+                                                <td class='d-flex justify-content-center align-items-center'>
+                                                    <!-- View Button -->
+                                                    <button type='button' class='btn btn-info btn-sm view-btn me-2' data-bs-toggle='modal' data-bs-target='#viewCampaignModal'
+                                                        data-id='{$row['id']}'
+                                                        data-name='{$row['name']}'
+                                                        data-start='{$row['start_date']}'
+                                                        data-end='{$row['end_date']}'
+                                                        data-status='{$row['status']}'
+                                                        data-event-name='{$eventName}'
+                                                        title='View Campaign'>
+                                                        <i class='fas fa-eye'></i>
+                                                    </button>
+                                                    <button type='button' class='btn btn-warning btn-sm edit-btn me-2' data-bs-toggle='modal' data-bs-target='#campaignModal'
+                                                        data-id='{$row['id']}'
+                                                        data-name='{$row['name']}'
+                                                        data-start='{$row['start_date']}'
+                                                        data-end='{$row['end_date']}'
+                                                        data-status='{$row['status']}'
+                                                        data-event-id='{$row['event_id']}'
+                                                        title='Edit Campaign'>
+                                                        <i class='fas fa-edit'></i>
+                                                    </button>
+                                                    <button type='button' class='btn btn-danger btn-sm delete-btn' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='{$row['id']}' title='Delete Campaign'>
+                                                        <i class='fas fa-trash-alt'></i>
+                                                    </button>
+                                                </td>
+                                            </tr>";
                                     }
                                 } else {
                                     echo "<tr><td colspan='7' class='text-center'>No campaigns found.</td></tr>";
@@ -269,6 +280,41 @@ if ($event_result) {
     </div>
 </div>
 
+<!-- View Campaign Modal -->
+<div class="modal fade" id="viewCampaignModal" tabindex="-1" aria-labelledby="viewCampaignModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewCampaignModalLabel">Campaign Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <strong>ID:</strong> <span id="viewId"></span>
+                </div>
+                <div class="mb-3">
+                    <strong>Campaign Name:</strong> <span id="viewName"></span>
+                </div>
+                <div class="mb-3">
+                    <strong>Start Date:</strong> <span id="viewStart"></span>
+                </div>
+                <div class="mb-3">
+                    <strong>End Date:</strong> <span id="viewEnd"></span>
+                </div>
+                <div class="mb-3">
+                    <strong>Status:</strong> <span id="viewStatus"></span>
+                </div>
+                <div class="mb-3">
+                    <strong>Event Name:</strong> <span id="viewEventName"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -332,6 +378,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 campaignIdInput.value = '';
                 document.getElementById('eventId').value = ''; // Reset the dropdown
             }
+        });
+    }
+
+    // New JavaScript for the View Modal
+    const viewCampaignModal = document.getElementById('viewCampaignModal');
+    if (viewCampaignModal) {
+        viewCampaignModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            // Populate view modal with data from the button's data attributes
+            document.getElementById('viewId').textContent = button.getAttribute('data-id');
+            document.getElementById('viewName').textContent = button.getAttribute('data-name');
+            document.getElementById('viewStart').textContent = button.getAttribute('data-start');
+            document.getElementById('viewEnd').textContent = button.getAttribute('data-end');
+            
+            // Recreate the status badge for the view modal
+            const status = button.getAttribute('data-status');
+            const statusBadgeSpan = document.createElement('span');
+            statusBadgeSpan.textContent = status;
+            statusBadgeSpan.classList.add('badge');
+            if (status === 'Active') {
+                statusBadgeSpan.classList.add('bg-success');
+            } else if (status === 'Inactive') {
+                statusBadgeSpan.classList.add('bg-danger');
+            } else {
+                statusBadgeSpan.classList.add('bg-primary');
+            }
+            document.getElementById('viewStatus').innerHTML = ''; // Clear previous content
+            document.getElementById('viewStatus').appendChild(statusBadgeSpan);
+
+            document.getElementById('viewEventName').textContent = button.getAttribute('data-event-name');
         });
     }
 

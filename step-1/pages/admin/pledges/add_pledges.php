@@ -1,9 +1,6 @@
 <?php
-// Database connection (adjust your credentials)
-$mysqli = new mysqli('localhost', 'root', '', 'donation_system');
-if ($mysqli->connect_errno) {
-    die("Failed to connect to MySQL: " . $mysqli->connect_error);
-}
+include('config.php');
+
 
 $errors = [];
 $success = false;
