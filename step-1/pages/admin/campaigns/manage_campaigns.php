@@ -2,8 +2,9 @@
 // Include the database configuration file
 include('config.php');
 
-// Define the table name for campaigns
-$tableName = "campaigns";
+// Define the table names
+$campaignsTable = "campaigns";
+$eventsTable = "events"; // Assuming your events table is named 'events'
 
 // --- CRUD Operations ---
 
@@ -13,12 +14,18 @@ if (isset($_POST['btnSave'])) {
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
     $status = $_POST['status'];
-    $fundsRaised = $_POST['fundsRaised'];
-    $donors = $_POST['donors'];
+    $eventId = $_POST['eventId']; // Changed from 'events' to 'eventId' for clarity
 
-    $sql = "INSERT INTO $tableName (name, start_date, end_date, status, funds_raised, donors) VALUES ('$name', '$startDate', '$endDate', '$status', '$fundsRaised', '$donors')";
-    $dms->query($sql);
-    echo "<div class='alert alert-success'>Campaign added successfully.</div>";
+    // Use prepared statements to prevent SQL injection
+    $stmt = $dms->prepare("INSERT INTO $campaignsTable (name, start_date, end_date, status, event_id) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssi", $name, $startDate, $endDate, $status, $eventId);
+    
+    if ($stmt->execute()) {
+        echo "<div class='alert alert-success'>Campaign added successfully.</div>";
+    } else {
+        echo "<div class='alert alert-danger'>Error adding campaign: " . $stmt->error . "</div>";
+    }
+    $stmt->close();
 }
 
 // Update an existing campaign
@@ -28,22 +35,45 @@ if (isset($_POST['btnEdit'])) {
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
     $status = $_POST['status'];
-    $fundsRaised = $_POST['fundsRaised'];
-    $donors = $_POST['donors'];
+    $eventId = $_POST['eventId']; // Changed from 'events' to 'eventId' for clarity
 
-    $sql = "UPDATE $tableName SET name='$name', start_date='$startDate', end_date='$endDate', status='$status', funds_raised='$fundsRaised', donors='$donors' WHERE id='$id'";
-    $dms->query($sql);
-    echo "<div class='alert alert-success'>Campaign updated successfully.</div>";
+    // Use prepared statements to prevent SQL injection
+    $stmt = $dms->prepare("UPDATE $campaignsTable SET name=?, start_date=?, end_date=?, status=?, event_id=? WHERE id=?");
+    $stmt->bind_param("ssssii", $name, $startDate, $endDate, $status, $eventId, $id);
+    
+    if ($stmt->execute()) {
+        echo "<div class='alert alert-success'>Campaign updated successfully.</div>";
+    } else {
+        echo "<div class='alert alert-danger'>Error updating campaign: " . $stmt->error . "</div>";
+    }
+    $stmt->close();
 }
 
 // Delete a campaign
 if (isset($_POST['btnDelete'])) {
     $id = $_POST['txtId'];
-    $sql = "DELETE FROM $tableName WHERE id='$id'";
-    $dms->query($sql);
-    echo "<div class='alert alert-success'>Campaign deleted successfully.</div>";
+    
+    // Use prepared statements for safe deletion
+    $stmt = $dms->prepare("DELETE FROM $campaignsTable WHERE id=?");
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        echo "<div class='alert alert-success'>Campaign deleted successfully.</div>";
+    } else {
+        echo "<div class='alert alert-danger'>Error deleting campaign: " . $stmt->error . "</div>";
+    }
+    $stmt->close();
 }
 
+// Fetch all events for the dropdown menu
+$events = [];
+$event_sql = "SELECT id, name FROM $eventsTable";
+$event_result = $dms->query($event_sql);
+if ($event_result) {
+    while ($row = $event_result->fetch_assoc()) {
+        $events[] = $row;
+    }
+}
 ?>
 <!DOCTYPE ahtml>
 <html lang="en">
@@ -114,8 +144,7 @@ if (isset($_POST['btnDelete'])) {
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Status</th>
-                                <th>Funds Raised</th>
-                                <th>Donors</th>
+                                <th>Event Name</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -123,21 +152,25 @@ if (isset($_POST['btnDelete'])) {
                             <?php
                             // Check for database connection before running the query
                             if ($dms->connect_error) {
-                                echo "<tr><td colspan='8' class='text-center text-danger'>Connection failed: " . $dms->connect_error . "</td></tr>";
+                                echo "<tr><td colspan='7' class='text-center text-danger'>Connection failed: " . $dms->connect_error . "</td></tr>";
                             } else {
-                                // Fetch all campaigns from the database
-                                $sql = "SELECT id, name, start_date, end_date, status, funds_raised, donors FROM $tableName";
+                                // Fetch all campaigns with their associated event names using a JOIN
+                                $sql = "SELECT c.id, c.name, c.start_date, c.end_date, c.status, e.name AS event_name, c.event_id 
+                                        FROM $campaignsTable AS c
+                                        LEFT JOIN $eventsTable AS e ON c.event_id = e.id";
                                 $campaigns = $dms->query($sql);
 
                                 // Added error handling to check if the query was successful
                                 if (!$campaigns) {
-                                    echo "<tr><td colspan='8' class='text-center text-danger'>Query failed: " . $dms->error . "</td></tr>";
+                                    echo "<tr><td colspan='7' class='text-center text-danger'>Query failed: " . $dms->error . "</td></tr>";
                                 } else if ($campaigns->num_rows > 0) {
                                     while ($row = $campaigns->fetch_assoc()) {
                                         // Helper: Create badge HTML based on status
-                                        $statusMap = ['Active' => 'success', 'Completed' => 'secondary', 'Pending' => 'warning'];
+                                        $statusMap = ['Active' => 'success', 'Inactive' => 'danger'];
                                         $badgeClass = $statusMap[$row['status']] ?? 'primary';
                                         $statusBadge = "<span class='badge bg-{$badgeClass}'>{$row['status']}</span>";
+                                        
+                                        $eventName = $row['event_name'] ?? 'N/A';
 
                                         echo "<tr>
                                             <td>{$row['id']}</td>
@@ -145,8 +178,7 @@ if (isset($_POST['btnDelete'])) {
                                             <td>{$row['start_date']}</td>
                                             <td>{$row['end_date']}</td>
                                             <td>{$statusBadge}</td>
-                                            <td>$" . number_format($row['funds_raised'], 2) . "</td>
-                                            <td>{$row['donors']}</td>
+                                            <td>{$eventName}</td>
                                             <td class='d-flex justify-content-center align-items-center'>
                                                 <button type='button' class='btn btn-warning btn-sm edit-btn me-2' data-bs-toggle='modal' data-bs-target='#campaignModal'
                                                     data-id='{$row['id']}'
@@ -154,8 +186,7 @@ if (isset($_POST['btnDelete'])) {
                                                     data-start='{$row['start_date']}'
                                                     data-end='{$row['end_date']}'
                                                     data-status='{$row['status']}'
-                                                    data-funds='{$row['funds_raised']}'
-                                                    data-donors='{$row['donors']}'
+                                                    data-event-id='{$row['event_id']}'
                                                     title='Edit Campaign'>
                                                     <i class='fas fa-edit'></i>
                                                 </button>
@@ -166,7 +197,7 @@ if (isset($_POST['btnDelete'])) {
                                         </tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='8' class='text-center'>No campaigns found.</td></tr>";
+                                    echo "<tr><td colspan='7' class='text-center'>No campaigns found.</td></tr>";
                                 }
                             }
                             ?>
@@ -191,7 +222,6 @@ if (isset($_POST['btnDelete'])) {
 <!-- Add/Edit Campaign Modal -->
 <div class="modal fade" id="campaignModal" tabindex="-1" aria-labelledby="campaignModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <!-- The form action will be handled by JavaScript to switch between 'add' and 'edit' -->
         <form id="campaignForm" class="modal-content" method="post">
             <div class="modal-header">
                 <h5 class="modal-title" id="campaignModalLabel">Add Campaign</h5>
@@ -216,17 +246,19 @@ if (isset($_POST['btnDelete'])) {
                     <select class="form-select" id="status" name="status" required>
                         <option value="" disabled selected>Select status</option>
                         <option value="Active">Active</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Pending">Pending</option>
+                        <option value="Inactive">Inactive</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="fundsRaised" class="form-label">Funds Raised ($)</label>
-                    <input type="number" class="form-control" id="fundsRaised" name="fundsRaised" min="0" step="0.01" value="0" required />
-                </div>
-                <div class="mb-3">
-                    <label for="donors" class="form-label">Number of Donors</label>
-                    <input type="number" class="form-control" id="donors" name="donors" min="0" value="0" required />
+                    <label for="eventId" class="form-label">Event</label>
+                    <select class="form-select" id="eventId" name="eventId" required>
+                        <option value="" disabled selected>Select an event</option>
+                        <?php foreach ($events as $event) : ?>
+                            <option value="<?= htmlspecialchars($event['id']) ?>">
+                                <?= htmlspecialchars($event['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">
@@ -264,20 +296,18 @@ if (isset($_POST['btnDelete'])) {
 <!-- Initialize Tooltips & Modal -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
         new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Handle Add/Edit modal content
     const campaignModal = document.getElementById('campaignModal');
     if (campaignModal) {
         const modalTitle = document.getElementById('campaignModalLabel');
         const campaignForm = document.getElementById('campaignForm');
         const saveButton = document.getElementById('saveCampaignBtn');
         const campaignIdInput = document.getElementById('campaignId');
-
+        
         campaignModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             const isEdit = button.classList.contains('edit-btn');
@@ -293,19 +323,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('startDate').value = button.getAttribute('data-start');
                 document.getElementById('endDate').value = button.getAttribute('data-end');
                 document.getElementById('status').value = button.getAttribute('data-status');
-                document.getElementById('fundsRaised').value = button.getAttribute('data-funds');
-                document.getElementById('donors').value = button.getAttribute('data-donors');
+                document.getElementById('eventId').value = button.getAttribute('data-event-id');
             } else {
                 modalTitle.textContent = 'Add Campaign';
                 saveButton.textContent = 'Save Campaign';
                 saveButton.name = 'btnSave';
                 campaignForm.reset();
                 campaignIdInput.value = '';
+                document.getElementById('eventId').value = ''; // Reset the dropdown
             }
         });
     }
 
-    // Handle Delete modal content
     const deleteConfirmModal = document.getElementById('deleteConfirmModal');
     if (deleteConfirmModal) {
         deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
