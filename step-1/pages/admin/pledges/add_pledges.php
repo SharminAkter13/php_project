@@ -1,11 +1,10 @@
 <?php
-// include __DIR__ . '/../../../config.php';
 include('config.php');
 
 // Fetch donors
-$donors = $dms->query("SELECT id, full_name FROM donors");
+$donors = $dms->query("SELECT id, name FROM donors");
 // Fetch campaigns
-$campaigns = $dms->query("SELECT id, campaign_name FROM campaigns");
+$campaigns = $dms->query("SELECT id, name FROM campaigns");
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $name         = trim($_POST['name']);
