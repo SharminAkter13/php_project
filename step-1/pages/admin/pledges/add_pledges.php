@@ -14,14 +14,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $donor_id     = intval($_POST['donor_id']);
     $campaign_id  = intval($_POST['campaign_id']);
 
-    $stmt = $dms->prepare("INSERT INTO donations 
+    $stmt = $dms->prepare("INSERT INTO pledges 
         (name, pledge_amount, pledge_date, status, donor_id, campaign_id) 
         VALUES (?, ?, ?, ?, ?, ?)");
+        if (!$stmt) {
+    die("Prepare failed: " . $dms->error);
+}
     $stmt->bind_param("sdssii", $name, $pledge_amount, $pledge_date, $status, $donor_id, $campaign_id);
     $stmt->execute();
 
-    header("Location: manage_pledges.php"); 
-    exit;
 }
 ?>
 
