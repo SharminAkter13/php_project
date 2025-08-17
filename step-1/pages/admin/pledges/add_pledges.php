@@ -27,6 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$expected_date) $errors[] = "Please select an expected fulfillment date.";
 
     if (empty($errors)) {
+
+
+
+      .
+      
         $stmt = $mysqli->prepare("INSERT INTO pledges (donor_id, campaign_id, pledge_amount, pledge_date, expected_date, status, fulfilled_amount, notes) VALUES (?, ?, ?, ?, ?, ?, 0, ?)");
         $stmt->bind_param("iiddsss", $donor_id, $campaign_id, $pledge_amount, $pledge_date, $expected_date, $status, $notes);
         $stmt->execute();
