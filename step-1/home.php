@@ -20,10 +20,9 @@ include("include/admin/sidebar.php")
 
   <!-- Default box -->
   <div class="card">
-
-    <?php
+<?php
     include("placeholder.php");
-    ?>
+?>
 
   </div>
   <!-- /.card -->
