@@ -1,7 +1,8 @@
 <?php
 include('config.php');
 
-$edit_id = $_POST['id'] ?? null;
+// Fix: get edit_id from POST or GET
+$edit_id = $_POST['id'] ?? $_GET['id'] ?? null;
 $user = null;
 
 // Fetch user data if id is passed
@@ -19,7 +20,7 @@ if (isset($_POST["btnUpdate"])) {
     $lname  = $_POST["txtLname"];
     $email  = $_POST["txtEmail"];
 
-    $update = $dms->query("UPDATE users SET fname='$fname', lname='$lname', email='$email' WHERE id='$u_id'");
+    $update = $dms->query("UPDATE users SET first_name='$fname', last_name='$lname', email='$email' WHERE id='$u_id'");
     
     if ($update) {
         echo "<div class='alert alert-success'>User updated successfully</div>";
@@ -30,53 +31,15 @@ if (isset($_POST["btnUpdate"])) {
 }
 ?>
 
-
-<!-- Add Users -->
-
-<div class="content-wrapper" style="min-height: 2838.44px;">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Users Interface</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Add Users</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-
-
-      <!-- Default box -->
-      <div class="card">
-        <div class="card-header ">
-          <h3 class="card-title">Add Users</h3>
-
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-         
-
-<div class="container-fluid p-5 ">
+<div class="container-fluid p-5">
     <div class="row">
+        <!-- Sidebar placeholder -->
+        <aside class="col-md-3">
+            <!-- Sidebar content if needed -->
+        </aside>
 
         <!-- Main content -->
-        <main class="col-md-9 py-4">
+        <main class="col-md-9">
             <div class="card shadow-lg">
                 <div class="card-header bg-warning text-white">
                     <h3 class="mb-0">Edit User</h3>
@@ -84,24 +47,24 @@ if (isset($_POST["btnUpdate"])) {
                 <div class="card-body">
                     <?php if ($user): ?>
                     <form method="post" action="">
-                        <input type="hidden" name="txtId" value="<?= $user['id'] ?? '' ?>">
+                        <input type="hidden" name="txtId" value="<?= $user['id'] ?>">
 
                         <div class="mb-3">
                             <label class="form-label">First Name</label>
                             <input type="text" name="txtFname" class="form-control" 
-                                   value="<?= $user['fname'] ?? '' ?>" required>
+                                   value="<?= htmlspecialchars($user['first_name']) ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Last Name</label>
                             <input type="text" name="txtLname" class="form-control" 
-                                   value="<?= $user['lname'] ?? '' ?>" required>
+                                   value="<?= htmlspecialchars($user['last_name']) ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <input type="email" name="txtEmail" class="form-control" 
-                                   value="<?= $user['email'] ?? '' ?>" required>
+                                   value="<?= htmlspecialchars($user['email']) ?>" required>
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -118,14 +81,3 @@ if (isset($_POST["btnUpdate"])) {
         </main>
     </div>
 </div>
-        </div>
-        <!-- /.card-body -->
-       
-      </div>
-      <!-- /.card -->
-
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- ./Add users -->
-
