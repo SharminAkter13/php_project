@@ -1,17 +1,63 @@
 <?php
 include('config.php');
 
+if ($dms->connect_error) {
+    die("Connection failed: " . $dms->connect_error);
+}
+
+// Handle DELETION using a prepared statement for security
 if (isset($_POST["btnDelete"])) {
     $u_id = $_POST["txtId"] ?? null;
 
     if ($u_id) {
-        $dms->query("DELETE FROM events WHERE id='$u_id'");
-        echo "<div class='alert alert-success'>event deleted successfully</div>";
+        $stmt = $dms->prepare("DELETE FROM events WHERE id = ?");
+        
+        if ($stmt) {
+            $stmt->bind_param("i", $u_id);
+
+            if ($stmt->execute()) {
+                echo "<div class='alert alert-success'>Event deleted successfully.</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Error deleting event: " . $stmt->error . "</div>";
+            }
+            $stmt->close();
+        } else {
+            echo "<div class='alert alert-danger'>Error preparing statement: " . $dms->error . "</div>";
+        }
     } else {
-        echo "<div class='alert alert-danger'>No event ID provided</div>";
+        echo "<div class='alert alert-danger'>No event ID provided.</div>";
+    }
+}
+
+// Handle EDITING/UPDATING using a prepared statement for security
+if (isset($_POST["btnEdit"])) {
+    $u_id = $_POST['edit_id'] ?? null;
+    $u_name = trim($_POST['edit_name'] ?? '');
+    $u_location = trim($_POST['edit_location'] ?? '');
+    $u_date = $_POST['edit_date'] ?? '';
+
+    // Simple validation
+    if (!empty($u_id) && !empty($u_name) && !empty($u_location) && !empty($u_date)) {
+        $stmt = $dms->prepare("UPDATE events SET name = ?, location = ?, date = ? WHERE id = ?");
+        
+        if ($stmt) {
+            $stmt->bind_param("sssi", $u_name, $u_location, $u_date, $u_id);
+            
+            if ($stmt->execute()) {
+                echo "<div class='alert alert-success'>Event updated successfully.</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Error updating event: " . $stmt->error . "</div>";
+            }
+            $stmt->close();
+        } else {
+            echo "<div class='alert alert-danger'>Error preparing update statement: " . $dms->error . "</div>";
+        }
+    } else {
+        echo "<div class='alert alert-danger'>All fields are required for update.</div>";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,20 +68,12 @@ if (isset($_POST["btnDelete"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Custom Styles (if any) -->
+    <!-- Custom Styles -->
     <style>
-        body {
-            background-color: #f4f6f9;
-        }
-        .content-wrapper {
-            padding: 20px;
-        }
-        .card-header .card-title {
-            float: none;
-        }
-        .card-tools {
-            float: right;
-        }
+        body { background-color: #f4f6f9; }
+        .content-wrapper { padding: 20px; }
+        .card-header .card-title { float: none; }
+        .card-tools { float: right; }
     </style>
 </head>
 <body>
@@ -50,7 +88,7 @@ if (isset($_POST["btnDelete"])) {
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="home.php">Home</a></li>
                         <li class="breadcrumb-item active">Manage Events</li>
                     </ol>
                 </div>
@@ -62,7 +100,7 @@ if (isset($_POST["btnDelete"])) {
     <section class="content">
         <!-- Default box -->
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-info text-white">
                 <h3 class="card-title">Manage Events</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -75,9 +113,8 @@ if (isset($_POST["btnDelete"])) {
             </div>
 
             <div class="card-body">
-                <table class="table table-hover  table-light table-striped">
-                  <thead class="table-secondary-subtle text-center fw-bold">
-
+                <table class="table table-hover table-light table-striped">
+                    <thead class="table-secondary-subtle text-center fw-bold">
                         <tr>
                             <th>#ID</th>
                             <th>Name</th>
@@ -88,42 +125,52 @@ if (isset($_POST["btnDelete"])) {
                     </thead>
                     <tbody>
                         <?php
-                        $events = $dms->query("SELECT * FROM events");
-                        while (list($id, $ename, $location, $date) = $events->fetch_row()) {
-                            echo "<tr>
-                                <td>$id</td>
-                                <td>$ename</td>
-                                <td>$location</td>
-                                <td>$date</td>
-                                <td class='d-flex justify-content-center align-items-center'>
-                                    <button type='button' class='btn btn-info btn-sm me-2' data-bs-toggle='modal' data-bs-target='#eventViewModal'
-                                        data-id='$id'
-                                        data-ename='$ename'
-                                        data-location='$location'
-                                        data-date='$date'
-                                        title='View Events'>
-                                        <i class='fas fa-eye'></i>
-                                    </button>
+                        $events_result = $dms->query("SELECT * FROM events");
+                        if ($events_result) {
+                            while ($row = $events_result->fetch_assoc()) {
+                                // Sanitize data for HTML output
+                                $id = htmlspecialchars($row['id']);
+                                $name = htmlspecialchars($row['name']);
+                                $location = htmlspecialchars($row['location']);
+                                $date = htmlspecialchars($row['date']);
+                                // Format date for datetime-local input
+                                $formatted_date = str_replace(' ', 'T', $row['date']);
 
-                                    <!-- Delete Button - now opens confirmation modal -->
-                                    <button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='$id' title='Delete event'>
-                                        <i class='fas fa-trash-alt'></i>
-                                    </button>
-                                    
-                                    <!-- This form is now submitted by the modal's JS -->
-                                    <form id='deleteForm-$id' action='home.php?page=6' method='post' class='me-2' style='display:none;'>
-                                        <input type='hidden' name='txtId' value='$id'>
-                                        <button type='submit' name='btnDelete'></button>
-                                    </form>
+                                echo "<tr>";
+                                echo "<td>$id</td>";
+                                echo "<td>$name</td>";
+                                echo "<td>$location</td>";
+                                echo "<td>$date</td>";
+                                echo "<td class='d-flex justify-content-center align-items-center'>";
 
-                                    <form action='home.php?page=3' method='post' data-bs-toggle='tooltip' title='Edit Events'>
-                                        <input type='hidden' name='id' value='$id'>
-                                        <button type='submit' name='btnEdit' class='btn btn-warning btn-sm'>
-                                            <i class='fas fa-edit'></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>";
+                                // View button
+                                echo "<button type='button' class='btn btn-info btn-sm me-2' data-bs-toggle='modal' data-bs-target='#eventViewModal' ";
+                                echo " data-id='$id' data-ename='$name' data-location='$location' data-date='$date' title='View Events'>";
+                                echo "<i class='fas fa-eye'></i>";
+                                echo "</button>";
+                                
+                                // Delete button (opens confirm modal)
+                                echo "<button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='$id' title='Delete event'>";
+                                echo "<i class='fas fa-trash-alt'></i>";
+                                echo "</button>";
+
+                                // Edit button
+                                echo "<button type='button' class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#eventEditModal' ";
+                                echo " data-id='$id' data-ename='$name' data-location='$location' data-date='$formatted_date' title='Edit Events'>";
+                                echo "<i class='fas fa-edit'></i>";
+                                echo "</button>";
+                                
+                                // Hidden delete form (now posts btnDelete as hidden input so POST matches PHP)
+                                echo "<form id='deleteForm-$id' action='' method='post' class='me-2' style='display:none;'>";
+                                echo "<input type='hidden' name='txtId' value='$id'>";
+                                echo "<input type='hidden' name='btnDelete' value='1'>"; // <-- critical fix
+                                echo "</form>";
+
+                                echo "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='5' class='text-center'>No events found.</td></tr>";
                         }
                         ?>
                     </tbody>
@@ -164,6 +211,39 @@ if (isset($_POST["btnDelete"])) {
     </div>
 </div>
 
+<!-- Edit event Modal -->
+<div class="modal fade" id="eventEditModal" tabindex="-1" aria-labelledby="eventEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="eventEditModalLabel">Edit Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editForm" action="" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="edit_id" id="edit-id">
+                    <div class="mb-3">
+                        <label for="edit-name" class="form-label">Event Name</label>
+                        <input type="text" class="form-control" id="edit-name" name="edit_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="edit-location" name="edit_location" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-date" class="form-label">Date and Time</label>
+                        <input type="datetime-local" class="form-control" id="edit-date" name="edit_date" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="btnEdit" class="btn btn-warning">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -173,7 +253,7 @@ if (isset($_POST["btnDelete"])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this events? This action cannot be undone.
+                Are you sure you want to delete this event? This action cannot be undone.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -199,11 +279,25 @@ document.addEventListener('DOMContentLoaded', function () {
     var eventViewModal = document.getElementById('eventViewModal');
     if (eventViewModal) {
         eventViewModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
+            var trigger = event.relatedTarget;
+            var button = trigger.closest ? trigger.closest('button') : trigger; // handle <i> click
             document.getElementById('view-id').textContent = button.getAttribute('data-id');
             document.getElementById('view-ename').textContent = button.getAttribute('data-ename');
             document.getElementById('view-location').textContent = button.getAttribute('data-location');
             document.getElementById('view-date').textContent = button.getAttribute('data-date');
+        });
+    }
+
+    // Edit Modal
+    var eventEditModal = document.getElementById('eventEditModal');
+    if (eventEditModal) {
+        eventEditModal.addEventListener('show.bs.modal', function (event) {
+            var trigger = event.relatedTarget;
+            var button = trigger.closest ? trigger.closest('button') : trigger;
+            document.getElementById('edit-id').value = button.getAttribute('data-id');
+            document.getElementById('edit-name').value = button.getAttribute('data-ename');
+            document.getElementById('edit-location').value = button.getAttribute('data-location');
+            document.getElementById('edit-date').value = button.getAttribute('data-date');
         });
     }
 
@@ -212,18 +306,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (deleteConfirmModal) {
         let eventIdToDelete = null;
 
-        // When the modal is shown, get the event ID from the button that triggered it
         deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
+            const trigger = event.relatedTarget;
+            const button = trigger.closest ? trigger.closest('button') : trigger; // handle <i> click
             eventIdToDelete = button.getAttribute('data-id');
         });
 
-        // When the 'Delete' button inside the modal is clicked, submit the correct form
         document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
             if (eventIdToDelete) {
                 const form = document.getElementById(`deleteForm-${eventIdToDelete}`);
                 if (form) {
-                    form.submit();
+                    form.submit(); // posts txtId + btnDelete=1
                 }
             }
         });
