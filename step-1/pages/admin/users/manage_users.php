@@ -19,35 +19,22 @@ if (isset($_POST["btnDelete"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Custom Styles (if any) -->
     <style>
-        body {
-            background-color: #f4f6f9;
-        }
-        .content-wrapper {
-            padding: 20px;
-        }
-        .card-header .card-title {
-            float: none;
-        }
-        .card-tools {
-            float: right;
-        }
+        body { background-color: #f4f6f9; }
+        .content-wrapper { padding: 20px; }
+        .card-header .card-title { float: none; }
+        .card-tools { float: right; }
     </style>
 </head>
 <body>
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Manage Users</h1>
-                </div>
+                <div class="col-sm-6"><h1>Manage Users</h1></div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -58,24 +45,18 @@ if (isset($_POST["btnDelete"])) {
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Manage Users</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                 </div>
             </div>
 
             <div class="card-body">
-                <table class="table table-hover table table-light table-striped">
+                <table class="table table-hover table-light table-striped">
                   <thead class="bg-info text-white">
                         <tr>
                             <th>#ID</th>
@@ -104,18 +85,19 @@ if (isset($_POST["btnDelete"])) {
                                         <i class='fas fa-eye'></i>
                                     </button>
 
-                                    <!-- Delete Button - now opens confirmation modal -->
-                                    <button type='button' class='btn btn-danger btn-sm me-2' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='$id' title='Delete User'>
+                                    <!-- Delete Button -->
+                                    <button type='button' class='btn btn-danger btn-sm me-2 deleteBtn' 
+                                        data-id='$id' title='Delete User'>
                                         <i class='fas fa-trash-alt'></i>
                                     </button>
                                     
-                                    <!-- This form is now submitted by the modal's JS -->
-                                    <form id='deleteForm-$id' action='home.php?page=2' method='post' class='me-2' style='display:none;'>
+                                    <!-- Hidden Delete Form -->
+                                    <form id='deleteForm-$id' action='' method='post' style='display:none;'>
                                         <input type='hidden' name='txtId' value='$id'>
-                                        <button type='submit' name='btnDelete'></button>
+                                        <input type='hidden' name='btnDelete' value='1'>
                                     </form>
 
-                                    <form action='home.php?page=3' method='post' data-bs-toggle='tooltip' title='Edit User'>
+                                    <form action='home.php?page=3' method='post'>
                                         <input type='hidden' name='id' value='$id'>
                                         <button type='submit' name='btnEdit' class='btn btn-warning btn-sm'>
                                             <i class='fas fa-edit'></i>
@@ -144,57 +126,42 @@ if (isset($_POST["btnDelete"])) {
 
 <!-- View User Modal -->
 <div class="modal fade" id="userViewModal" tabindex="-1" aria-labelledby="userViewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userViewModalLabel">User Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>ID:</strong> <span id="view-id"></span></p>
-                <p><strong>First Name:</strong> <span id="view-fname"></span></p>
-                <p><strong>Last Name:</strong> <span id="view-lname"></span></p>
-                <p><strong>Email:</strong> <span id="view-email"></span></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+    <div class="modal-dialog"><div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="userViewModalLabel">User Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-    </div>
+        <div class="modal-body">
+            <p><strong>ID:</strong> <span id="view-id"></span></p>
+            <p><strong>First Name:</strong> <span id="view-fname"></span></p>
+            <p><strong>Last Name:</strong> <span id="view-lname"></span></p>
+            <p><strong>Email:</strong> <span id="view-email"></span></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div></div>
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this user? This action cannot be undone.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-            </div>
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog"><div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Confirm Deletion</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-    </div>
+        <div class="modal-body">Are you sure you want to delete this user?</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+        </div>
+    </div></div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-<!-- Initialize Tooltips & Modal -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-        new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-
-    // View Modal
+    // View User Modal Fill
     var userViewModal = document.getElementById('userViewModal');
     if (userViewModal) {
         userViewModal.addEventListener('show.bs.modal', function (event) {
@@ -206,29 +173,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Delete Confirmation Modal
-    var deleteConfirmModal = document.getElementById('deleteConfirmModal');
-    if (deleteConfirmModal) {
-        let userIdToDelete = null;
-
-        // When the modal is shown, get the user ID from the button that triggered it
-        deleteConfirmModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            userIdToDelete = button.getAttribute('data-id');
+    // Delete Confirmation
+    let userIdToDelete = null;
+    document.querySelectorAll('.deleteBtn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            userIdToDelete = this.getAttribute('data-id');
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+            deleteModal.show();
         });
+    });
 
-        // When the 'Delete' button inside the modal is clicked, submit the correct form
-        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-            if (userIdToDelete) {
-                const form = document.getElementById(`deleteForm-${userIdToDelete}`);
-                if (form) {
-                    form.submit();
-                }
-            }
-        });
-    }
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (userIdToDelete) {
+            document.getElementById('deleteForm-' + userIdToDelete).submit();
+        }
+    });
 });
 </script>
-
 </body>
 </html>
