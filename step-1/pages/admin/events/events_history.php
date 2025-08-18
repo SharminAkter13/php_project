@@ -1,169 +1,108 @@
-<!-- Add Users -->
+<?php
+include('config.php');
 
-<div class="content-wrapper" style="min-height: 2838.44px;">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Events Management</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Events</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+// Fetch total donations per event
+$sql = "
+SELECT e.id, e.name, IFNULL(SUM(d.amount), 0) AS total_donations
+FROM events e
+LEFT JOIN donations d ON d.campaign_id = e.id
+GROUP BY e.id
+ORDER BY total_donations DESC
+";
+$result = $dms->query($sql);
 
-    <!-- Main content -->
-    <section class="content">
+$events = [];
+$event_names = [];
+$donation_totals = [];
 
-    
-    <div class="container event-container">
-        <div class="row">
-            <!-- Event List -->
-            <div class="col-md-8">
-                <h2>Upcoming Events</h2>
-                <div class="event-card">
-                    <h3>Fundraising Gala</h3>
-                    <p><strong>Date:</strong> December 1, 2025</p>
-                    <p><strong>Time:</strong> 6:00 PM - 9:00 PM</p>
-                    <p><strong>Location:</strong> Grand Hall, 123 Event St., City</p>
-                    <p><strong>Description:</strong> Join us for a night of fundraising to support our latest campaigns!</p>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#registerModal" data-event="Fundraising Gala">Register Now</button>
-                </div>
-                <div class="event-card">
-                    <h3>Volunteer Meet & Greet</h3>
-                    <p><strong>Date:</strong> January 15, 2026</p>
-                    <p><strong>Time:</strong> 3:00 PM - 5:00 PM</p>
-                    <p><strong>Location:</strong> Community Center, 45 Volunteer Rd., City</p>
-                    <p><strong>Description:</strong> Meet other volunteers and learn about upcoming projects.</p>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#registerModal" data-event="Volunteer Meet & Greet">Register Now</button>
-                </div>
-                <div class="event-card">
-                    <h3>Charity Run</h3>
-                    <p><strong>Date:</strong> March 10, 2026</p>
-                    <p><strong>Time:</strong> 8:00 AM - 12:00 PM</p>
-                    <p><strong>Location:</strong> Central Park, City</p>
-                    <p><strong>Description:</strong> Run to support our fundraising goals! All proceeds go to the campaigns.</p>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#registerModal" data-event="Charity Run">Register Now</button>
-                </div>
-            </div>
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $events[] = $row;
+        $event_names[] = $row['name'];
+        $donation_totals[] = $row['total_donations'];
+    }
+}
 
-            <!-- Registration Form -->
-            <div class="col-md-4">
-                <div class="event-form-container">
-                    <h3>Register for an Event</h3>
-                    <form id="registerForm">
-                        <div class="form-group">
-                            <label for="eventName">Event Name</label>
-                            <input type="text" class="form-control" id="eventName" placeholder="Event Name" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+$dms->close();
+?>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2025 DonorHub. All Rights Reserved.</p>
-        <p>For support, visit our <a href="#">Help Center</a>.</p>
-    </div>
-
-    <!-- Modal (for event registration) -->
-    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Register for Event</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>You're about to register for the <strong id="modalEventName"></strong> event. Please complete the registration below.</p>
-                    <form id="eventRegisterForm">
-                        <div class="form-group">
-                            <label for="eventFullName">Full Name</label>
-                            <input type="text" class="form-control" id="eventFullName" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="eventEmail">Email Address</label>
-                            <input type="email" class="form-control" id="eventEmail" placeholder="Your email" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Confirm Registration</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
- <style>
-    .event-container {
-        margin-top: 20px;
-    }
-    .event-card {
-        background-color: #ffffff;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-    .event-card h3 {
-        color: #333;
-        font-size: 1.5em;
-        margin-bottom: 10px;
-    }
-    .event-card p {
-        color: #555;
-        font-size: 1em;
-        margin-bottom: 10px;
-    }
-    .event-card button {
-        background-color: #FDBE33;
-        color: #fff;
-        font-size: 1em;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .event-card button:hover {
-        background-color: #ff9800;
-    }
-    .event-form-container {
-        background-color: #fff;
-        border-radius: 8px;
-        padding: 30px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-top: 20px;
-    }
-    .event-form-container h3 {
-        font-size: 1.75em;
-        color: #333;
-        margin-bottom: 20px;
-    }
-    .footer {
-        font-size: 14px;
-        color: #888;
-    }
-    .footer a {
-        color: #007bff;
-        text-decoration: none;
-    }
-    .footer a:hover {
-        text-decoration: underline;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Donation Pyramid</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body { padding-top: 60px; }
+.sidebar {
+    width: 220px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #343a40;
+    color: white;
+    padding-top: 1rem;
+}
+.content {
+    margin-left: 240px;
+    padding: 2rem;
+}
 </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h3 class="text-center">Menu</h3>
+    <ul class="nav flex-column">
+        <li class="nav-item"><a href="home.php" class="nav-link text-white">Home</a></li>
+        <li class="nav-item"><a href="events_calendar.php" class="nav-link text-white">Events Calendar</a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-white">Event Pyramid</a></li>
+    </ul>
+</div>
+
+<!-- Main content -->
+<div class="content">
+    <h1 class="mb-4">Event Donation Pyramid</h1>
+    <div class="card">
+        <div class="card-header bg-info text-white">Donations per Event</div>
+        <div class="card-body">
+            <canvas id="pyramidChart" height="400"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+const ctx = document.getElementById('pyramidChart').getContext('2d');
+const pyramidChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: <?= json_encode($event_names) ?>,
+        datasets: [{
+            label: 'Total Donations ($)',
+            data: <?= json_encode($donation_totals) ?>,
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        indexAxis: 'y', // horizontal bar chart
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true }
+        },
+        scales: {
+            x: { beginAtZero: true },
+            y: { ticks: { autoSkip: false } }
+        }
+    }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

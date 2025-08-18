@@ -24,7 +24,7 @@ $dms->close();
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 <style>
 body {
-    padding-top: 100px;
+    padding-top: 60px;
 }
 .sidebar {
     width: 220px;
