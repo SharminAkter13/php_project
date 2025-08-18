@@ -1,10 +1,6 @@
 <?php
 include('config.php');
 
-if ($dms->connect_error) {
-    die("Connection failed: " . $dms->connect_error);
-}
-
 // Handle DELETION using a prepared statement for security
 if (isset($_POST["btnDelete"])) {
     $u_id = $_POST["txtId"] ?? null;
