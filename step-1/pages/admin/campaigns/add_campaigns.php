@@ -1,11 +1,15 @@
 <?php
+// === FILE: add_campaigns.php ===
+// This file requires a 'config.php' file that establishes a database connection
+// and stores the connection object in a variable named $dms.
+
 include('config.php'); // Must have $dms = mysqli_connect(...) inside
 
 $message = "";
 
 // Fetch events for the dropdown
 $events = [];
-$eventQuery = "SELECT id, name FROM events"; 
+$eventQuery = "SELECT id, name FROM events";
 $result = mysqli_query($dms, $eventQuery);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -20,39 +24,52 @@ if (isset($_POST['submit'])) {
     $goal_amount = (float)$_POST['goal_amount'];
     $start_date = $_POST['start_date'];
     $end_date = !empty($_POST['end_date']) ? $_POST['end_date'] : null;
+    $status = $_POST['status'];
     $event_id = $_POST['event_id'];
 
     // Handle file upload
     $file_path = null;
     if (!empty($_FILES['file']['name'])) {
         $target_dir = "uploads/";
+        // Attempt to create the directory if it doesn't exist
         if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true);
+            if (!mkdir($target_dir, 0777, true)) {
+                 $message = "❌ Error: Failed to create the 'uploads' directory. Please check folder permissions.";
+            }
         }
-        $file_path = $target_dir . basename($_FILES["file"]["name"]);
-        if (!move_uploaded_file($_FILES["file"]["tmp_name"], $file_path)) {
-            $message = "❌ Error uploading file.";
+        
+        // If the directory exists, attempt to move the file
+        if (empty($message)) {
+            $file_path = $target_dir . basename($_FILES["file"]["name"]);
+            if (!move_uploaded_file($_FILES["file"]["tmp_name"], $file_path)) {
+                $message = "❌ Error: Failed to upload the file. Please check folder permissions for the 'uploads' directory.";
+            }
         }
     }
 
     if (empty($message)) {
+        // The INSERT query has 8 placeholders (`?`)
         $query = "INSERT INTO campaigns 
-                  (name, descriptions, goal_amount, start_date, end_date, event_id, file) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?)";
+                  (name, descriptions, goal_amount, start_date, end_date, status, event_id, file_path) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($dms, $query);
 
         if ($stmt) {
-            mysqli_stmt_bind_param(
-                $stmt,
-                "ssdssis",
-                $name,
-                $description,
-                $goal_amount,
-                $start_date,
-                $end_date,
-                $event_id,
-                $file_path
-            );
+            // CRITICAL FIX: The type definition string now has 8 characters
+            // to match the 8 variables being bound.
+            // s = string, d = double, i = integer
+        mysqli_stmt_bind_param(
+            $stmt,
+            "ssdsssis", // 8 characters = 8 variables
+            $name,
+            $description,
+            $goal_amount,
+            $start_date,
+            $end_date,
+            $status,
+            $event_id,
+            $file_path
+        );
 
             if (mysqli_stmt_execute($stmt)) {
                 $message = "✅ Campaign added successfully!";
@@ -95,7 +112,7 @@ mysqli_close($dms);
 
 <div class="container-fluid mt-4 p-5">
      <div class="row">
-         <div class="col-md-9 offset-md-3">
+        <div class="col-md-9 offset-md-3">
 
             <!-- Page Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -112,7 +129,7 @@ mysqli_close($dms);
             <!-- Add Campaign Form -->
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
-                    <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" enctype="multipart/form-data" class="row g-3">
+                    <form action="" method="post" enctype="multipart/form-data" class="row g-3">
                         <div class="col-md-12">
                             <label for="campaignName" class="form-label">Campaign Name</label>
                             <input type="text" class="form-control" id="campaignName" name="name" required>
@@ -142,12 +159,19 @@ mysqli_close($dms);
                             <label for="endDate" class="form-label">End Date</label>
                             <input type="date" class="form-control" id="endDate" name="end_date">
                         </div>
+                         <div class="col-md-12">
+                            <label for="campaignStatus" class="form-label">Campaign Status</label>
+                            <select class="form-control" id="campaignStatus" name="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
                         <div class="col-md-12">
                             <label for="campaignfile" class="form-label">Campaign Image</label>
                             <input class="form-control" type="file" id="campaignfile" name="file">
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary w-100">Add Campaign</button>
+                            <button type="submit" name="submit" class="btn btn-primary w-100">Add Campaign</button>
                         </div>
                     </form>
                 </div>
