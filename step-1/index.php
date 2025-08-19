@@ -93,7 +93,7 @@
                      <h3 class="fst-italic lh-1 mb-4 text-white">  Together for Better Tomorrows</h3>
                     
                     <p class="mb-5">We're working hard to help the people .So stay with us</p>
-                    <a href=""><button>Donote Now</button></a>
+                    <a href=""><button style="width: 130px; height:50px;">Donote Now</button></a>
                 </div>
             </div>
         </div>
@@ -261,7 +261,7 @@
         <div class="container-fluid causes ">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5" style="max-width: 800px;">
-                    <h5 class="text-uppercase text-primary">Recent Causes</h5>
+                    <h5 class="text-uppercase text-danger">Recent Causes</h5>
                     <h1 class="mb-4">The environment needs our protection</h1>
                     <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
                     </p>
@@ -272,11 +272,11 @@
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-1.jpg" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-danger me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-danger me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
-                                    <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
+                                    <a class="btn-hover-bg btn btn-danger text-white py-2 px-3" href="#">Donate Now</a>
                                 </div>
                             </div>
                             <div class="progress">
@@ -287,7 +287,7 @@
                             <div class="causes-content p-4">
                                 <h4 class="mb-3">First environments activity of</h4>
                                 <p class="mb-4">Help today because tomorrow you may be the one who needs more helping! </p><br>
-                                <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Read More</a>
+                                <a class="btn-hover-bg btn btn-danger text-white py-2 px-3" href="#">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -296,11 +296,11 @@
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-2.png" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-danger me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-danger me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
-                                    <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
+                                    <a class="btn-hover-bg btn btn-danger text-white py-2 px-3" href="#">Donate Now</a>
                                 </div>
                             </div>
                             <div class="progress">
@@ -311,7 +311,7 @@
                             <div class="causes-content p-4">
                                 <h4 class="mb-3">Build school for poor children.</h4>
                                 <p class="mb-4">Help today because tomorrow you may be the one who needs more helping!</p><br>
-                                <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="#">Read More</a>
+                                <a class="btn-hover-bg btn btn-danger text-white py-2 px-4" href="#">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -320,11 +320,11 @@
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-3.jpg" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-danger me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-danger me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
-                                    <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
+                                    <a class="btn-hover-bg btn btn-danger text-white py-2 px-3" href="#">Donate Now</a>
                                 </div>
                             </div>
                             <div class="progress">
@@ -335,7 +335,7 @@
                             <div class="causes-content p-4">
                                 <h4 class="mb-3">Building clean-water system for rural poor.</h4>
                                 <p class="mb-4">Help today because tomorrow you may be the one who needs more helping!</p>
-                                <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="#">Read More</a>
+                                <a class="btn-hover-bg btn btn-danger text-white py-2 px-4" href="#">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -344,11 +344,11 @@
                             <div class="causes-img">
                                 <img src="assets/img/img/cause-4.jpg" class="img-fluid w-100" alt="Image">
                                 <div class="causes-link pb-2 px-3">
-                                    <small class="text-dark"><i class="fas fa-chart-bar text-primary me-2"></i>Goal: $3600</small>
-                                    <small class="text-dark"><i class="fa fa-thumbs-up text-primary me-2"></i>Raised: $4000</small>
+                                    <small class="text-dark"><i class="fas fa-chart-bar text-danger me-2"></i>Goal: $3600</small>
+                                    <small class="text-dark"><i class="fa fa-thumbs-up text-danger me-2"></i>Raised: $4000</small>
                                 </div>
                                 <div class="causes-dination p-2">
-                                    <a class="btn-hover-bg btn btn-primary text-white py-2 px-3" href="#">Donate Now</a>
+                                    <a class="btn-hover-bg btn btn-danger text-white py-2 px-3" href="#">Donate Now</a>
                                 </div>
                             </div>
                             <div class="progress">
@@ -359,7 +359,7 @@
                             <div class="causes-content p-4">
                                 <h4 class="mb-3">First environments activity of this summer.</h4>
                                 <p class="mb-4">Help today because tomorrow you may be the one who needs more helping!</p>
-                                <a class="btn-hover-bg btn btn-primary text-white py-2 px-4" href="#">Read More</a>
+                                <a class="btn-hover-bg btn btn-danger text-white py-2 px-4" href="#">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -543,7 +543,7 @@
 
     <!-- Team Section -->
 
-    <div class="volunteer" data-parallax="scroll" data-image-src="assets/img/volunteer.jpg">
+    <div class="volunteer" data-parallax="scroll" data-image-src="assets/img/img/volunteer.jpg">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-5">
