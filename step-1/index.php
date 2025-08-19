@@ -451,7 +451,7 @@
                                 <h3>Humanitarian Aid in Gaza From an Aid Worker Perspective</h3>
                                 <p>
                                     Please join us for a timely and important Zoom event featuring Ella Watson-Stryker of Médecins Sans Frontières (Doctors Without Borders) who 
-                                <a class="btn btn-custom" href="">Join Now</a>
+                                <br><a class="btn btn-custom" href="">Join Now</a>
                             </div>
                         </div>
                     </div>
