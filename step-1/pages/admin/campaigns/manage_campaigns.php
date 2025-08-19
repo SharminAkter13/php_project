@@ -14,11 +14,13 @@ if (isset($_POST['btnSave'])) {
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
     $status = $_POST['status'];
-    $eventId = $_POST['eventId']; // Changed from 'events' to 'eventId' for clarity
+    $eventId = $_POST['eventId']; 
+    $filePath = $_POST['filePath']; // New: Get file path from form
 
     // Use prepared statements to prevent SQL injection
-    $stmt = $dms->prepare("INSERT INTO $campaignsTable (name, start_date, end_date, status, event_id) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $name, $startDate, $endDate, $status, $eventId);
+    $stmt = $dms->prepare("INSERT INTO $campaignsTable (name, start_date, end_date, status, event_id, file_path) VALUES (?, ?, ?, ?, ?, ?)");
+    // New: Added 's' for the new file_path string parameter
+    $stmt->bind_param("ssssis", $name, $startDate, $endDate, $status, $eventId, $filePath);
     
     if ($stmt->execute()) {
         echo "<div class='alert alert-success'>Campaign added successfully.</div>";
@@ -35,11 +37,13 @@ if (isset($_POST['btnEdit'])) {
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
     $status = $_POST['status'];
-    $eventId = $_POST['eventId']; // Changed from 'events' to 'eventId' for clarity
+    $eventId = $_POST['eventId']; 
+    $filePath = $_POST['filePath']; // New: Get file path from form
 
     // Use prepared statements to prevent SQL injection
-    $stmt = $dms->prepare("UPDATE $campaignsTable SET name=?, start_date=?, end_date=?, status=?, event_id=? WHERE id=?");
-    $stmt->bind_param("ssssii", $name, $startDate, $endDate, $status, $eventId, $id);
+    $stmt = $dms->prepare("UPDATE $campaignsTable SET name=?, start_date=?, end_date=?, status=?, event_id=?, file_path=? WHERE id=?");
+    // New: Added 's' for the new file_path string parameter
+    $stmt->bind_param("ssssisi", $name, $startDate, $endDate, $status, $eventId, $filePath, $id);
     
     if ($stmt->execute()) {
         echo "<div class='alert alert-success'>Campaign updated successfully.</div>";
@@ -145,6 +149,7 @@ if ($event_result) {
                                 <th>End Date</th>
                                 <th>Status</th>
                                 <th>Event Name</th>
+                                <th>File Path</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -152,17 +157,17 @@ if ($event_result) {
                             <?php
                             // Check for database connection before running the query
                             if ($dms->connect_error) {
-                                echo "<tr><td colspan='7' class='text-center text-danger'>Connection failed: " . $dms->connect_error . "</td></tr>";
+                                echo "<tr><td colspan='8' class='text-center text-danger'>Connection failed: " . $dms->connect_error . "</td></tr>";
                             } else {
                                 // Fetch all campaigns with their associated event names using a JOIN
-                                $sql = "SELECT c.id, c.name, c.start_date, c.end_date, c.status, e.name AS event_name, c.event_id 
+                                $sql = "SELECT c.id, c.name, c.start_date, c.end_date, c.status, c.file_path, e.name AS event_name, c.event_id 
                                         FROM $campaignsTable AS c
                                         LEFT JOIN $eventsTable AS e ON c.event_id = e.id";
                                 $campaigns = $dms->query($sql);
 
                                 // Added error handling to check if the query was successful
                                 if (!$campaigns) {
-                                    echo "<tr><td colspan='7' class='text-center text-danger'>Query failed: " . $dms->error . "</td></tr>";
+                                    echo "<tr><td colspan='8' class='text-center text-danger'>Query failed: " . $dms->error . "</td></tr>";
                                 } else if ($campaigns->num_rows > 0) {
                                     while ($row = $campaigns->fetch_assoc()) {
                                         // Helper: Create badge HTML based on status
@@ -171,44 +176,49 @@ if ($event_result) {
                                         $statusBadge = "<span class='badge bg-{$badgeClass}'>{$row['status']}</span>";
                                         
                                         $eventName = $row['event_name'] ?? 'N/A';
+                                        $filePath = htmlspecialchars($row['file_path'] ?? 'N/A');
+                                        $filePathLink = ($filePath !== 'N/A') ? "<a href='{$filePath}' target='_blank'>View File</a>" : "N/A";
 
                                         echo "<tr>
-                                                <td>{$row['id']}</td>
-                                                <td>{$row['name']}</td>
-                                                <td>{$row['start_date']}</td>
-                                                <td>{$row['end_date']}</td>
-                                                <td>{$statusBadge}</td>
-                                                <td>{$eventName}</td>
-                                                <td class='d-flex justify-content-center align-items-center'>
-                                                    <!-- View Button -->
-                                                    <button type='button' class='btn btn-info btn-sm view-btn me-2' data-bs-toggle='modal' data-bs-target='#viewCampaignModal'
-                                                        data-id='{$row['id']}'
-                                                        data-name='{$row['name']}'
-                                                        data-start='{$row['start_date']}'
-                                                        data-end='{$row['end_date']}'
-                                                        data-status='{$row['status']}'
-                                                        data-event-name='{$eventName}'
-                                                        title='View Campaign'>
-                                                        <i class='fas fa-eye'></i>
-                                                    </button>
-                                                    <button type='button' class='btn btn-warning btn-sm edit-btn me-2' data-bs-toggle='modal' data-bs-target='#campaignModal'
-                                                        data-id='{$row['id']}'
-                                                        data-name='{$row['name']}'
-                                                        data-start='{$row['start_date']}'
-                                                        data-end='{$row['end_date']}'
-                                                        data-status='{$row['status']}'
-                                                        data-event-id='{$row['event_id']}'
-                                                        title='Edit Campaign'>
-                                                        <i class='fas fa-edit'></i>
-                                                    </button>
-                                                    <button type='button' class='btn btn-danger btn-sm delete-btn' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='{$row['id']}' title='Delete Campaign'>
-                                                        <i class='fas fa-trash-alt'></i>
-                                                    </button>
-                                                </td>
-                                            </tr>";
+                                            <td>{$row['id']}</td>
+                                            <td>{$row['name']}</td>
+                                            <td>{$row['start_date']}</td>
+                                            <td>{$row['end_date']}</td>
+                                            <td>{$statusBadge}</td>
+                                            <td>{$eventName}</td>
+                                            <td>{$filePathLink}</td>
+                                            <td class='d-flex justify-content-center align-items-center'>
+                                                <!-- View Button -->
+                                                <button type='button' class='btn btn-info btn-sm view-btn me-2' data-bs-toggle='modal' data-bs-target='#viewCampaignModal'
+                                                    data-id='{$row['id']}'
+                                                    data-name='{$row['name']}'
+                                                    data-start='{$row['start_date']}'
+                                                    data-end='{$row['end_date']}'
+                                                    data-status='{$row['status']}'
+                                                    data-event-name='{$eventName}'
+                                                    data-file-path='{$filePath}'
+                                                    title='View Campaign'>
+                                                    <i class='fas fa-eye'></i>
+                                                </button>
+                                                <button type='button' class='btn btn-warning btn-sm edit-btn me-2' data-bs-toggle='modal' data-bs-target='#campaignModal'
+                                                    data-id='{$row['id']}'
+                                                    data-name='{$row['name']}'
+                                                    data-start='{$row['start_date']}'
+                                                    data-end='{$row['end_date']}'
+                                                    data-status='{$row['status']}'
+                                                    data-event-id='{$row['event_id']}'
+                                                    data-file-path='{$filePath}'
+                                                    title='Edit Campaign'>
+                                                    <i class='fas fa-edit'></i>
+                                                </button>
+                                                <button type='button' class='btn btn-danger btn-sm delete-btn' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='{$row['id']}' title='Delete Campaign'>
+                                                    <i class='fas fa-trash-alt'></i>
+                                                </button>
+                                            </td>
+                                        </tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='7' class='text-center'>No campaigns found.</td></tr>";
+                                    echo "<tr><td colspan='8' class='text-center'>No campaigns found.</td></tr>";
                                 }
                             }
                             ?>
@@ -271,6 +281,11 @@ if ($event_result) {
                         <?php endforeach; ?>
                     </select>
                 </div>
+                 <!-- New: File Path Input Field -->
+                <div class="mb-3">
+                    <label for="filePath" class="form-label">File Path (URL)</label>
+                    <input type="url" class="form-control" id="filePath" name="filePath" placeholder="e.g., https://example.com/file.pdf" />
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -306,6 +321,10 @@ if ($event_result) {
                 </div>
                 <div class="mb-3">
                     <strong>Event Name:</strong> <span id="viewEventName"></span>
+                </div>
+                 <!-- New: View File Path -->
+                <div class="mb-3">
+                    <strong>File Path:</strong> <span id="viewFilePath"></span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -370,6 +389,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('endDate').value = button.getAttribute('data-end');
                 document.getElementById('status').value = button.getAttribute('data-status');
                 document.getElementById('eventId').value = button.getAttribute('data-event-id');
+                // New: Populate file path field
+                document.getElementById('filePath').value = button.getAttribute('data-file-path');
             } else {
                 modalTitle.textContent = 'Add Campaign';
                 saveButton.textContent = 'Save Campaign';
@@ -377,6 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 campaignForm.reset();
                 campaignIdInput.value = '';
                 document.getElementById('eventId').value = ''; // Reset the dropdown
+                document.getElementById('filePath').value = ''; // New: Clear file path
             }
         });
     }
@@ -409,6 +431,20 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('viewStatus').appendChild(statusBadgeSpan);
 
             document.getElementById('viewEventName').textContent = button.getAttribute('data-event-name');
+
+            // New: Populate the view file path field
+            const filePath = button.getAttribute('data-file-path');
+            const viewFilePathSpan = document.getElementById('viewFilePath');
+            viewFilePathSpan.innerHTML = ''; // Clear previous content
+            if (filePath && filePath !== 'N/A') {
+                const link = document.createElement('a');
+                link.href = filePath;
+                link.textContent = filePath;
+                link.target = '_blank';
+                viewFilePathSpan.appendChild(link);
+            } else {
+                viewFilePathSpan.textContent = 'N/A';
+            }
         });
     }
 
