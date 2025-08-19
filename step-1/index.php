@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>HELPZ - Free Charity Website Template</title>
+    <title>DonorHub_Donation Website</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <link href="img/favicon.ico" rel="icon">
+    <link href="assets/img/img/logo-dh.png" rel="icon">
 
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -52,6 +52,7 @@
     </div>
     <div class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid">
+            <img src="assets/img/img/logo-dh.png" alt="" width="180" height="100">
             <a href="index.html" class="navbar-brand">DonorHub</a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -83,7 +84,7 @@
         </div>
     </div>
     <section class="top-bg">
-      <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="assets/img/img/top-vd.mp4" type="video/mp4" /></video>
+      <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="assets/img/img/bgvd.mp4" type="video/mp4" /></video>
         <div class="masthead">
             <div class="masthead-content text-white">
                 <div class="container-fluid px-4 px-lg-0">
@@ -101,7 +102,9 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <div class="about-img" data-parallax="scroll" data-image-src="assets/img/about.jpg"></div>                </div>
+                    <div class="about-img">
+                    </div>              
+                </div>
                 <div class="col-lg-6">
                     <div class="section-header">
                         <p>Learn About Us</p>
