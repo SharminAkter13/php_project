@@ -1,19 +1,21 @@
 <!-- header -->
 <?php
-include("include/admin/header.php");
+require_once("include/admin/header.php");
 ?>
 <!-- /.header -->
 
 <!-- Navbar -->
 <?php
-include("include/admin/nav.php");
+require_once("include/admin/nav.php");
 ?>
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
 <?php
-include("include/admin/sidebar.php");
+require_once("include/admin/sidebar.php");
 ?>
+
+
 <!-- Main content -->
 <section class="content">
 
@@ -309,5 +311,5 @@ include("include/admin/sidebar.php");
     </html>
     <!-- Main Footer -->
     <?php
-    include("include/admin/footer.php");
+    require_once("include/admin/footer.php");
     ?>

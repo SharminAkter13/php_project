@@ -2,6 +2,7 @@
 session_start();
 require 'config.php'; // contains $dms = new mysqli(...);
 
+
 $errors = [];
 
 if (isset($_POST['submit'])) {
