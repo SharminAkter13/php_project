@@ -14,18 +14,18 @@ h3,
 h4,
 h5,
 h6 {
-    color: #2c3e50; /* Darker blue-gray for headings */
+    color: #010c0c; /* Darker blue-gray for headings */
 }
 
 a {
-    color: #3498db; /* Blue for links */
+    color: #37c3c5; /* Blue for links */
     transition: .3s;
 }
 
 a:hover,
 a:active,
 a:focus {
-    color: #e67e22; /* Yellow-orange for hover */
+    color: #cf983e; /* Yellow-orange for hover */
     outline: none;
     text-decoration: none;
 }
@@ -37,15 +37,15 @@ a:focus {
     font-weight: 500;
     color: #ffffff;
     border-radius: 5px; /* Rounded corners for a modern look */
-    border: 2px solid #3498db;
-    background-color: #3498db;
+    border: 2px solid #0c6b6c;
+    background-color: #0c6b6c;
     transition: ease-out 0.3s;
 }
 
 .btn.btn-custom:hover {
     color: #ffffff;
-    background-color: #e67e22;
-    border-color: #e67e22;
+    background-color: #cf983e;
+    border-color: #cf983e;
 }
 
 .btn:focus,
@@ -98,7 +98,7 @@ a:focus {
     width: 45px;
     height: 45px;
     border: 5px solid #dddddd;
-    border-top: 5px solid #3498db;
+    border-top: 5px solid #0c6b6c;
     border-radius: 50%;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
@@ -117,7 +117,7 @@ a:focus {
 .back-to-top {
     position: fixed;
     display: none;
-    background: #3498db;
+    background: #0c6b6c;
     width: 44px;
     height: 44px;
     text-align: center;
@@ -136,7 +136,7 @@ a:focus {
 }
 
 .back-to-top:hover {
-    background: #e67e22;
+    background: #cf983e;
 }
 
 .back-to-top:hover i {
@@ -186,7 +186,7 @@ a:focus {
 
 .top-bar .text i {
     font-size: 16px;
-    color: #3498db;
+    color: #11d0d3;
     margin-right: 5px;
 }
 
@@ -211,7 +211,7 @@ a:focus {
     width: 45px;
     height: 100%;
     font-size: 16px;
-    color: #3498db;
+    color: #0dc7ca;
     border-right: 1px solid rgba(255, 255, 255, .3);
 }
 
@@ -221,7 +221,7 @@ a:focus {
 
 .top-bar .social a:hover {
     color: #ffffff;
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 @media (min-width: 992px) {
@@ -273,8 +273,9 @@ a:focus {
 
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .nav-link.active {
-    color: #3498db;
+    color: #cf983e;
     transition: none;
+    font-weight: bolder;
 }
 
 .navbar .dropdown-menu {
@@ -297,12 +298,12 @@ a:focus {
 
     .navbar.nav-sticky {
         padding: 10px 60px;
-        background: #2c3e50 !important;
+        background: #0d0f0f !important;
         border-bottom: none;
     }
 
     .page .navbar {
-        background: #2c3e50 !important;
+        background: #0c6b6c !important;
     }
 
     .navbar a.nav-link {
@@ -315,7 +316,7 @@ a:focus {
 @media (max-width: 991.98px) {
     .navbar {
         padding: 15px;
-        background: #2c3e50 !important;
+        background: #0c6b6c !important;
     }
 
     .navbar a.nav-link {
@@ -388,14 +389,14 @@ video.bg-video {
   background-color: rgba(0, 0, 0, 0.75); /* This is the transparent background you want */
 }
 button{
-    background-color: #3498db;
+    background-color: #0c6b6c;
     color: #f0f0f0;
     font-weight: bolder;
     border-radius: 5px;
 }
 
 button:hover{
-    background-color: #e67e22;
+    background-color: #cf983e;
     color: #0e0101;
     font-weight: bolder;
 }
@@ -431,7 +432,7 @@ button:hover{
 
 .page-header h2 {
     position: relative;
-    color: #3498db;
+    color: #0c6b6c;
     font-size: 60px;
     font-weight: 700;
     margin-bottom: 20px;
@@ -445,7 +446,7 @@ button:hover{
     height: 2px;
     left: calc(50% - 50px);
     bottom: 0;
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 .page-header a {
@@ -456,7 +457,7 @@ button:hover{
 }
 
 .page-header a:hover {
-    color: #3498db;
+    color: #0c6b6c;
 }
 
 .page-header a::after {
@@ -519,7 +520,7 @@ button:hover{
     font-size: 22px;
     font-weight: 600;
     text-transform: capitalize;
-    color: #3498db;
+    color: #0c6b6c;
 }
 
 .section-header h2 {
@@ -586,9 +587,9 @@ button:hover{
 
 .about .about-tab .nav.nav-pills .nav-link:hover,
 .about .about-tab .nav.nav-pills .nav-link.active {
-    color: #3498db;
+    color: #0c6b6c;
     padding-bottom: 7px;
-    border-bottom: 3px solid #3498db;
+    border-bottom: 3px solid #0c6b6c;
 }
 
 .about .about-tab .tab-content {
@@ -634,7 +635,7 @@ button:hover{
 .service .service-icon i {
     position: relative;
     display: block;
-    color: #3498db;
+    color: #0c6b6c;
     font-size: 60px;
     line-height: 60px;
     margin-top: 5px;
@@ -663,7 +664,7 @@ button:hover{
     height: 40px;
     top: calc(50% - 20px);
     left: -1px;
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 .service .service-text h3 {
@@ -689,75 +690,90 @@ button:hover{
 /* Flex layout for the causes cards */
 
 /* Causes item styling */
+.causes {
+position: relative;
+z-index: 3;
+margin-top: 50px;
+background-color: #ffffff;
+}
+
 .causes-item {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+display: flex;
+flex-direction: column;
+height: 100%;
+border-radius: 8px;
+overflow: hidden;
+background: #fff;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease;
 }
 
 .causes-item:hover {
-    transform: translateY(-10px);
+transform: translateY(-10px);
 }
 
-/* Image styling */
 .causes-img {
-    perspective: 1000px; /* Gives 3D effect */
+perspective: 1000px;
 }
 
 .causes-img img {
-    border-bottom: 2px solid #f0f0f0;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+border-bottom: 2px solid #f0f0f0;
+transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .causes-img img:hover {
-    transform: scale(1.05); /* Slight zoom */
-    opacity: 0.8;           /* Slight fade */
+transform: scale(1.05);
+opacity: 0.8;
 }
 
-/* Progress bar styling with animation */
 .progress {
-    height: 15px;
-    background: #eee;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 10px;
+height: 15px;
+background: #eee;
+border-radius: 5px;
+overflow: hidden;
+margin-top: 10px;
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, #3498db, #e67e22);
-    height: 100%;
-    width: 5px;
-    animation: fill-bar 2s ease forwards;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    color: white;
-    font-size: 10px;
-    padding-right: 5px;
+background: linear-gradient(90deg, #0c6b6c, #cf983e);
+height: 100%;
+width: 5px;
+animation: fill-bar 2s ease forwards;
+display: flex;
+align-items: center;
+justify-content: flex-end;
+color: white;
+font-size: 10px;
+padding-right: 5px;
 }
 
 @keyframes fill-bar {
-    from { width: 5px; }
-    to { width: var(--progress-width); }
+from {
+width: 5px;
+}
+to {
+width: var(--progress-width);
+}
 }
 
-/* Causes content */
 .causes-content {
-    flex-grow: 1;
+flex-grow: 1;
 }
 
-/* Button hover effect */
+/* Updated hover background color */
 .btn-hover-bg:hover {
-    background: #3498db;
-    color: #fff;
-    border-color: #3498db;
+background: #cf983e !important;
+color: #fff;
+border-color: #0c6b6c !important; 
 }
 
+.btn-custom {
+background-color: #0c6b6c !important;
+border-color: #0c6b6c !important;
+}
+.text-custom {
+color: #0c6b6c !important;
+}
 
 /* causes End */
 
@@ -799,7 +815,7 @@ button:hover{
 
 .donate .donate-form {
     padding: 90px 30px;
-    background: #2c3e50; /* Dark blue for the form background */
+    background: #0c6b6c; /* Dark blue for the form background */
 }
 
 .donate .donate-form .control-group {
@@ -842,7 +858,7 @@ button:hover{
 
 .donate .donate-form .btn.btn-custom:hover,
 .donate .donate-form .btn.btn-custom.active {
-    color: #2c3e50;
+    color: #0c6b6c;
     border: 1px solid #ffffff;
     box-shadow: inset 0 0 0 30px #ffffff;
 }
@@ -965,7 +981,7 @@ button:hover{
     margin-top: 10px;
     font-size: 60px;
     line-height: 60px;
-    color: #3498db;
+    color: #0c6b6c;
 }
 
 .facts .facts-text {
@@ -1076,7 +1092,7 @@ button:hover{
     padding: 5px 0;
     text-align: center;
     font-size: 14px;
-    color: #2c3e50;
+    color: #0c6b6c;
     border: 2px solid #08010e;
     transition: .3s;
     border-radius: 50%;
@@ -1084,7 +1100,7 @@ button:hover{
 
 .team .team-social a:hover {
     color: #ffffff;
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 .team .team-item:hover .team-text {
@@ -1163,11 +1179,11 @@ button:hover{
     width: 12px;
     height: 12px;
     border-radius: 0;
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 .testimonial .owl-dot.active {
-    background: #2c3e50;
+    background: #0c6b6c;
 }
 
 
@@ -1208,7 +1224,7 @@ button:hover{
 
 .volunteer .volunteer-form {
     padding: 90px 30px;
-    background: #2c3e50; /* Dark blue for the form background */
+    background: #0c6b6c; /* Dark blue for the form background */
 }
 
 .volunteer .volunteer-form .control-group {
@@ -1249,7 +1265,7 @@ button:hover{
 }
 
 .volunteer .volunteer-form .btn.btn-custom:hover {
-    color: #2c3e50;
+    color: #0c6b6c;
     border: 1px solid #ffffff;
     box-shadow: inset 0 0 0 30px #ffffff;
 }
@@ -1299,7 +1315,7 @@ button:hover{
 }
 
 .event .event-meta i {
-    color: #2c3e50;
+    color: #0c6b6c;
     width: 25px;
 }
 
@@ -1326,7 +1342,7 @@ button:hover{
     height: 40px;
     top: calc(50% - 20px);
     left: -1px;
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 .event .event-text h3 {
@@ -1418,7 +1434,7 @@ button:hover{
 }
 
 .blog .blog-text h3 a:hover {
-    color: #3498db;
+    color: #0c6b6c;
 }
 
 .blog .blog-text p {
@@ -1449,7 +1465,7 @@ button:hover{
 }
 
 .blog .blog-meta i {
-    color: #2c3e50;
+    color: #0c6b6c;
     margin-right: 8px
 }
 
@@ -1458,14 +1474,14 @@ button:hover{
 }
 
 .blog .pagination .page-link {
-    color: #2c3e50;
+    color: #0c6b6c;
     border-radius: 0;
-    border-color: #2c3e50;
+    border-color: #0c6b6c;
 }
 
 .blog .pagination .page-link:hover,
 .blog .pagination .page-item.active .page-link {
-    color: #3498db;
+    color: #0c6b6c;
     background: #2c3e50;
 }
 
@@ -1586,8 +1602,8 @@ button:hover{
 
 .single .single-tags a:hover {
     color: #ffffff;
-    background: #3498db;
-    border-color: #3498db;
+    background: #0c6b6c;
+    border-color: #0c6b6c;
 }
 
 .single .single-bio {
@@ -1666,7 +1682,7 @@ button:hover{
 }
 
 .single .post-item .post-text a:hover {
-    color: #3498db;
+    color: #0c6b6c;
 }
 
 .single .post-item .post-meta {
@@ -1708,15 +1724,15 @@ button:hover{
     align-items: center;
     justify-content: center;
     color: #2c3e50;
-    background: #3498db;
+    background: #0c6b6c;
     font-size: 16px;
     transition: .3s;
 }
 
 .single .related-slider .owl-nav .owl-prev:hover,
 .single .related-slider .owl-nav .owl-next:hover {
-    color: #3498db;
-    background: #2c3e50;
+    color: #0c6b6c;
+    background: #0c6b6c;
 }
 
 .single .single-comment {
@@ -1775,13 +1791,13 @@ button:hover{
     padding: 3px 10px;
     font-size: 14px;
     font-weight: 500;
-    color: #2c3e50;
+    color: #0c6b6c;
     background: #dddddd;
     border-radius: 0;
 }
 
 .single .comment-text .btn:hover {
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 .single .comment-form {
@@ -1810,7 +1826,7 @@ button:hover{
 
 .single .comment-form input:focus,
 .single .comment-form textarea:focus {
-    border-color: #3498db;
+    border-color: #0c6b6c;
 }
 
 
@@ -1848,7 +1864,7 @@ button:hover{
     height: 2px;
     bottom: 0;
     left: 0;
-    background: #3498db;
+    background: #0c6b6c;
 }
 
 .sidebar .sidebar-widget .search-widget {
@@ -1863,7 +1879,7 @@ button:hover{
 
 .sidebar .search-widget input:focus {
     box-shadow: none;
-    border-color: #3498db;
+    border-color: #0c6b6c;
 }
 
 .sidebar .search-widget .btn {
@@ -1873,7 +1889,7 @@ button:hover{
     height: 40px;
     padding: 0;
     font-size: 25px;
-    color: #3498db;
+    color: #0c6b6c;
     background: none;
     border-radius: 0;
     border: none;
@@ -1881,7 +1897,7 @@ button:hover{
 }
 
 .sidebar .search-widget .btn:hover {
-    color: #2c3e50;
+    color: #0c6b6c;
 }
 
 .sidebar .sidebar-widget .recent-post {
@@ -1893,15 +1909,15 @@ button:hover{
 }
 
 .sidebar .tab-post .nav.nav-pills .nav-link {
-    color: #2c3e50;
-    background: #3498db;
+    color: #0c6b6c;
+    background: #0c6b6c;
     border-radius: 0;
 }
 
 .sidebar .tab-post .nav.nav-pills .nav-link:hover,
 .sidebar .tab-post .nav.nav-pills .nav-link.active {
-    color: #3498db;
-    background: #2c3e50;
+    color: #0c6b6c;
+    background: #0c6b6c;
 }
 
 .sidebar .tab-post .tab-content {
@@ -1941,7 +1957,7 @@ button:hover{
     content: '\f105';
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
-    color: #3498db;
+    color: #0c6b6c;
     left: 1px;
 }
 
@@ -1961,15 +1977,15 @@ button:hover{
     padding: 7px 15px;
     font-size: 14px;
     font-weight: 500;
-    color: #2c3e50;
-    border: 1px solid #2c3e50;
+    color: #0c6b6c;
+    border: 1px solid #0c6b6c;
     border-radius: 0;
 }
 
 .single .tag-widget a:hover {
     color: #ffffff;
-    background: #3498db;
-    border-color: #3498db;
+    background: #0c6b6c;
+    border-color: #0c6b6c;
 }
 
 .sidebar .image-widget {
@@ -1995,7 +2011,7 @@ button:hover{
     position: relative;
     margin-top: 45px;
     padding-top: 90px;
-    background: #2c3e50;
+    background: #0c6b6c;
 }
 
 .footer .footer-contact,
@@ -2012,7 +2028,7 @@ button:hover{
     margin-bottom: 30px;
     font-size: 22px;
     font-weight: 700;
-    color: #3498db;
+    color: #0c6b6c;
 }
 
 .footer .footer-link a {
@@ -2031,7 +2047,7 @@ button:hover{
 }
 
 .footer .footer-link a:hover {
-    color: #3498db;
+    color: #0c6b6c;
     letter-spacing: 1px;
 }
 
@@ -2066,12 +2082,12 @@ button:hover{
     border: none;
     border-radius: 0;
     background: #f0f0f0;
-    color: #2c3e50;
+    color: #0c6b6c;
 }
 
 .footer .footer-newsletter label {
     margin-top: 5px;
-    color: #2c3e50;
+    color: #0c6b6c;
     font-size: 14px;
     letter-spacing: 1px;
 }
@@ -2105,7 +2121,7 @@ button:hover{
 }
 
 .footer .copyright p a:hover {
-    color: #3498db;
+    color: #0c6b6c;
 }
 
 @media (max-width: 767.98px) {
