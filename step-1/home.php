@@ -82,7 +82,7 @@ require_once("include/admin/sidebar.php");
 
     // 1. Donations Overview Chart: Total donations per month
     $donationData = array_fill(0, 12, 0); // Initialize with 12 months of zero data
-    $sqlDonations = "SELECT SUM(amount) as total_donations, MONTH(donation_date) as month FROM donations GROUP BY month ORDER BY month";
+    $sqlDonations = "SELECT SUM(amount) as total_donations, MONTH(date) as month FROM donations GROUP BY month ORDER BY month";
     $resultDonations = $dms->query($sqlDonations);
     if ($resultDonations) {
         while ($row = $resultDonations->fetch_assoc()) {
@@ -131,11 +131,11 @@ require_once("include/admin/sidebar.php");
     $beneficiariesServed = [];
     $sqlBeneficiaries = "
         SELECT c.name, COUNT(b.id) AS beneficiaries_count
-        FROM campaigns c
-        LEFT JOIN beneficiaries b ON b.campaign_id = c.id
-        GROUP BY c.id
-        ORDER BY beneficiaries_count DESC
-        LIMIT 4
+    FROM campaigns c
+    LEFT JOIN beneficiaries b ON c.id = b.id
+    GROUP BY c.id
+    ORDER BY beneficiaries_count DESC
+    LIMIT 4
     ";
     $resultBeneficiaries = $dms->query($sqlBeneficiaries);
     if ($resultBeneficiaries) {

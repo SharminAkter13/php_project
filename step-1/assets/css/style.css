@@ -4,7 +4,7 @@
 body {
     color: #495057; /* Dark Gray for better readability */
     font-weight: 500;
-    background: #f8f9fa; /* Very light gray */
+    background: #f0f0f0; /* Light gray from the image */
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -14,18 +14,18 @@ h3,
 h4,
 h5,
 h6 {
-    color: #343a40; /* Darker gray for headings */
+    color: #2c3e50; /* Darker blue-gray for headings */
 }
 
 a {
-    color: #970f23; /* Updated to red */
+    color: #3498db; /* Blue for links */
     transition: .3s;
 }
 
 a:hover,
 a:active,
 a:focus {
-    color: #cd4f0e; /* Updated to orange for hover */
+    color: #e67e22; /* Yellow-orange for hover */
     outline: none;
     text-decoration: none;
 }
@@ -37,15 +37,15 @@ a:focus {
     font-weight: 500;
     color: #ffffff;
     border-radius: 5px; /* Rounded corners for a modern look */
-    border: 2px solid #970f23;
-    background-color: #970f23;
+    border: 2px solid #3498db;
+    background-color: #3498db;
     transition: ease-out 0.3s;
 }
 
 .btn.btn-custom:hover {
     color: #ffffff;
-    background-color: #cd4f0e;
-    border-color: #cd4f0e;
+    background-color: #e67e22;
+    border-color: #e67e22;
 }
 
 .btn:focus,
@@ -98,7 +98,7 @@ a:focus {
     width: 45px;
     height: 45px;
     border: 5px solid #dddddd;
-    border-top: 5px solid #970f23;
+    border-top: 5px solid #3498db;
     border-radius: 50%;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
@@ -117,7 +117,7 @@ a:focus {
 .back-to-top {
     position: fixed;
     display: none;
-    background: #970f23;
+    background: #3498db;
     width: 44px;
     height: 44px;
     text-align: center;
@@ -136,7 +136,7 @@ a:focus {
 }
 
 .back-to-top:hover {
-    background: #cd4f0e;
+    background: #e67e22;
 }
 
 .back-to-top:hover i {
@@ -186,7 +186,7 @@ a:focus {
 
 .top-bar .text i {
     font-size: 16px;
-    color: #970f23;
+    color: #3498db;
     margin-right: 5px;
 }
 
@@ -211,7 +211,7 @@ a:focus {
     width: 45px;
     height: 100%;
     font-size: 16px;
-    color: #970f23;
+    color: #3498db;
     border-right: 1px solid rgba(255, 255, 255, .3);
 }
 
@@ -221,7 +221,7 @@ a:focus {
 
 .top-bar .social a:hover {
     color: #ffffff;
-    background: #970f23;
+    background: #3498db;
 }
 
 @media (min-width: 992px) {
@@ -273,7 +273,7 @@ a:focus {
 
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .nav-link.active {
-    color: #970f23;
+    color: #3498db;
     transition: none;
 }
 
@@ -281,7 +281,7 @@ a:focus {
     margin-top: 0;
     border: 0;
     border-radius: 0;
-    background: #f8f9fa;
+    background: #f0f0f0;
 }
 
 @media (min-width: 992px) {
@@ -297,12 +297,12 @@ a:focus {
 
     .navbar.nav-sticky {
         padding: 10px 60px;
-        background: #343a40 !important;
+        background: #2c3e50 !important;
         border-bottom: none;
     }
 
     .page .navbar {
-        background: #343a40 !important;
+        background: #2c3e50 !important;
     }
 
     .navbar a.nav-link {
@@ -315,7 +315,7 @@ a:focus {
 @media (max-width: 991.98px) {
     .navbar {
         padding: 15px;
-        background: #343a40 !important;
+        background: #2c3e50 !important;
     }
 
     .navbar a.nav-link {
@@ -334,7 +334,7 @@ a:focus {
 
 
 body {
-  background: #f8f9fa;
+  background: #f0f0f0;
   font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 video.bg-video {
@@ -388,14 +388,14 @@ video.bg-video {
   background-color: rgba(0, 0, 0, 0.75); /* This is the transparent background you want */
 }
 button{
-    background-color: #970f23;
+    background-color: #3498db;
     color: #f0f0f0;
     font-weight: bolder;
     border-radius: 5px;
 }
 
 button:hover{
-    background-color: #cd4f0e;
+    background-color: #e67e22;
     color: #0e0101;
     font-weight: bolder;
 }
@@ -431,7 +431,7 @@ button:hover{
 
 .page-header h2 {
     position: relative;
-    color: #970f23;
+    color: #3498db;
     font-size: 60px;
     font-weight: 700;
     margin-bottom: 20px;
@@ -445,7 +445,7 @@ button:hover{
     height: 2px;
     left: calc(50% - 50px);
     bottom: 0;
-    background: #970f23;
+    background: #3498db;
 }
 
 .page-header a {
@@ -456,7 +456,7 @@ button:hover{
 }
 
 .page-header a:hover {
-    color: #970f23;
+    color: #3498db;
 }
 
 .page-header a::after {
@@ -519,7 +519,7 @@ button:hover{
     font-size: 22px;
     font-weight: 600;
     text-transform: capitalize;
-    color: #970f23;
+    color: #3498db;
 }
 
 .section-header h2 {
@@ -586,9 +586,9 @@ button:hover{
 
 .about .about-tab .nav.nav-pills .nav-link:hover,
 .about .about-tab .nav.nav-pills .nav-link.active {
-    color: #970f23;
+    color: #3498db;
     padding-bottom: 7px;
-    border-bottom: 3px solid #970f23;
+    border-bottom: 3px solid #3498db;
 }
 
 .about .about-tab .tab-content {
@@ -634,7 +634,7 @@ button:hover{
 .service .service-icon i {
     position: relative;
     display: block;
-    color: #970f23;
+    color: #3498db;
     font-size: 60px;
     line-height: 60px;
     margin-top: 5px;
@@ -663,7 +663,7 @@ button:hover{
     height: 40px;
     top: calc(50% - 20px);
     left: -1px;
-    background: #970f23;
+    background: #3498db;
 }
 
 .service .service-text h3 {
@@ -729,7 +729,7 @@ button:hover{
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, #970f23, #cd4f0e);
+    background: linear-gradient(90deg, #3498db, #e67e22);
     height: 100%;
     width: 5px;
     animation: fill-bar 2s ease forwards;
@@ -753,9 +753,9 @@ button:hover{
 
 /* Button hover effect */
 .btn-hover-bg:hover {
-    background: #970f23;
+    background: #3498db;
     color: #fff;
-    border-color: #970f23;
+    border-color: #3498db;
 }
 
 
@@ -799,7 +799,7 @@ button:hover{
 
 .donate .donate-form {
     padding: 90px 30px;
-    background: #970f23;
+    background: #2c3e50; /* Dark blue for the form background */
 }
 
 .donate .donate-form .control-group {
@@ -842,7 +842,7 @@ button:hover{
 
 .donate .donate-form .btn.btn-custom:hover,
 .donate .donate-form .btn.btn-custom.active {
-    color: #970f23;
+    color: #2c3e50;
     border: 1px solid #ffffff;
     box-shadow: inset 0 0 0 30px #ffffff;
 }
@@ -965,7 +965,7 @@ button:hover{
     margin-top: 10px;
     font-size: 60px;
     line-height: 60px;
-    color: #970f23;
+    color: #3498db;
 }
 
 .facts .facts-text {
@@ -1076,7 +1076,7 @@ button:hover{
     padding: 5px 0;
     text-align: center;
     font-size: 14px;
-    color: #343a40;
+    color: #2c3e50;
     border: 2px solid #08010e;
     transition: .3s;
     border-radius: 50%;
@@ -1084,7 +1084,7 @@ button:hover{
 
 .team .team-social a:hover {
     color: #ffffff;
-    background: #970f23;
+    background: #3498db;
 }
 
 .team .team-item:hover .team-text {
@@ -1163,11 +1163,11 @@ button:hover{
     width: 12px;
     height: 12px;
     border-radius: 0;
-    background: #970f23;
+    background: #3498db;
 }
 
 .testimonial .owl-dot.active {
-    background: #343a40;
+    background: #2c3e50;
 }
 
 
@@ -1208,7 +1208,7 @@ button:hover{
 
 .volunteer .volunteer-form {
     padding: 90px 30px;
-    background: #970f23;
+    background: #2c3e50; /* Dark blue for the form background */
 }
 
 .volunteer .volunteer-form .control-group {
@@ -1249,7 +1249,7 @@ button:hover{
 }
 
 .volunteer .volunteer-form .btn.btn-custom:hover {
-    color: #970f23;
+    color: #2c3e50;
     border: 1px solid #ffffff;
     box-shadow: inset 0 0 0 30px #ffffff;
 }
@@ -1268,7 +1268,7 @@ button:hover{
 
 .event .event-item {
     margin-bottom: 30px;
-    background: #f8f9fa;
+    background: #f0f0f0;
 }
 
 .event .event-item img {
@@ -1299,7 +1299,7 @@ button:hover{
 }
 
 .event .event-meta i {
-    color: #343a40;
+    color: #2c3e50;
     width: 25px;
 }
 
@@ -1326,7 +1326,7 @@ button:hover{
     height: 40px;
     top: calc(50% - 20px);
     left: -1px;
-    background: #970f23;
+    background: #3498db;
 }
 
 .event .event-text h3 {
@@ -1392,7 +1392,7 @@ button:hover{
 .blog .blog-item {
     margin-bottom: 30px;
     padding-bottom: 30px;
-    background: #f8f9fa;
+    background: #f0f0f0;
     box-shadow: 5px 5px 5px rgb(82, 80, 80);
 }
 
@@ -1418,7 +1418,7 @@ button:hover{
 }
 
 .blog .blog-text h3 a:hover {
-    color: #970f23;
+    color: #3498db;
 }
 
 .blog .blog-text p {
@@ -1449,7 +1449,7 @@ button:hover{
 }
 
 .blog .blog-meta i {
-    color: #343a40;
+    color: #2c3e50;
     margin-right: 8px
 }
 
@@ -1458,15 +1458,15 @@ button:hover{
 }
 
 .blog .pagination .page-link {
-    color: #343a40;
+    color: #2c3e50;
     border-radius: 0;
-    border-color: #343a40;
+    border-color: #2c3e50;
 }
 
 .blog .pagination .page-link:hover,
 .blog .pagination .page-item.active .page-link {
-    color: #970f23;
-    background: #343a40;
+    color: #3498db;
+    background: #2c3e50;
 }
 
 .blog .pagination .disabled .page-link {
@@ -1503,7 +1503,7 @@ button:hover{
     margin: 0 auto;
     margin-top: -220px;
     padding: 30px;
-    background: #f8f9fa;
+    background: #f0f0f0; /* Light gray for the form background */
 }
 
 @media (max-width: 991.98px) {
@@ -1580,20 +1580,20 @@ button:hover{
     padding: 7px 15px;
     font-size: 14px;
     font-weight: 500;
-    color: #343a40;
-    border: 1px solid #343a40;
+    color: #2c3e50;
+    border: 1px solid #2c3e50;
 }
 
 .single .single-tags a:hover {
     color: #ffffff;
-    background: #970f23;
-    border-color: #970f23;
+    background: #3498db;
+    border-color: #3498db;
 }
 
 .single .single-bio {
     margin-bottom: 45px;
     padding: 30px;
-    background: #f8f9fa;
+    background: #f0f0f0;
     display: flex;
 }
 
@@ -1666,7 +1666,7 @@ button:hover{
 }
 
 .single .post-item .post-text a:hover {
-    color: #970f23;
+    color: #3498db;
 }
 
 .single .post-item .post-meta {
@@ -1707,16 +1707,16 @@ button:hover{
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #343a40;
-    background: #970f23;
+    color: #2c3e50;
+    background: #3498db;
     font-size: 16px;
     transition: .3s;
 }
 
 .single .related-slider .owl-nav .owl-prev:hover,
 .single .related-slider .owl-nav .owl-next:hover {
-    color: #970f23;
-    background: #343a40;
+    color: #3498db;
+    background: #2c3e50;
 }
 
 .single .single-comment {
@@ -1775,13 +1775,13 @@ button:hover{
     padding: 3px 10px;
     font-size: 14px;
     font-weight: 500;
-    color: #343a40;
+    color: #2c3e50;
     background: #dddddd;
     border-radius: 0;
 }
 
 .single .comment-text .btn:hover {
-    background: #970f23;
+    background: #3498db;
 }
 
 .single .comment-form {
@@ -1796,7 +1796,7 @@ button:hover{
 
 .single .comment-form form {
     padding: 30px;
-    background: #f8f9fa;
+    background: #f0f0f0;
 }
 
 .single .comment-form form .form-group:last-child {
@@ -1810,7 +1810,7 @@ button:hover{
 
 .single .comment-form input:focus,
 .single .comment-form textarea:focus {
-    border-color: #970f23;
+    border-color: #3498db;
 }
 
 
@@ -1848,7 +1848,7 @@ button:hover{
     height: 2px;
     bottom: 0;
     left: 0;
-    background: #970f23;
+    background: #3498db;
 }
 
 .sidebar .sidebar-widget .search-widget {
@@ -1863,7 +1863,7 @@ button:hover{
 
 .sidebar .search-widget input:focus {
     box-shadow: none;
-    border-color: #970f23;
+    border-color: #3498db;
 }
 
 .sidebar .search-widget .btn {
@@ -1873,7 +1873,7 @@ button:hover{
     height: 40px;
     padding: 0;
     font-size: 25px;
-    color: #970f23;
+    color: #3498db;
     background: none;
     border-radius: 0;
     border: none;
@@ -1881,7 +1881,7 @@ button:hover{
 }
 
 .sidebar .search-widget .btn:hover {
-    color: #343a40;
+    color: #2c3e50;
 }
 
 .sidebar .sidebar-widget .recent-post {
@@ -1893,15 +1893,15 @@ button:hover{
 }
 
 .sidebar .tab-post .nav.nav-pills .nav-link {
-    color: #343a40;
-    background: #970f23;
+    color: #2c3e50;
+    background: #3498db;
     border-radius: 0;
 }
 
 .sidebar .tab-post .nav.nav-pills .nav-link:hover,
 .sidebar .tab-post .nav.nav-pills .nav-link.active {
-    color: #970f23;
-    background: #343a40;
+    color: #3498db;
+    background: #2c3e50;
 }
 
 .sidebar .tab-post .tab-content {
@@ -1941,7 +1941,7 @@ button:hover{
     content: '\f105';
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
-    color: #970f23;
+    color: #3498db;
     left: 1px;
 }
 
@@ -1961,15 +1961,15 @@ button:hover{
     padding: 7px 15px;
     font-size: 14px;
     font-weight: 500;
-    color: #343a40;
-    border: 1px solid #343a40;
+    color: #2c3e50;
+    border: 1px solid #2c3e50;
     border-radius: 0;
 }
 
 .single .tag-widget a:hover {
     color: #ffffff;
-    background: #970f23;
-    border-color: #970f23;
+    background: #3498db;
+    border-color: #3498db;
 }
 
 .sidebar .image-widget {
@@ -1989,13 +1989,13 @@ button:hover{
 
 
 /*******************************/
-/********* Footer CSS **********/
+/********* Footer CSS *********/
 /*******************************/
 .footer {
     position: relative;
     margin-top: 45px;
     padding-top: 90px;
-    background: #343a40;
+    background: #2c3e50;
 }
 
 .footer .footer-contact,
@@ -2012,7 +2012,7 @@ button:hover{
     margin-bottom: 30px;
     font-size: 22px;
     font-weight: 700;
-    color: #970f23;
+    color: #3498db;
 }
 
 .footer .footer-link a {
@@ -2031,7 +2031,7 @@ button:hover{
 }
 
 .footer .footer-link a:hover {
-    color: #970f23;
+    color: #3498db;
     letter-spacing: 1px;
 }
 
@@ -2065,11 +2065,13 @@ button:hover{
     height: 60px;
     border: none;
     border-radius: 0;
+    background: #f0f0f0;
+    color: #2c3e50;
 }
 
 .footer .footer-newsletter label {
     margin-top: 5px;
-    color: #999999;
+    color: #2c3e50;
     font-size: 14px;
     letter-spacing: 1px;
 }
@@ -2103,7 +2105,7 @@ button:hover{
 }
 
 .footer .copyright p a:hover {
-    color: #970f23;
+    color: #3498db;
 }
 
 @media (max-width: 767.98px) {
