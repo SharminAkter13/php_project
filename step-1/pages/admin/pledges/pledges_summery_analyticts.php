@@ -1,5 +1,49 @@
+<?php
+// Include your database configuration file
+include('config.php');
+
+// Replace with your actual credentials if they are not in config.php
+$dms = new mysqli('localhost', 'root', '', 'donation_management_system');
+
+if ($dms->connect_error) {
+    die("Connection failed: " . $dms->connect_error);
+}
+
+// ------------------------------------------------------------------------------------------------
+// PHP Logic to fetch data for summary cards and chart
+// ------------------------------------------------------------------------------------------------
+// Total Pledged Amount
+$total_pledged = 0;
+$result = $dms->query("SELECT SUM(pledge_amount) AS total FROM pledges");
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $total_pledged = $row['total'] ?? 0;
+}
+
+// Total Fulfilled Amount
+// Corrected to use the 'amount' column from the 'donations' table
+$total_fulfilled = 0;
+$result = $dms->query("SELECT SUM(amount) AS total FROM donations");
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $total_fulfilled = $row['total'] ?? 0;
+}
+
+// Outstanding Pledges
+$outstanding_pledges = $total_pledged - $total_fulfilled;
+
+// Number of Active Pledges
+$active_pledges = 0;
+$result = $dms->query("SELECT COUNT(*) AS total FROM pledges WHERE status IN ('Partially Fulfilled', 'Overdue')");
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $active_pledges = $row['total'] ?? 0;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,202 +54,194 @@
         .card-header {
             font-weight: bold;
         }
+
         .status-badge {
             font-weight: bold;
         }
-        .status-fulfilled { background-color: #28a745; color: white; }
-        .status-partially { background-color: #ffc107; color: black; }
-        .status-overdue { background-color: #dc3545; color: white; }
+
+        .status-fulfilled {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-partially {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .status-overdue {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Adjust the chart container to limit its height and make it responsive */
+        .chart-container {
+            max-width: 100%;
+            height: 300px;
+            /* You can adjust this height to your desired size */
+        }
+
+        canvas {
+            width: 100% !important;
+            /* Make the canvas take the full width */
+            height: 100% !important;
+            /* Make the canvas take the full height */
+        }
     </style>
 </head>
+
 <body>
-
-<div class="container-fluid py-4">
-    <h1 class="mb-4">Pledge Tracking Dashboard</h1>
-
-    <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card text-white bg-primary h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Total Pledged Amount</h5>
-                    <h2 class="card-text">$150,000</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-success h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Total Fulfilled Amount</h5>
-                    <h2 class="card-text">$95,000</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-warning h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Outstanding Pledges</h5>
-                    <h2 class="card-text">$55,000</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-info h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Number of Active Pledges</h5>
-                    <h2 class="card-text">42</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card shadow-sm">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Pledge List</span>
-            <input type="text" class="form-control w-25" placeholder="Search pledges..." id="pledgeSearch">
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0" id="pledgeTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Donor</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-pledge-id="1">
-                            <td>#1001</td>
-                            <td>John Doe</td>
-                            <td>$5,000</td>
-                            <td><span class="badge status-fulfilled">Fulfilled</span></td>
-                            <td><button class="btn btn-sm btn-primary view-details" data-bs-toggle="modal" data-bs-target="#pledgeDetailModal">View Details</button></td>
-                        </tr>
-                        <tr data-pledge-id="2">
-                            <td>#1002</td>
-                            <td>Jane Smith</td>
-                            <td>$10,000</td>
-                            <td><span class="badge status-partially">Partially Fulfilled</span></td>
-                            <td><button class="btn btn-sm btn-primary view-details" data-bs-toggle="modal" data-bs-target="#pledgeDetailModal">View Details</button></td>
-                        </tr>
-                        <tr data-pledge-id="3">
-                            <td>#1003</td>
-                            <td>Acme Corp</td>
-                            <td>$25,000</td>
-                            <td><span class="badge status-overdue">Overdue</span></td>
-                            <td><button class="btn btn-sm btn-primary view-details" data-bs-toggle="modal" data-bs-target="#pledgeDetailModal">View Details</button></td>
-                        </tr>
-                        </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="pledgeDetailModal" tabindex="-1" aria-labelledby="pledgeDetailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pledgeDetailModalLabel">Pledge Details: <span id="pledgeId"></span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Donor Information</h6>
-                            <p><strong>Name:</strong> <span id="donorName"></span></p>
-                            <p><strong>Email:</strong> <span id="donorEmail"></span></p>
-                            <p><strong>Phone:</strong> <span id="donorPhone"></span></p>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Pledge Details</h6>
-                            <p><strong>Amount:</strong> <span id="pledgeAmount"></span></p>
-                            <p><strong>Status:</strong> <span class="badge" id="pledgeStatus"></span></p>
-                            <p><strong>Date Pledged:</strong> <span id="pledgeDate"></span></p>
-                            <p><strong>Outstanding Balance:</strong> <span id="outstandingBalance"></span></p>
-                        </div>
+    <div class="content-wrapper" style="min-height: 2838.44px;">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Users Interface</h1>
                     </div>
-                    <hr>
-                    <h6>Transaction History</h6>
-                    <ul class="list-group" id="transactionHistory">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>Payment of $2,000 via Credit Card</span>
-                            <span class="text-muted">on 2023-01-15</span>
-                        </li>
-                    </ul>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+                            <li class="breadcrumb-item active">Add Users</li>
+                        </ol>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Record Payment</button>
-                    <button type="button" class="btn btn-danger">Send Reminder</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+            </div><!-- /.container-fluid -->
+        </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const pledgeDetailModal = document.getElementById('pledgeDetailModal');
-        pledgeDetailModal.addEventListener('show.bs.modal', function (event) {
-            // Button that triggered the modal
-            const button = event.relatedTarget;
-            // Extract info from data-bs- attribute
-            const pledgeId = button.closest('tr').getAttribute('data-pledge-id');
-            
-            // In a real application, you'd fetch data for the specific pledgeId from your database
-            // For this example, we'll use placeholder data
-            const pledgeData = {
-                '1': {
-                    donorName: 'John Doe', donorEmail: 'john@example.com', donorPhone: '555-1234',
-                    amount: '$5,000', status: 'Fulfilled', statusClass: 'status-fulfilled',
-                    date: '2023-01-01', outstanding: '$0',
-                    transactions: ['Payment of $5,000 via Check on 2023-01-15']
+        <!-- Main content -->
+        <section class="content">
+
+
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header ">
+                    <h3 class="card-title">Add Users</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container-fluid py-4">
+                        <h1 class="mb-4">Pledge Tracking Dashboard</h1>
+
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-3">
+                                <div class="card text-white bg-primary h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total Pledged Amount</h5>
+                                        <h2 class="card-text">$<?php echo number_format($total_pledged, 2); ?></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-success h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total Fulfilled Amount</h5>
+                                        <h2 class="card-text">$<?php echo number_format($total_fulfilled, 2); ?></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-warning h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Outstanding Pledges</h5>
+                                        <h2 class="card-text">$<?php echo number_format($outstanding_pledges, 2); ?></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-info h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Number of Active Pledges</h5>
+                                        <h2 class="card-text"><?php echo $active_pledges; ?></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <span>Pledge Analytics Chart</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="pledgeChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+            </div>
+            <!-- /.card -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- ./Add users -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('pledgeChart').getContext('2d');
+            const pledgeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Pledged', 'Total Fulfilled', 'Outstanding'],
+                    datasets: [{
+                        label: 'Amount (USD)',
+                        data: [
+                            <?php echo $total_pledged; ?>,
+                            <?php echo $total_fulfilled; ?>,
+                            <?php echo $outstanding_pledges; ?>
+                        ],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.5)', // Blue for Pledged
+                            'rgba(75, 192, 192, 0.5)', // Green for Fulfilled
+                            'rgba(255, 206, 86, 0.5)' // Yellow for Outstanding
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
                 },
-                '2': {
-                    donorName: 'Jane Smith', donorEmail: 'jane@example.com', donorPhone: '555-5678',
-                    amount: '$10,000', status: 'Partially Fulfilled', statusClass: 'status-partially',
-                    date: '2023-02-10', outstanding: '$5,000',
-                    transactions: ['Payment of $5,000 via Credit Card on 2023-02-20']
-                },
-                '3': {
-                    donorName: 'Acme Corp', donorEmail: 'acme@example.com', donorPhone: '555-9012',
-                    amount: '$25,000', status: 'Overdue', statusClass: 'status-overdue',
-                    date: '2023-03-05', outstanding: '$25,000',
-                    transactions: []
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Ensure chart scales properly
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
                 }
-            };
-            
-            const data = pledgeData[pledgeId];
-            
-            // Update the modal's content
-            document.getElementById('pledgeId').textContent = '#' + pledgeId;
-            document.getElementById('donorName').textContent = data.donorName;
-            document.getElementById('donorEmail').textContent = data.donorEmail;
-            document.getElementById('donorPhone').textContent = data.donorPhone;
-            document.getElementById('pledgeAmount').textContent = data.amount;
-            document.getElementById('pledgeStatus').textContent = data.status;
-            document.getElementById('pledgeStatus').className = `badge ${data.statusClass}`;
-            document.getElementById('pledgeDate').textContent = data.date;
-            document.getElementById('outstandingBalance').textContent = data.outstanding;
-            
-            const transactionList = document.getElementById('transactionHistory');
-            transactionList.innerHTML = '';
-            if (data.transactions.length > 0) {
-                data.transactions.forEach(transaction => {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item';
-                    li.textContent = transaction;
-                    transactionList.appendChild(li);
-                });
-            } else {
-                transactionList.innerHTML = '<li class="list-group-item text-muted">No transactions recorded.</li>';
-            }
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>
+
+<?php
+// Close the database connection at the end of the script
+mysqli_close($dms);
+?>
