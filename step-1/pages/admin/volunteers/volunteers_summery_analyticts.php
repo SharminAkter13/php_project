@@ -1,58 +1,145 @@
+<?php
+// Include your database configuration file
+include('config.php');
+
+// Replace with your actual credentials if they are not in config.php
+$dms = new mysqli('localhost', 'root', '', 'donation_management_system');
+
+if ($dms->connect_error) {
+    die("Connection failed: " . $dms->connect_error);
+}
+
+// ------------------------------------------------------------------------------------------------
+// PHP Logic to fetch data for summary cards
+// ------------------------------------------------------------------------------------------------
+// Total Volunteers
+$total_volunteers = 0;
+$result = $dms->query("SELECT COUNT(*) AS total FROM volunteer");
+if ($result) {
+    $row = $result->fetch_assoc();
+    $total_volunteers = $row['total'];
+}
+
+// Active Volunteers (assuming 'Available' and 'Assigned' are active statuses)
+$active_volunteers = 0;
+$result = $dms->query("SELECT COUNT(*) AS total FROM volunteer WHERE availability_status IN ('Available', 'Assigned')");
+if ($result) {
+    $row = $result->fetch_assoc();
+    $active_volunteers = $row['total'];
+}
+
+// Completed Tasks (this metric is not in your previous table, so a placeholder query is used)
+$completed_tasks = 0;
+// Example if you add a 'Completed' status: $result = $dms->query("SELECT COUNT(*) AS total FROM volunteer WHERE availability_status = 'Completed'");
+
+// Events with Volunteers
+$events_with_volunteers = 0;
+$result = $dms->query("SELECT COUNT(DISTINCT event_id) AS total FROM volunteer WHERE event_id IS NOT NULL");
+if ($result) {
+    $row = $result->fetch_assoc();
+    $events_with_volunteers = $row['total'];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pledge Tracking Dashboard</title>
+    <title>Volunteer Tracking Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        body {
+            background-color: #f4f6f9;
+        }
         .card-header {
             font-weight: bold;
         }
         .status-badge {
             font-weight: bold;
+            padding: 0.35em 0.65em;
+            border-radius: 0.25rem;
+            display: inline-block;
         }
-        .status-fulfilled { background-color: #28a745; color: white; }
-        .status-partially { background-color: #ffc107; color: black; }
-        .status-overdue { background-color: #dc3545; color: white; }
+        .status-available { background-color: #28a745; color: white; }
+        .status-assigned { background-color: #ffc107; color: black; }
+        .status-unavailable { background-color: #dc3545; color: white; }
     </style>
 </head>
 <body>
+    <div class="content-wrapper" style="min-height: 2838.44px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Volunteers Interface</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+              <li class="breadcrumb-item active">Manage Volunteer</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header ">
+          <h3 class="card-title">Manage Volunteer</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
 
 <div class="container-fluid py-4">
-    <h1 class="mb-4">Pledge Tracking Dashboard</h1>
+    <h1 class="mb-4">Volunteer Tracking Dashboard</h1>
 
     <div class="row g-4 mb-4">
         <div class="col-md-3">
             <div class="card text-white bg-primary h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Total Pledged Amount</h5>
-                    <h2 class="card-text">$150,000</h2>
+                    <h5 class="card-title">Total Volunteers</h5>
+                    <h2 class="card-text"><?php echo $total_volunteers; ?></h2>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-success h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Total Fulfilled Amount</h5>
-                    <h2 class="card-text">$95,000</h2>
+                    <h5 class="card-title">Active Volunteers</h5>
+                    <h2 class="card-text"><?php echo $active_volunteers; ?></h2>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-warning h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Outstanding Pledges</h5>
-                    <h2 class="card-text">$55,000</h2>
+                    <h5 class="card-title">Completed Tasks</h5>
+                    <h2 class="card-text"><?php echo $completed_tasks; ?></h2>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-info h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Number of Active Pledges</h5>
-                    <h2 class="card-text">42</h2>
+                    <h5 class="card-title">Events with Volunteers</h5>
+                    <h2 class="card-text"><?php echo $events_with_volunteers; ?></h2>
                 </div>
             </div>
         </div>
@@ -60,152 +147,183 @@
 
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Pledge List</span>
-            <input type="text" class="form-control w-25" placeholder="Search pledges..." id="pledgeSearch">
+            <span>Volunteer List</span>
+            <input type="text" class="form-control w-25" placeholder="Search volunteers..." id="volunteerSearch">
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover mb-0" id="pledgeTable">
+                <table class="table table-hover mb-0" id="volunteerTable">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Donor</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Volunteer Name</th>
+                            <th scope="col">Availability Status</th>
+                            <th scope="col">Assigned Event</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-pledge-id="1">
-                            <td>#1001</td>
-                            <td>John Doe</td>
-                            <td>$5,000</td>
-                            <td><span class="badge status-fulfilled">Fulfilled</span></td>
-                            <td><button class="btn btn-sm btn-primary view-details" data-bs-toggle="modal" data-bs-target="#pledgeDetailModal">View Details</button></td>
-                        </tr>
-                        <tr data-pledge-id="2">
-                            <td>#1002</td>
-                            <td>Jane Smith</td>
-                            <td>$10,000</td>
-                            <td><span class="badge status-partially">Partially Fulfilled</span></td>
-                            <td><button class="btn btn-sm btn-primary view-details" data-bs-toggle="modal" data-bs-target="#pledgeDetailModal">View Details</button></td>
-                        </tr>
-                        <tr data-pledge-id="3">
-                            <td>#1003</td>
-                            <td>Acme Corp</td>
-                            <td>$25,000</td>
-                            <td><span class="badge status-overdue">Overdue</span></td>
-                            <td><button class="btn btn-sm btn-primary view-details" data-bs-toggle="modal" data-bs-target="#pledgeDetailModal">View Details</button></td>
-                        </tr>
-                        </tbody>
+                        <?php
+                        // Query to fetch all volunteers with their assigned event and user names
+                        $query = "SELECT 
+                                    vs.id, vs.name, vs.contact, vs.task, vs.availability_status, 
+                                    e.name AS event_name, 
+                                    CONCAT(u.first_name, ' ', u.last_name) AS user_name 
+                                  FROM 
+                                    volunteer vs
+                                  LEFT JOIN 
+                                    events e ON vs.event_id = e.id
+                                  LEFT JOIN
+                                    users u ON vs.user_id = u.id
+                                  ORDER BY vs.id DESC";
+
+                        $volunteers_result = $dms->query($query);
+                        if ($volunteers_result) {
+                            while ($row = $volunteers_result->fetch_assoc()) {
+                                // Sanitize data for HTML output
+                                $id = htmlspecialchars($row['id']);
+                                $name = htmlspecialchars($row['name']);
+                                $contact = htmlspecialchars($row['contact']);
+                                $task = htmlspecialchars($row['task']);
+                                $availability_status = htmlspecialchars($row['availability_status']);
+                                $event_name = htmlspecialchars($row['event_name'] ?? 'N/A');
+                                $user_name = htmlspecialchars($row['user_name'] ?? 'N/A');
+
+                                // Determine badge class based on status
+                                $status_class = '';
+                                switch ($availability_status) {
+                                    case 'Available':
+                                        $status_class = 'status-available';
+                                        break;
+                                    case 'Assigned':
+                                        $status_class = 'status-assigned';
+                                        break;
+                                    case 'Unavailable':
+                                        $status_class = 'status-unavailable';
+                                        break;
+                                }
+
+                                echo "<tr>";
+                                echo "<td>#V{$id}</td>";
+                                echo "<td>{$name}</td>";
+                                echo "<td><span class='status-badge {$status_class}'>{$availability_status}</span></td>";
+                                echo "<td>{$event_name}</td>";
+                                echo "<td>
+                                        <button class='btn btn-sm btn-primary view-details' data-bs-toggle='modal' data-bs-target='#volunteerDetailModal'
+                                                data-id='{$id}'
+                                                data-name='{$name}'
+                                                data-contact='{$contact}'
+                                                data-task='{$task}'
+                                                data-availability='{$availability_status}'
+                                                data-eventname='{$event_name}'
+                                                data-username='{$user_name}'>
+                                            View Details
+                                        </button>
+                                      </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='5' class='text-center'>No volunteers found.</td></tr>";
+                        }
+                        ?>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="pledgeDetailModal" tabindex="-1" aria-labelledby="pledgeDetailModalLabel" aria-hidden="true">
+    <div class="modal fade" id="volunteerDetailModal" tabindex="-1" aria-labelledby="volunteerDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="pledgeDetailModalLabel">Pledge Details: <span id="pledgeId"></span></h5>
+                    <h5 class="modal-title" id="volunteerDetailModalLabel">Volunteer Details: <span id="volunteerId"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h6>Donor Information</h6>
-                            <p><strong>Name:</strong> <span id="donorName"></span></p>
-                            <p><strong>Email:</strong> <span id="donorEmail"></span></p>
-                            <p><strong>Phone:</strong> <span id="donorPhone"></span></p>
+                            <h6>Volunteer Information</h6>
+                            <p><strong>Name:</strong> <span id="volunteerName"></span></p>
+                            <p><strong>Contact:</strong> <span id="volunteerContact"></span></p>
+                            <p><strong>Task:</strong> <span id="volunteerTask"></span></p>
                         </div>
                         <div class="col-md-6">
-                            <h6>Pledge Details</h6>
-                            <p><strong>Amount:</strong> <span id="pledgeAmount"></span></p>
-                            <p><strong>Status:</strong> <span class="badge" id="pledgeStatus"></span></p>
-                            <p><strong>Date Pledged:</strong> <span id="pledgeDate"></span></p>
-                            <p><strong>Outstanding Balance:</strong> <span id="outstandingBalance"></span></p>
+                            <h6>Assignment Details</h6>
+                            <p><strong>Availability Status:</strong> <span class="badge" id="volunteerStatus"></span></p>
+                            <p><strong>Assigned Event:</strong> <span id="volunteerEvent"></span></p>
+                            <p><strong>User (Who Assigned):</strong> <span id="volunteerUser"></span></p>
                         </div>
                     </div>
-                    <hr>
-                    <h6>Transaction History</h6>
-                    <ul class="list-group" id="transactionHistory">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>Payment of $2,000 via Credit Card</span>
-                            <span class="text-muted">on 2023-01-15</span>
-                        </li>
-                    </ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Record Payment</button>
-                    <button type="button" class="btn btn-danger">Send Reminder</button>
-                </div>
+                    </div>
             </div>
         </div>
     </div>
 </div>
+ </div>
+        <!-- /.card-body -->
+       
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- ./Add users -->
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const pledgeDetailModal = document.getElementById('pledgeDetailModal');
-        pledgeDetailModal.addEventListener('show.bs.modal', function (event) {
-            // Button that triggered the modal
+        const volunteerDetailModal = document.getElementById('volunteerDetailModal');
+        volunteerDetailModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            // Extract info from data-bs- attribute
-            const pledgeId = button.closest('tr').getAttribute('data-pledge-id');
             
-            // In a real application, you'd fetch data for the specific pledgeId from your database
-            // For this example, we'll use placeholder data
-            const pledgeData = {
-                '1': {
-                    donorName: 'John Doe', donorEmail: 'john@example.com', donorPhone: '555-1234',
-                    amount: '$5,000', status: 'Fulfilled', statusClass: 'status-fulfilled',
-                    date: '2023-01-01', outstanding: '$0',
-                    transactions: ['Payment of $5,000 via Check on 2023-01-15']
-                },
-                '2': {
-                    donorName: 'Jane Smith', donorEmail: 'jane@example.com', donorPhone: '555-5678',
-                    amount: '$10,000', status: 'Partially Fulfilled', statusClass: 'status-partially',
-                    date: '2023-02-10', outstanding: '$5,000',
-                    transactions: ['Payment of $5,000 via Credit Card on 2023-02-20']
-                },
-                '3': {
-                    donorName: 'Acme Corp', donorEmail: 'acme@example.com', donorPhone: '555-9012',
-                    amount: '$25,000', status: 'Overdue', statusClass: 'status-overdue',
-                    date: '2023-03-05', outstanding: '$25,000',
-                    transactions: []
-                }
-            };
+            // Get data from data-* attributes on the button
+            const id = button.getAttribute('data-id');
+            const name = button.getAttribute('data-name');
+            const contact = button.getAttribute('data-contact');
+            const task = button.getAttribute('data-task');
+            const availability = button.getAttribute('data-availability');
+            const eventName = button.getAttribute('data-eventname');
+            const userName = button.getAttribute('data-username');
+
+            // Populate the modal's content
+            document.getElementById('volunteerId').textContent = '#' + id;
+            document.getElementById('volunteerName').textContent = name;
+            document.getElementById('volunteerContact').textContent = contact;
+            document.getElementById('volunteerTask').textContent = task;
             
-            const data = pledgeData[pledgeId];
+            const statusBadge = document.getElementById('volunteerStatus');
+            statusBadge.textContent = availability;
             
-            // Update the modal's content
-            document.getElementById('pledgeId').textContent = '#' + pledgeId;
-            document.getElementById('donorName').textContent = data.donorName;
-            document.getElementById('donorEmail').textContent = data.donorEmail;
-            document.getElementById('donorPhone').textContent = data.donorPhone;
-            document.getElementById('pledgeAmount').textContent = data.amount;
-            document.getElementById('pledgeStatus').textContent = data.status;
-            document.getElementById('pledgeStatus').className = `badge ${data.statusClass}`;
-            document.getElementById('pledgeDate').textContent = data.date;
-            document.getElementById('outstandingBalance').textContent = data.outstanding;
-            
-            const transactionList = document.getElementById('transactionHistory');
-            transactionList.innerHTML = '';
-            if (data.transactions.length > 0) {
-                data.transactions.forEach(transaction => {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item';
-                    li.textContent = transaction;
-                    transactionList.appendChild(li);
-                });
-            } else {
-                transactionList.innerHTML = '<li class="list-group-item text-muted">No transactions recorded.</li>';
+            // Set status class dynamically
+            let statusClass = '';
+            switch (availability) {
+                case 'Available':
+                    statusClass = 'status-available';
+                    break;
+                case 'Assigned':
+                    statusClass = 'status-assigned';
+                    break;
+                case 'Unavailable':
+                    statusClass = 'status-unavailable';
+                    break;
             }
+            statusBadge.className = `status-badge ${statusClass}`;
+            
+            document.getElementById('volunteerEvent').textContent = eventName;
+            document.getElementById('volunteerUser').textContent = userName;
         });
     });
 </script>
 
 </body>
 </html>
+
+<?php
+// Close the database connection at the end of the script
+mysqli_close($dms);
+?>
