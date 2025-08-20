@@ -105,6 +105,10 @@
             
             include("pages/admin/volunteers/volunteers_summery_analyticts.php");
             
+        }else if($page==27){
+            
+            include("pages/admin/logout/logout.php");
+            
         }
     }
 ?>

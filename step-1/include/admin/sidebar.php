@@ -289,6 +289,15 @@
                     
                 </li>
                 <!-- end Volunteer Section -->
+                 <li>
+                     <a href="home.php?page=27" class="nav-link">
+                         <i class="fas fa-sign-out-alt"></i> &nbsp;                      
+                        <p>
+                            Logout
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                 </li>
 
             </ul>
         </nav>

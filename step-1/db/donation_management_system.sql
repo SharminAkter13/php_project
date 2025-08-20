@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2025 at 06:27 AM
+-- Generation Time: Aug 20, 2025 at 07:58 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,16 +34,19 @@ CREATE TABLE `beneficiaries` (
   `phone` varchar(20) DEFAULT NULL,
   `address` text DEFAULT NULL,
   `required_support` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `beneficiaries`
 --
 
-INSERT INTO `beneficiaries` (`id`, `name`, `email`, `phone`, `address`, `required_support`, `created_at`) VALUES
-(1, 'johnny', 'johnny@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:32'),
-(2, 'john', 'john@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:43');
+INSERT INTO `beneficiaries` (`id`, `name`, `email`, `phone`, `address`, `required_support`, `created_at`, `user_id`) VALUES
+(1, 'johnny', 'johnny@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:32', 11),
+(2, 'john', 'john@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:43', 12),
+(5, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:02:47', 7),
+(6, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:20:27', 7);
 
 -- --------------------------------------------------------
 
@@ -60,19 +63,20 @@ CREATE TABLE `campaigns` (
   `end_date` date DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
   `event_id` int(11) DEFAULT NULL,
-  `file` varchar(255) NOT NULL
+  `file_path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `campaigns`
 --
 
-INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `start_date`, `end_date`, `status`, `event_id`, `file`) VALUES
+INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `start_date`, `end_date`, `status`, `event_id`, `file_path`) VALUES
 (1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, '2025-08-15 18:00:00', '2025-08-31', 'Active', 1, 'charity_run.jpg'),
 (2, 'Food Donation Drive', 'Collecting and distributing food for underprivileged families.', 15000, '2025-08-16 07:57:17', '2025-02-15', 'Inactive', 2, 'food_drive.jpg'),
 (3, 'School Fundraising Gala', 'Annual gala to support school infrastructure and scholarships.', 50000, '2025-08-16 07:57:43', '2025-03-25', 'Inactive', 3, 'school_gala.jpg'),
 (4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, '2025-08-22 18:00:00', '2025-09-09', 'Active', 4, 'emergency_relief.jpg'),
-(5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, '2025-09-30 18:00:00', '2025-11-01', 'Active', 5, 'health_camp.jpg');
+(5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, '2025-09-30 18:00:00', '2025-11-01', 'Active', 5, 'health_camp.jpg'),
+(6, 'Fresh Water ', 'Fresh water for village people', 100000, '2025-08-22 18:00:00', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
 
 -- --------------------------------------------------------
 
@@ -141,7 +145,8 @@ CREATE TABLE `donors` (
 --
 
 INSERT INTO `donors` (`id`, `name`, `contact`, `type`, `user_id`, `pledge_id`) VALUES
-(11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2);
+(11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2),
+(12, '', NULL, NULL, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -305,10 +310,37 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role_id`, `created_at`) VALUES
 (3, 'Sharmin', 'Akter', 'sharminakter@gmail.com', '$2y$10$uzHD1Z4lXppoB/Rck.pnIOImOQryJpFIu4XgPjVfmGrF0qHqJ4/w6', 1, '2025-08-15 18:16:30'),
 (4, 'programmer', 'diva', 'programmer@gmail.com', '$2y$10$FDLcmWXz1IdOum52bD1OiO6SFVJ97Z2g1WgZlQsAdogeAJ4Lcg5Pe', 4, '2025-08-15 18:18:11'),
-(5, 'Alice', 'Johnson', 'alice.j@email.com', 'password123', 4, '2025-08-16 06:57:21'),
-(6, 'Bob', 'Smith', 'bob.s@email.com', 'password456', 2, '2025-08-16 06:57:21'),
+(5, 'Alice', 'Johnson', 'alice.j@email.com', 'password123', 3, '2025-08-16 06:57:21'),
+(6, 'Bob', 'Smith', 'bob.s@email.com', 'password456', 3, '2025-08-16 06:57:21'),
 (7, 'Charlie', 'Brown', 'charlie.b@email.com', 'password789', 5, '2025-08-16 06:57:21'),
-(8, 'Diana', 'Miller', 'diana.m@email.com', 'passwordabc', 3, '2025-08-16 06:57:21');
+(8, 'Diana', 'Miller', 'diana.m@email.com', 'passwordabc', 3, '2025-08-16 06:57:21'),
+(9, 'Ayaan', 'Mohammad', 'ayaan@gmail.com', '$2y$10$JryyXYRfPOi50gP9asod3uJDcim3CpJMkKfz36K54QeH74iJojE2O', 2, '2025-08-20 03:18:34'),
+(10, 'Ali', 'Mohammad', 'ali@gmail.com', '$2y$10$TfZKmmIGIzkgfvCOGRXpu.Bl6ZAVakAqJkpgODGej7QIa3SpFo9xK', 2, '2025-08-20 03:38:12'),
+(11, 'johnny', 'jonh', 'johnny@gmail.com', '$2y$10$N.PTawvJGtDua0OCtc6GDO2gnqqNpjh6Y8lME0bBYo7unLwOxg8bG', 5, '2025-08-20 03:53:04'),
+(12, 'john', 'doe', 'john@gmail.com', '$2y$10$wWbdTZSK1gJqQ0sK4aXDTeFlbo8jnRGOUmG2pWBr/1dllyHjAc2Ei', 5, '2025-08-20 03:53:57');
+
+--
+-- Triggers `users`
+--
+DELIMITER $$
+CREATE TRIGGER `after_user_insert` AFTER INSERT ON `users` FOR EACH ROW BEGIN
+    DECLARE role_name VARCHAR(255);
+    
+    -- Get the role name from the roles table using the new user's role_id
+    SELECT name INTO role_name FROM roles WHERE id = NEW.role_id;
+
+    IF role_name = 'donor' THEN
+        INSERT INTO donors (user_id) VALUES (NEW.id);
+    ELSEIF role_name = 'volunteer' THEN
+        INSERT INTO volunteers (user_id) VALUES (NEW.id);
+    ELSEIF role_name = 'campaign_manager' THEN
+        INSERT INTO campaign_management (user_id) VALUES (NEW.id);
+    ELSEIF role_name = 'beneficiary' THEN
+        INSERT INTO beneficiaries (user_id) VALUES (NEW.id);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -321,7 +353,7 @@ CREATE TABLE `volunteer` (
   `name` varchar(255) NOT NULL,
   `contact` varchar(255) DEFAULT NULL,
   `task` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `availability_status` enum('Available','Unavailable') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `event_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
@@ -331,11 +363,11 @@ CREATE TABLE `volunteer` (
 -- Dumping data for table `volunteer`
 --
 
-INSERT INTO `volunteer` (`id`, `name`, `contact`, `task`, `password`, `created_at`, `event_id`, `user_id`) VALUES
-(3, 'Alice Johnson', 'alice.j@email.com', 'Event Management', 'password123', '2025-08-16 06:59:59', 1, 5),
-(4, 'Bob Smith', 'bob.s@email.com', 'Food Sorting', 'password456', '2025-08-16 06:59:59', 2, 5),
-(5, 'Charlie Brown', 'charlie.b@email.com', 'Community Outreach', 'password789', '2025-08-16 06:59:59', 1, 5),
-(6, 'Diana Miller', 'diana.m@email.com', 'Fundraising', 'passwordabc', '2025-08-16 06:59:59', 3, 5);
+INSERT INTO `volunteer` (`id`, `name`, `contact`, `task`, `availability_status`, `created_at`, `event_id`, `user_id`) VALUES
+(3, 'Alice Johnson', 'alice.j@email.com', 'Event Management', 'Unavailable', '2025-08-16 06:59:59', 1, 5),
+(4, 'Bob Smith', 'bob.s@email.com', 'Food Sorting', 'Available', '2025-08-16 06:59:59', 2, 5),
+(5, 'Charlie Brown', 'charlie.b@email.com', 'Community Outreach', 'Available', '2025-08-16 06:59:59', 1, 5),
+(6, 'Diana Miller', 'diana.m@email.com', 'Fundraising', 'Available', '2025-08-16 06:59:59', 3, 5);
 
 --
 -- Indexes for dumped tables
@@ -345,7 +377,8 @@ INSERT INTO `volunteer` (`id`, `name`, `contact`, `task`, `password`, `created_a
 -- Indexes for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_id` (`user_id`);
 
 --
 -- Indexes for table `campaigns`
@@ -448,13 +481,13 @@ ALTER TABLE `volunteer`
 -- AUTO_INCREMENT for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `campaigns`
 --
 ALTER TABLE `campaigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `campaign_management`
@@ -472,7 +505,7 @@ ALTER TABLE `donations`
 -- AUTO_INCREMENT for table `donors`
 --
 ALTER TABLE `donors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -514,7 +547,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `volunteer`
@@ -525,6 +558,12 @@ ALTER TABLE `volunteer`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `beneficiaries`
+--
+ALTER TABLE `beneficiaries`
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `campaigns`
