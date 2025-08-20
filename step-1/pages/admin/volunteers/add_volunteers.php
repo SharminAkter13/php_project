@@ -1,52 +1,43 @@
 <?php
 include('config.php');
 
-// Initialize variables
-$errors = [];
-$success = false;
-$mysqli = $dms; // Use the provided $dms variable for consistency
+$message = "";
 
-// Fetch donors and campaigns for dropdowns
-$donors_result = $mysqli->query("SELECT id, name FROM donors ORDER BY name");
-$campaigns_result = $mysqli->query("SELECT id, name FROM campaigns ORDER BY name");
+// Check database connection
+if (!$dms) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-// Handle form submission
+// --- Handle form submission ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
-    $donor_id = $_POST['donor_id'] ?? '';
-    $campaign_id = $_POST['campaign_id'] ?? '';
-    $name = trim($_POST['name'] ?? '');
-    $pledge_amount = floatval($_POST['pledge_amount'] ?? 0);
-    $pledge_date = $_POST['pledge_date'] ?? '';
-    $status = $_POST['status'] ?? 'Pending';
+    // Sanitize and validate inputs
+    $user_id = intval($_POST['user_id'] ?? 0);
+    $availability_status = trim($_POST['volunteer_availability_status'] ?? '');
+    $task = trim($_POST['volunteer_task'] ?? '');
+    $event_id = intval($_POST['event_id'] ?? 0);
+    $contact = trim($_POST['volunteer_contact'] ?? '');
+    $name = trim($_POST['volunteer_name'] ?? '');
 
-    // Simple validation
-    if (!$donor_id) $errors[] = "Please select a donor.";
-    if (!$campaign_id) $errors[] = "Please select a campaign.";
-    if (empty($name)) $errors[] = "Please enter a pledge name.";
-    if ($pledge_amount <= 0) $errors[] = "Please enter a valid pledge amount.";
-    if (empty($pledge_date)) $errors[] = "Please select a pledge date.";
-
-    // If no validation errors, proceed with database insertion
-    if (empty($errors)) {
+    // Validate inputs
+    if (empty($name) || empty($contact) || empty($task) || empty($availability_status) || $event_id <= 0 || $user_id <= 0) {
+        $message = "<div class='alert alert-danger text-center'>Please fill in all required fields.</div>";
+    } else {
         // Use a prepared statement to prevent SQL injection
-        $stmt = $mysqli->prepare("INSERT INTO pledges (name, pledge_amount, pledge_date, status, donor_id, campaign_id) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = "INSERT INTO volunteer_system (name, contact, task, availability_status, event_id, user_id) 
+                  VALUES (?, ?, ?, ?, ?, ?)";
         
-        if (!$stmt) {
-            die("Prepare failed: " . $mysqli->error);
-        }
+        if ($stmt = $dms->prepare($query)) {
+            $stmt->bind_param("ssssii", $name, $contact, $task, $availability_status, $event_id, $user_id);
 
-        // Bind parameters and execute
-        // 'sdssii' corresponds to string, double, string, string, integer, integer
-        $stmt->bind_param("sdssii", $name, $pledge_amount, $pledge_date, $status, $donor_id, $campaign_id);
-        
-        // Check for success and close the statement
-        if ($stmt->execute()) {
-            $success = true;
+            if ($stmt->execute()) {
+                $message = "<div class='alert alert-success text-center'>Volunteer added successfully!</div>";
+            } else {
+                $message = "<div class='alert alert-danger text-center'>Error adding volunteer: " . htmlspecialchars($stmt->error) . "</div>";
+            }
+            $stmt->close();
         } else {
-            $errors[] = "Error adding pledge: " . $stmt->error;
+            $message = "<div class='alert alert-danger text-center'>Database prepare error: " . htmlspecialchars($dms->error) . "</div>";
         }
-        $stmt->close();
     }
 }
 ?>
@@ -54,147 +45,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Add New Pledge</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- AdminLTE Theme -->
-  <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Volunteer - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card { border-radius: 12px; box-shadow: 0px 4px 15px rgba(0,0,0,0.1); }
+    </style>
 </head>
-<body class="hold-transition">
-  <!-- Page Content Wrapper -->
-  <div class="content-wrapper" style="min-height: 2838.44px;">
-    <!-- Page Header -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Add New Pledge</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Add Pledge</li>
-            </ol>
-          </div>
+<body>
+
+<div class="container my-5 p-5">
+    <div class="row">
+        <div class="col-md-9 offset-md-3">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0"><i class="fas fa-handshake-angle me-2"></i>Add Volunteer</h4>
+                        </div>
+                        <div class="card-body">
+                            <?= $message ?>
+                            <form method="POST" action="">
+                                <div class="mb-3">
+                                    <label for="volunteer_name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="volunteer_name" name="volunteer_name" placeholder="Enter volunteer's full name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="volunteer_contact" class="form-label">Contact</label>
+                                    <input type="text" class="form-control" id="volunteer_contact" name="volunteer_contact" placeholder="Enter contact" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="volunteer_task" class="form-label">Task</label>
+                                    <input type="text" class="form-control" id="volunteer_task" name="volunteer_task" placeholder="Enter task" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="volunteer_availability_status" class="form-label">Availability Status</label>
+                                    <select class="form-control" id="volunteer_availability_status" name="volunteer_availability_status" required>
+                                        <option value="">Select status</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="event_id" class="form-label">Select Event</label>
+                                    <select class="form-control" id="event_id" name="event_id" required>
+                                        <option value="">Select an event</option>
+                                        <?php
+                                        $result = mysqli_query($dms, "SELECT id, name FROM events ORDER BY name");
+                                        if (!$result) {
+                                            echo "<option value=''>Error fetching events</option>";
+                                        } else {
+                                            while ($event = mysqli_fetch_assoc($result)) {
+                                                echo "<option value='{$event['id']}'>" . htmlspecialchars($event['name']) . "</option>";
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="user_id" class="form-label">Select User</label>
+                                    <select class="form-control" id="user_id" name="user_id" required>
+                                        <option value="">Select a user</option>
+                                        <?php
+                                        // This is the corrected query to show only volunteers
+                                        $query = "SELECT id, CONCAT(first_name, ' ', last_name) AS full_name FROM users WHERE role_id = 3 ORDER BY full_name";
+                                        $result = mysqli_query($dms, $query);
+
+                                        if (!$result) {
+                                            echo "<option value=''>Error fetching users</option>";
+                                        } else {
+                                            while ($user = mysqli_fetch_assoc($result)) {
+                                                echo "<option value='{$user['id']}'>" . htmlspecialchars($user['full_name']) . "</option>";
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="text-end">
+                                    <button type="reset" class="btn btn-secondary me-2">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Add Volunteer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Main Content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card shadow-sm">
-          <div class="card-header bg-primary text-white">
-            <h3 class="card-title">Pledge Details</h3>
-          </div>
-          <div class="card-body">
-            <!-- Success/Error Messages -->
-            <?php if ($success): ?>
-              <div class="alert alert-success">Pledge added successfully! <a href="manage_pledges.php">Go to Manage Pledges</a></div>
-            <?php endif; ?>
-            <?php if (!empty($errors)): ?>
-              <div class="alert alert-danger">
-                <ul class="mb-0">
-                  <?php foreach ($errors as $err): ?>
-                    <li><?= htmlspecialchars($err) ?></li>
-                  <?php endforeach; ?>
-                </ul>
-              </div>
-            <?php endif; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-            <form method="post" action="add_pledges.php" novalidate>
-              <!-- Donor Dropdown -->
-              <div class="mb-3">
-                <label for="donor_id" class="form-label">Donor</label>
-                <select class="form-control" id="donor_id" name="donor_id" required>
-                  <option value="" disabled selected>-- Choose Donor --</option>
-                  <?php while($d = $donors_result->fetch_assoc()): ?>
-                    <option value="<?= htmlspecialchars($d['id']) ?>"><?= htmlspecialchars($d['name']) ?></option>
-                  <?php endwhile; ?>
-                </select>
-              </div>
-
-              <!-- Campaign Dropdown -->
-              <div class="mb-3">
-                <label for="campaign_id" class="form-label">Campaign</label>
-                <select class="form-control" id="campaign_id" name="campaign_id" required>
-                  <option value="" disabled selected>-- Choose Campaign --</option>
-                  <?php while($c = $campaigns_result->fetch_assoc()): ?>
-                    <option value="<?= htmlspecialchars($c['id']) ?>"><?= htmlspecialchars($c['name']) ?></option>
-                  <?php endwhile; ?>
-                </select>
-              </div>
-            
-              <!-- Pledge Name -->
-              <div class="mb-3">
-                <label for="name" class="form-label">Pledge Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  name="name"
-                  required
-                  value="<?= htmlspecialchars($_POST['name'] ?? '') ?>"
-                />
-              </div>
-
-              <!-- Pledge Amount -->
-              <div class="mb-3">
-                <label for="pledge_amount" class="form-label">Pledge Amount ($)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="pledge_amount"
-                  name="pledge_amount"
-                  step="0.01"
-                  min="0"
-                  required
-                  value="<?= htmlspecialchars($_POST['pledge_amount'] ?? '') ?>"
-                />
-              </div>
-
-              <!-- Pledge Date -->
-              <div class="mb-3">
-                <label for="pledge_date" class="form-label">Pledge Date</label>
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="pledge_date"
-                  name="pledge_date"
-                  required
-                  value="<?= htmlspecialchars($_POST['pledge_date'] ?? '') ?>"
-                />
-              </div>
-
-              <!-- Status Dropdown -->
-              <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-control" id="status" name="status" required>
-                  <?php
-                    $statuses = ['Pending', 'Approved', 'Completed'];
-                    $selectedStatus = $_POST['status'] ?? 'Pending';
-                    foreach ($statuses as $st):
-                  ?>
-                    <option value="<?= $st ?>" <?= ($selectedStatus === $st) ? 'selected' : '' ?>><?= $st ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-
-              <button type="submit" class="btn btn-primary">Save Pledge</button>
-              <a href="manage_pledges.php" class="btn btn-secondary ms-2">Cancel</a>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Bootstrap & AdminLTE Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/dist/js/adminlte.min.js"></script>
 </body>
 </html>
+<?php
+// Close the database connection at the end of the script
+mysqli_close($dms);
+?>
