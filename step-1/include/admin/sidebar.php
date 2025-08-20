@@ -220,7 +220,7 @@
                     </ul>
                 </li>
 
-                <!-- Beneficiary Section -->
+                <!-- Pledges Section -->
                 <li class="nav-item" id="beneficiary-campaigns">
                     <a href="#" class="nav-link">
                         <i class="fas fa-handshake"></i> &nbsp;                      
@@ -249,7 +249,47 @@
                             </a>
                         </li>
                     </ul>
+
+                    
                 </li>
+                <!--  End Pledges Section -->
+
+
+
+                <!-- Volunteer Section -->
+                <li class="nav-item" id="beneficiary-campaigns">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-handshake"></i> &nbsp;                      
+                        <p>
+                             Volunteers
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="home.php?page=24" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Volunteers</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.php?page=25" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Manage Volunteers</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.php?page=26" class="nav-link">
+                                <i class="far fa-chart-bar nav-icon"></i>
+                                <p>Volunteers Summery and Analyticts</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    
+                </li>
+                <!-- end Volunteer Section -->
+
             </ul>
         </nav>
     </div>

@@ -93,6 +93,18 @@
             
             include("pages/admin/pledges/pledges_summery_analyticts.php");
             
+        }else if($page==24){
+            
+            include("pages/admin/volunteers/add_volunteers.php");
+            
+        }else if($page==25){
+            
+            include("pages/admin/volunteers/manage_volunteers.php");
+            
+        }else if($page==26){
+            
+            include("pages/admin/volunteers/volunteers_summery_analyticts.php");
+            
         }
     }
 ?>
