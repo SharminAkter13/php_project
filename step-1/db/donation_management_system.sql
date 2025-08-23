@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2025 at 07:58 AM
+-- Generation Time: Aug 23, 2025 at 07:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,7 +73,6 @@ CREATE TABLE `campaigns` (
 INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `start_date`, `end_date`, `status`, `event_id`, `file_path`) VALUES
 (1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, '2025-08-15 18:00:00', '2025-08-31', 'Active', 1, 'charity_run.jpg'),
 (2, 'Food Donation Drive', 'Collecting and distributing food for underprivileged families.', 15000, '2025-08-16 07:57:17', '2025-02-15', 'Inactive', 2, 'food_drive.jpg'),
-(3, 'School Fundraising Gala', 'Annual gala to support school infrastructure and scholarships.', 50000, '2025-08-16 07:57:43', '2025-03-25', 'Inactive', 3, 'school_gala.jpg'),
 (4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, '2025-08-22 18:00:00', '2025-09-09', 'Active', 4, 'emergency_relief.jpg'),
 (5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, '2025-09-30 18:00:00', '2025-11-01', 'Active', 5, 'health_camp.jpg'),
 (6, 'Fresh Water ', 'Fresh water for village people', 100000, '2025-08-22 18:00:00', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
@@ -145,8 +144,7 @@ CREATE TABLE `donors` (
 --
 
 INSERT INTO `donors` (`id`, `name`, `contact`, `type`, `user_id`, `pledge_id`) VALUES
-(11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2),
-(12, '', NULL, NULL, 10, NULL);
+(11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2);
 
 -- --------------------------------------------------------
 
@@ -315,32 +313,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role
 (7, 'Charlie', 'Brown', 'charlie.b@email.com', 'password789', 5, '2025-08-16 06:57:21'),
 (8, 'Diana', 'Miller', 'diana.m@email.com', 'passwordabc', 3, '2025-08-16 06:57:21'),
 (9, 'Ayaan', 'Mohammad', 'ayaan@gmail.com', '$2y$10$JryyXYRfPOi50gP9asod3uJDcim3CpJMkKfz36K54QeH74iJojE2O', 2, '2025-08-20 03:18:34'),
-(10, 'Ali', 'Mohammad', 'ali@gmail.com', '$2y$10$TfZKmmIGIzkgfvCOGRXpu.Bl6ZAVakAqJkpgODGej7QIa3SpFo9xK', 2, '2025-08-20 03:38:12'),
 (11, 'johnny', 'jonh', 'johnny@gmail.com', '$2y$10$N.PTawvJGtDua0OCtc6GDO2gnqqNpjh6Y8lME0bBYo7unLwOxg8bG', 5, '2025-08-20 03:53:04'),
 (12, 'john', 'doe', 'john@gmail.com', '$2y$10$wWbdTZSK1gJqQ0sK4aXDTeFlbo8jnRGOUmG2pWBr/1dllyHjAc2Ei', 5, '2025-08-20 03:53:57');
-
---
--- Triggers `users`
---
-DELIMITER $$
-CREATE TRIGGER `after_user_insert` AFTER INSERT ON `users` FOR EACH ROW BEGIN
-    DECLARE role_name VARCHAR(255);
-    
-    -- Get the role name from the roles table using the new user's role_id
-    SELECT name INTO role_name FROM roles WHERE id = NEW.role_id;
-
-    IF role_name = 'donor' THEN
-        INSERT INTO donors (user_id) VALUES (NEW.id);
-    ELSEIF role_name = 'volunteer' THEN
-        INSERT INTO volunteers (user_id) VALUES (NEW.id);
-    ELSEIF role_name = 'campaign_manager' THEN
-        INSERT INTO campaign_management (user_id) VALUES (NEW.id);
-    ELSEIF role_name = 'beneficiary' THEN
-        INSERT INTO beneficiaries (user_id) VALUES (NEW.id);
-    END IF;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -563,7 +537,7 @@ ALTER TABLE `volunteer`
 -- Constraints for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `campaigns`
@@ -575,54 +549,54 @@ ALTER TABLE `campaigns`
 -- Constraints for table `campaign_management`
 --
 ALTER TABLE `campaign_management`
-  ADD CONSTRAINT `campaign_management_ibfk_1` FOREIGN KEY (`fund_id`) REFERENCES `funds` (`id`),
-  ADD CONSTRAINT `campaign_management_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `campaign_management_ibfk_3` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`);
+  ADD CONSTRAINT `campaign_management_ibfk_1` FOREIGN KEY (`fund_id`) REFERENCES `funds` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `campaign_management_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `campaign_management_ibfk_3` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `donations`
 --
 ALTER TABLE `donations`
-  ADD CONSTRAINT `donations_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment_methods` (`id`),
-  ADD CONSTRAINT `donations_ibfk_2` FOREIGN KEY (`fund_id`) REFERENCES `funds` (`id`),
-  ADD CONSTRAINT `donations_ibfk_3` FOREIGN KEY (`donor_id`) REFERENCES `donors` (`id`),
-  ADD CONSTRAINT `donations_ibfk_4` FOREIGN KEY (`pledge_id`) REFERENCES `pledges` (`id`),
-  ADD CONSTRAINT `fk_campaign` FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `donations_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment_methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `donations_ibfk_2` FOREIGN KEY (`fund_id`) REFERENCES `funds` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `donations_ibfk_3` FOREIGN KEY (`donor_id`) REFERENCES `donors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `donations_ibfk_4` FOREIGN KEY (`pledge_id`) REFERENCES `pledges` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_campaign` FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `donors`
 --
 ALTER TABLE `donors`
-  ADD CONSTRAINT `donors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_donors_pledges` FOREIGN KEY (`pledge_id`) REFERENCES `pledges` (`id`);
+  ADD CONSTRAINT `donors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_donors_pledges` FOREIGN KEY (`pledge_id`) REFERENCES `pledges` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pledges`
 --
 ALTER TABLE `pledges`
-  ADD CONSTRAINT `fk_pledges_donors` FOREIGN KEY (`donor_id`) REFERENCES `donors` (`id`),
-  ADD CONSTRAINT `pledges_ibfk_1` FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`);
+  ADD CONSTRAINT `fk_pledges_donors` FOREIGN KEY (`donor_id`) REFERENCES `donors` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pledges_ibfk_1` FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transactions`
 --
 ALTER TABLE `transactions`
-  ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment_methods` (`id`),
-  ADD CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`donor_id`) REFERENCES `donors` (`id`),
-  ADD CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`);
+  ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment_methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`donor_id`) REFERENCES `donors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `volunteer`
 --
 ALTER TABLE `volunteer`
-  ADD CONSTRAINT `volunteer_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
-  ADD CONSTRAINT `volunteer_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `volunteer_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `volunteer_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

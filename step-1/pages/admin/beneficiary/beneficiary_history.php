@@ -11,7 +11,7 @@ $total_donations = 0;
 
 // Assume a table structure with these columns to populate the page
 // Fetch all beneficiaries from the DB
-$result = mysqli_query($dms, "SELECT id, name, contact, status, last_donation_date, total_donations, notes FROM beneficiaries ORDER BY last_donation_date DESC");
+$result = mysqli_query($dms, "SELECT id, name, email, phone, required_support, created_at FROM beneficiaries ORDER BY created_at DESC");
 
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -19,16 +19,16 @@ if ($result) {
     }
 }
 
-// Calculate summary statistics
-$total_beneficiaries = count($beneficiaries);
-foreach ($beneficiaries as $b) {
-    if ($b['status'] === 'Active') {
-        $active_beneficiaries++;
-    } else {
-        $inactive_beneficiaries++;
-    }
-    $total_donations += $b['total_donations'];
-}
+// // Calculate summary statistics
+// $total_beneficiaries = count($beneficiaries);
+// foreach ($beneficiaries as $b) {
+//     if ($b['status'] === 'Active') {
+//         $active_beneficiaries++;
+//     } else {
+//         $inactive_beneficiaries++;
+//     }
+//     $total_donations += $b['total_donations'];
+// }
 
 ?>
 
