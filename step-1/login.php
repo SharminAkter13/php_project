@@ -1,37 +1,76 @@
 <?php
+// Start the session at the very beginning of the file.
 session_start();
-require 'config.php'; // contains $dms = new mysqli(...);
 
+// Include the database connection file.
+require 'config.php'; 
 
+// Initialize an array to store any validation or login errors.
 $errors = [];
 
+// Check if the form was submitted.
 if (isset($_POST['submit'])) {
-    // Sanitize input
+    // Sanitize and trim the email input.
     $email = trim($_POST['email'] ?? '');
+    // Get the password input directly without trimming.
     $password = $_POST['password'] ?? '';
 
-    // Basic validation
+    // Basic validation to ensure fields are not empty.
     if (empty($email) || empty($password)) {
         $errors[] = "Please enter both email and password.";
     }
 
+    // Proceed with database query if there are no initial errors.
     if (empty($errors)) {
-        // Prepare and execute the query to find the user by email
-        $stmt = $dms->prepare("SELECT id, password FROM users WHERE email = ?");
+        // Use a prepared statement with a JOIN to get user data and their role.
+        // We select the user's ID, their hashed password, and the role name.
+        $stmt = $dms->prepare("
+            SELECT u.id, u.password, r.name
+            FROM users u
+            JOIN roles r ON u.role_id = r.id
+            WHERE u.email = ?
+        ");
+        
+        // Bind the email parameter to the prepared statement.
         $stmt->bind_param("s", $email);
+        
+        // Execute the query.
         $stmt->execute();
+        
+        // Get the result set from the query.
         $result = $stmt->get_result();
+        
+        // Fetch the user data as an associative array.
         $user = $result->fetch_assoc();
+        
+        // Close the statement to free up resources.
         $stmt->close();
 
-        // Verify if a user was found and the password is correct
+        // Check if a user was found AND the provided password matches the hashed password in the database.
         if ($user && password_verify($password, $user['password'])) {
-            // Login successful
+            // Login successful. Set session variables.
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_email'] = $email;
-            header("Location: home.php");
+            $_SESSION['user_email'] = $email; // It's good practice to store the email as well.
+            $_SESSION['user_role'] = $user['role_name']; // Store the role name for future use.
+
+            // Redirect the user based on their role.
+            switch ($user['role_name']) {
+                case 'admin':
+                    header("Location: home.php");
+                    break;
+                case 'Staff':
+                    header("Location: index.php");
+                    break;
+                // Add more cases for other roles if needed.
+                default:
+                    // If the role is not recognized, redirect to a default page or show an error.
+                    header("Location: home.php");
+                    break;
+            }
+            // Terminate the script to ensure the redirection happens.
             exit;
         } else {
+            // If user is not found or password verification fails.
             $errors[] = "Invalid email or password.";
         }
     }
