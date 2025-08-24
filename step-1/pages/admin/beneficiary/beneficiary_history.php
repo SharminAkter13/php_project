@@ -7,31 +7,22 @@ $beneficiaries = [];
 $total_beneficiaries = 0;
 $active_beneficiaries = 0;
 $inactive_beneficiaries = 0;
-$total_donations_sum = 0; // Renamed to avoid confusion with row total
+$total_donations_sum = 0;
 
-// Fetch all beneficiaries with their total donations and last donation date
-// This query joins the beneficiaries and donations tables to get all the data in one go
-// NOTE: This assumes you have a 'donations' table with 'beneficiary_id', 'amount', and 'created_at' columns.
+// Fetch all beneficiaries from the beneficiaries table
 $result = mysqli_query($dms, "
     SELECT 
-        b.id, 
-        b.name, 
-        b.email, 
-        b.phone, 
-        b.required_support, 
-        b.created_at,
-        b.status, -- Assuming 'status' column exists in beneficiaries table
-        COALESCE(SUM(d.amount), 0) AS total_donations,
-        MAX(d.created_at) AS last_donation_date,
-        b.notes -- Assuming 'notes' column exists in beneficiaries table
+        id, 
+        name, 
+        email, 
+        phone, 
+        required_support, 
+        created_at,
+        status
     FROM 
-        beneficiaries b
-    LEFT JOIN 
-        donations d ON b.id = d.beneficiary_id
-    GROUP BY 
-        b.id
+        beneficiaries 
     ORDER BY 
-        b.created_at DESC
+        created_at DESC
 ");
 
 if ($result) {
@@ -40,7 +31,17 @@ if ($result) {
     }
 }
 
-// Calculate summary statistics based on the fetched data
+// Fetch total donations separately from the donations table
+$total_donations_result = mysqli_query($dms, "
+    SELECT COALESCE(SUM(amount), 0) AS total_donations FROM donations
+");
+
+if ($total_donations_result) {
+    $total_donations_data = mysqli_fetch_assoc($total_donations_result);
+    $total_donations_sum = $total_donations_data['total_donations'];
+}
+
+// Calculate summary statistics
 $total_beneficiaries = count($beneficiaries);
 foreach ($beneficiaries as $b) {
     if (isset($b['status'])) {
@@ -50,12 +51,9 @@ foreach ($beneficiaries as $b) {
             $inactive_beneficiaries++;
         }
     }
-    // Summing up the total donations for the summary card
-    $total_donations_sum += $b['total_donations'];
 }
 
 // Check for search filter and modify SQL query if needed
-// This part handles the search and filter logic
 if (isset($_GET['search']) || isset($_GET['status']) || isset($_GET['from_date'])) {
     $search_term = mysqli_real_escape_string($dms, $_GET['search'] ?? '');
     $status_filter = mysqli_real_escape_string($dms, $_GET['status'] ?? '');
@@ -64,13 +62,13 @@ if (isset($_GET['search']) || isset($_GET['status']) || isset($_GET['from_date']
     $where_clauses = [];
     
     if (!empty($search_term)) {
-        $where_clauses[] = "(b.name LIKE '%$search_term%' OR b.id = '$search_term')";
+        $where_clauses[] = "(name LIKE '%$search_term%' OR id = '$search_term')";
     }
     if (!empty($status_filter)) {
-        $where_clauses[] = "b.status = '$status_filter'";
+        $where_clauses[] = "status = '$status_filter'";
     }
     if (!empty($from_date)) {
-        $where_clauses[] = "b.created_at >= '$from_date'";
+        $where_clauses[] = "created_at >= '$from_date'";
     }
     
     $where_sql = '';
@@ -80,35 +78,27 @@ if (isset($_GET['search']) || isset($_GET['status']) || isset($_GET['from_date']
     
     $filter_query = mysqli_query($dms, "
         SELECT 
-            b.id, 
-            b.name, 
-            b.email, 
-            b.phone, 
-            b.required_support, 
-            b.created_at,
-            b.status,
-            COALESCE(SUM(d.amount), 0) AS total_donations,
-            MAX(d.created_at) AS last_donation_date,
-            b.notes
+            id, 
+            name, 
+            email, 
+            phone, 
+            required_support, 
+            created_at,
+            status
         FROM 
-            beneficiaries b
-        LEFT JOIN 
-            donations d ON b.id = d.beneficiary_id
+            beneficiaries
         $where_sql
-        GROUP BY 
-            b.id
         ORDER BY 
-            b.created_at DESC
+            created_at DESC
     ");
 
     if ($filter_query) {
-        $beneficiaries = []; // Clear the old data
+        $beneficiaries = [];
         while ($row = mysqli_fetch_assoc($filter_query)) {
             $beneficiaries[] = $row;
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -141,7 +131,7 @@ if (isset($_GET['search']) || isset($_GET['status']) || isset($_GET['from_date']
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="fw-bold"><i class="bi bi-clock-history"></i> Beneficiary History</h4>
-                <a href="home.php?page=add_beneficiary" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Beneficiary</a>
+                <a href="home.php?page=13" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Beneficiary</a>
             </div>
 
             <div class="row g-3 mb-4">
@@ -213,16 +203,12 @@ if (isset($_GET['search']) || isset($_GET['status']) || isset($_GET['from_date']
                                     <th>Beneficiary Name</th>
                                     <th>Contact</th>
                                     <th>Status</th>
-                                    <th>Last Donation Date</th>
-                                    <th>Total Donations</th>
-                                    <th>Notes</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (empty($beneficiaries)): ?>
                                     <tr>
-                                        <td colspan="8" class="text-center">No beneficiaries found.</td>
+                                        <td colspan="5" class="text-center">No beneficiaries found.</td>
                                     </tr>
                                 <?php else: ?>
                                     <?php foreach ($beneficiaries as $index => $b): ?>
@@ -238,14 +224,6 @@ if (isset($_GET['search']) || isset($_GET['status']) || isset($_GET['from_date']
                                                 $badge_class = ($b['status'] === 'Active') ? 'bg-success' : 'bg-danger';
                                                 echo '<span class="badge ' . $badge_class . '">' . htmlspecialchars($b['status']) . '</span>';
                                                 ?>
-                                            </td>
-                                            <td><?= htmlspecialchars($b['last_donation_date'] ?? 'N/A') ?></td>
-                                            <td>$<?= number_format($b['total_donations'], 2) ?></td>
-                                            <td><?= htmlspecialchars($b['notes'] ?? 'N/A') ?></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
