@@ -1,5 +1,9 @@
 <?php
-// Always start the session at the very top of the script.
+// Start output buffering to prevent "headers already sent" errors.
+ob_start();
+
+// CRITICAL FIX: session_start() MUST be the very first statement in your file
+// after ob_start().
 session_start();
 
 // Check if a user is authenticated by verifying their session role.
@@ -252,9 +256,6 @@ if (isset($_SESSION['user_role'])) {
         }
     }
 } else {
-    // If no session role is set, the user is not authenticated.
-    // Redirect them to the login page for security.
-    header("Location: login.php");
-    exit;
+        header("Location:login.php")
 }
 ?>
