@@ -109,6 +109,14 @@
             
             include("pages/admin/logout/logout.php");
             
+        }else if($page==28){
+            
+            include("pages/admin/profile/user_profile.php");
+  
+        }else if($page==29){
+            
+            include("pages/admin/profile/update_profile.php");
+  
         }
     }
 ?>
