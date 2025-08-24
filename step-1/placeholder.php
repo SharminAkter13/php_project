@@ -2,7 +2,7 @@
    if(isset($_GET["page"])){
        $page=$_GET["page"];
 	   
-	   if($page==1){
+	   if($page=="add_users"){
            
            include("pages/admin/users/add_users.php"); 
 		   
