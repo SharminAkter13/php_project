@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2025 at 07:01 AM
+-- Generation Time: Aug 24, 2025 at 09:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,18 +35,20 @@ CREATE TABLE `beneficiaries` (
   `address` text DEFAULT NULL,
   `required_support` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `user_id` int(11) DEFAULT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `status` varchar(50) DEFAULT 'Inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `beneficiaries`
 --
 
-INSERT INTO `beneficiaries` (`id`, `name`, `email`, `phone`, `address`, `required_support`, `created_at`, `user_id`) VALUES
-(1, 'johnny', 'johnny@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:32', 11),
-(2, 'john', 'john@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:43', 12),
-(5, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:02:47', 7),
-(6, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:20:27', 7);
+INSERT INTO `beneficiaries` (`id`, `name`, `email`, `phone`, `address`, `required_support`, `created_at`, `user_id`, `status`) VALUES
+(1, 'johnny', 'johnny@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:32', 11, 'Active'),
+(2, 'john', 'john@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:43', 12, 'Inactive'),
+(5, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:02:47', 7, 'Inactive'),
+(6, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:20:27', 7, 'Inactive'),
+(7, 'john', 'john@gmail.com', '021457454', '4/78 los angle,usa', 'Aid', '2025-08-24 06:07:44', 12, 'Active');
 
 -- --------------------------------------------------------
 
@@ -455,7 +457,7 @@ ALTER TABLE `volunteer`
 -- AUTO_INCREMENT for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `campaigns`
