@@ -1,4 +1,5 @@
 <?php
+// Database connection
 include('config.php');
 
 $message = "";
@@ -15,19 +16,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = trim($_POST['beneficiary_address'] ?? '');
     $needs = trim($_POST['beneficiary_needs'] ?? '');
     $user_id = intval($_POST['user_id'] ?? 0);
+    $status = trim($_POST['beneficiary_status'] ?? 'Inactive'); // Capture the new status field, with a default value
 
     // Validate inputs
-    if (empty($name) || empty($email) || empty($phone) || empty($address) || empty($needs) || $user_id <= 0) {
+    if (empty($name) || empty($email) || empty($phone) || empty($address) || empty($needs) || $user_id <= 0 || empty($status)) {
         $message = "<div class='alert alert-danger text-center'>Please fill in all required fields and select a user.</div>";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "<div class='alert alert-danger text-center'>Invalid email address.</div>";
     } else {
         // Use a prepared statement to prevent SQL injection
-        $query = "INSERT INTO beneficiaries (name, email, phone, address, required_support, user_id) 
-                  VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO beneficiaries (name, email, phone, address, required_support, user_id, status) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         if ($stmt = $dms->prepare($query)) {
-            $stmt->bind_param("sssssi", $name, $email, $phone, $address, $needs, $user_id);
+            $stmt->bind_param("sssssis", $name, $email, $phone, $address, $needs, $user_id, $status);
 
             if ($stmt->execute()) {
                 $message = "<div class='alert alert-success text-center'>Beneficiary added successfully!</div>";
@@ -109,6 +111,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             }
                                         }
                                         ?>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="beneficiary_status" class="form-label">Status</label>
+                                    <select class="form-control" id="beneficiary_status" name="beneficiary_status" required>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
                                     </select>
                                 </div>
                                 <div class="text-end">
