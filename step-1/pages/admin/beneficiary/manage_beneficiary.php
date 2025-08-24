@@ -14,13 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['beneficiary_phone'] ?? '';
     $address = $_POST['beneficiary_address'] ?? '';
     $needs = $_POST['beneficiary_needs'] ?? '';
+    $status = $_POST['beneficiary_status'] ?? ''; // New: Capture the status
 
     // Simple validation
     if ($id > 0 && !empty($name) && !empty($email)) {
         // Use prepared statement to prevent SQL injection
-        $stmt = $dms->prepare("UPDATE beneficiaries SET name=?, email=?, phone=?, address=?, required_support=? WHERE id=?");
+        $stmt = $dms->prepare("UPDATE beneficiaries SET name=?, email=?, phone=?, address=?, required_support=?, status=? WHERE id=?");
         if ($stmt) {
-            $stmt->bind_param("sssssi", $name, $email, $phone, $address, $needs, $id);
+            $stmt->bind_param("sssssis", $name, $email, $phone, $address, $needs, $status, $id); // New: 's' for status
             if ($stmt->execute()) {
                 $success_message = "Beneficiary updated successfully!";
             } else {
@@ -90,7 +91,6 @@ if ($result) {
 <body>
 
 <div class="content-wrapper" style="min-height: 2838.44px;">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -107,9 +107,7 @@ if ($result) {
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header ">
                 <h3 class="card-title">Manage Beneficiaries</h3>
@@ -146,7 +144,7 @@ if ($result) {
                                     <th>Phone</th>
                                     <th>Address</th>
                                     <th>Needs</th>
-                                    <th>Actions</th>
+                                    <th>Status</th> <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,6 +157,11 @@ if ($result) {
                                         <td><?= htmlspecialchars($b['address']) ?></td>
                                         <td ><?= htmlspecialchars($b['required_support']) ?></td>
                                         <td>
+                                            <?php
+                                            $badge_class = ($b['status'] === 'Active') ? 'bg-success' : 'bg-danger';
+                                            echo '<span class="badge ' . $badge_class . '">' . htmlspecialchars($b['status']) . '</span>';
+                                            ?>
+                                        </td> <td>
                                             <button type="button" class="btn btn-sm btn-warning edit-btn"
                                                 data-bs-toggle="modal" data-bs-target="#editBeneficiaryModal"
                                                 data-id="<?= htmlspecialchars($b['id']) ?>"
@@ -166,8 +169,8 @@ if ($result) {
                                                 data-email="<?= htmlspecialchars($b['email']) ?>"
                                                 data-phone="<?= htmlspecialchars($b['phone']) ?>"
                                                 data-address="<?= htmlspecialchars($b['address']) ?>"
-                                                data-needs="<?= htmlspecialchars($b['required_support']) ?>">
-                                                <i class="fas fa-edit"></i>
+                                                data-needs="<?= htmlspecialchars($b['required_support']) ?>"
+                                                data-status="<?= htmlspecialchars($b['status']) ?>"> <i class="fas fa-edit"></i>
                                             </button>
                                             <a href="?delete=<?= htmlspecialchars($b['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
                                         </td>
@@ -182,7 +185,6 @@ if ($result) {
     </section>
 </div>
 
-<!-- Edit Beneficiary Modal -->
 <div class="modal fade" id="editBeneficiaryModal" tabindex="-1" aria-labelledby="editBeneficiaryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -213,6 +215,13 @@ if ($result) {
                         <label for="beneficiary_needs" class="form-label">Needs / Support Required</label>
                         <textarea class="form-control" id="beneficiary_needs" name="beneficiary_needs" rows="3" required></textarea>
                     </div>
+                    <div class="mb-3">
+                        <label for="beneficiary_status" class="form-label">Status</label>
+                        <select class="form-select" id="beneficiary_status" name="beneficiary_status" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
                     <div class="text-end">
                         <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-warning">Update Beneficiary</button>
@@ -223,12 +232,10 @@ if ($result) {
     </div>
 </div>
 
-<!-- Bootstrap & AdminLTE Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/dist/js/adminlte.min.js"></script>
 
-<!-- Custom Scripts -->
 <script>
     // Search Filter Script
     document.getElementById("searchBox").addEventListener("keyup", function() {
@@ -253,6 +260,7 @@ if ($result) {
         const phone = button.getAttribute('data-phone');
         const address = button.getAttribute('data-address');
         const needs = button.getAttribute('data-needs');
+        const status = button.getAttribute('data-status'); // New: Extract status
         
         // Update the modal's form fields
         const modalForm = editBeneficiaryModal.querySelector('#editBeneficiaryForm');
@@ -262,6 +270,7 @@ if ($result) {
         modalForm.querySelector('#beneficiary_phone').value = phone;
         modalForm.querySelector('#beneficiary_address').value = address;
         modalForm.querySelector('#beneficiary_needs').value = needs;
+        modalForm.querySelector('#beneficiary_status').value = status; // New: Set status dropdown value
     });
 </script>
 
