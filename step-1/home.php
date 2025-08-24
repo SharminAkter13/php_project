@@ -1,4 +1,3 @@
-<!-- header -->
 <?php
 require_once("include/admin/header.php");
 ?>
