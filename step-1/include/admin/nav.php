@@ -48,7 +48,7 @@
       <i class="fas fa-cogs mr-2"></i> Manage System
     </a>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item text-danger" href="logout.php">
+    <a class="dropdown-item text-danger" href="home.php?page=27">
       <i class="fas fa-sign-out-alt mr-2"></i> Logout
     </a>
   </div>
