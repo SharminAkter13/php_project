@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
                     header("Location: home.php?page=6"); // Redirects to manage_events.php
                     break;
                 case 'campaign_manager':
-                    header("Location: home.php?page=10"); // Redirects to manage_campaigns.php
+                    header("Location: home.php?page=11"); // Redirects to manage_campaigns.php
                     break;
                 case 'donor':
                     header("Location: home.php?page=18"); // Redirects to manage_donations.php
