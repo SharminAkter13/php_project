@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
             // Use a switch statement to redirect to home.php with the correct page ID.
             switch ($user['name']) {
                 case 'admin':
-                    header("Location: home.php?page=2"); // Redirects to manage_users.php
+                    header("Location: home.php?page=0"); // Redirects to manage_users.php
                     break;
                 case 'beneficiary':
                     header("Location: home.php?page=6"); // Redirects to manage_events.php
