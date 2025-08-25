@@ -44,7 +44,7 @@ $userRole = $_SESSION['user_role'] ?? '';
 
                 <!-- Dashboard Section (Always visible) -->
                 <li class="nav-item">
-                    <a href="home.php" class="nav-link active">
+                    <a href="home.php?page=0" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -269,6 +269,7 @@ $userRole = $_SESSION['user_role'] ?? '';
                     case 'volunteer':
                 ?>
                         <!-- Volunteer Section -->
+                         
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-hands-helping"></i>

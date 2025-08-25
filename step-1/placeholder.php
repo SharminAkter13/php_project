@@ -4,7 +4,6 @@ include("config.php");
 if (!isset($_SESSION['user_role'])) {
     header("Location: login.php");
     exit();
-
 }
 
 $userRole = $_SESSION['user_role'];
@@ -19,9 +18,9 @@ function safe_include($path) {
     }
 }
 
-
 $rolePages = [
     'admin' => [
+        0 => "pages/admin/admin_dashboard.php",
         1 => "pages/admin/users/add_users.php",
         2 => "pages/admin/users/manage_users.php",
         3 => "pages/admin/users/edit_users.php",
@@ -50,7 +49,6 @@ $rolePages = [
         26 => "pages/admin/volunteers/volunteers_summery_analyticts.php",
         27 => "pages/admin/logout/logout.php",
         28 => "pages/admin/profile/user_profile.php",
-        
     ],
     'beneficiary' => [
         5 => "pages/admin/events/add_events.php",
@@ -99,19 +97,12 @@ $rolePages = [
         27 => "pages/admin/logout/logout.php",
     ],
 ];
-// Check if the page exists for the user's role
-if (isset($rolePages[$userRole][$page])) {
-    // If the page exists for the user's role, include it
-    safe_include($rolePages[$userRole][$page]);
-} else {
-    // If the page does not exist for the user's role, check if the role is admin
-    if ($userRole == 'admin') {
-        // If the user is an admin, include the home.php page
-        include_once("home.php");
+
+    // Check if the page exists for the user's role
+    if (isset($rolePages[$userRole][$page])) {
+        safe_include($rolePages[$userRole][$page]);
     } else {
-        // Otherwise, show a permission error
         echo '<div class="alert alert-danger">You do not have permission to view this page.</div>';
     }
-}
 
 ?>
