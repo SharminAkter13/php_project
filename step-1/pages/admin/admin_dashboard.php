@@ -103,18 +103,18 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <div class="content-wrapper" style="min-height: 2838.44px;">
+ <div class="content-wrapper">
      <!-- Content Header (Page header) -->
      <section class="content-header">
          <div class="container-fluid">
              <div class="row mb-2">
                  <div class="col-sm-6">
-                     <h1>Users Interface</h1>
+                     <h1>Admin Dashboard</h1>
                  </div>
                  <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right">
                          <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-                         <li class="breadcrumb-item active">Add Users</li>
+                         <li class="breadcrumb-item active">Admin Dashboard</li>
                      </ol>
                  </div>
              </div>
@@ -128,7 +128,7 @@
          <!-- Default box -->
          <div class="card">
              <div class="card-header ">
-                 <h3 class="card-title">Add Users</h3>
+                 <h3 class="card-title">Admin Dashboard</h3>
 
                  <div class="card-tools">
                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
