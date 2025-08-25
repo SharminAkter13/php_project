@@ -1,24 +1,19 @@
 <?php
-ob_start();
-session_start();
+// ob_start();
+// session_start();
 
-// Include database configuration
 include("config.php");
 
-// Redirect to login if no user role is set
 if (!isset($_SESSION['user_role'])) {
     header("Location: login.php");
     exit();
 
 }
 
-// Get the current user's role
 $userRole = $_SESSION['user_role'];
 
-// Get requested page (cast to integer for safety)
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
 
-// Function to safely include a page
 function safe_include($path) {
     if (file_exists($path)) {
         include($path);
@@ -28,7 +23,6 @@ function safe_include($path) {
 }
 
 
-// Define role-based page access
 $rolePages = [
     'admin' => [
         1 => "pages/admin/users/add_users.php",
@@ -108,9 +102,9 @@ $rolePages = [
     ],
 ];
 
-// Include the requested page if allowed
 if (isset($rolePages[$userRole][$page])) {
     safe_include($rolePages[$userRole][$page]);
 } else {
     echo '<div class="alert alert-danger">You do not have permission to view this page.</div>';
 }
+?>
