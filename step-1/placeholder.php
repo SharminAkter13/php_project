@@ -1,7 +1,4 @@
 <?php
-// ob_start();
-// session_start();
-
 include("config.php");
 
 if (!isset($_SESSION['user_role'])) {
@@ -53,6 +50,7 @@ $rolePages = [
         26 => "pages/admin/volunteers/volunteers_summery_analyticts.php",
         27 => "pages/admin/logout/logout.php",
         28 => "pages/admin/profile/user_profile.php",
+        
     ],
     'beneficiary' => [
         5 => "pages/admin/events/add_events.php",
@@ -101,10 +99,19 @@ $rolePages = [
         27 => "pages/admin/logout/logout.php",
     ],
 ];
-
+// Check if the page exists for the user's role
 if (isset($rolePages[$userRole][$page])) {
+    // If the page exists for the user's role, include it
     safe_include($rolePages[$userRole][$page]);
 } else {
-    echo '<div class="alert alert-danger">You do not have permission to view this page.</div>';
+    // If the page does not exist for the user's role, check if the role is admin
+    if ($userRole == 'admin') {
+        // If the user is an admin, include the home.php page
+        include_once("home.php");
+    } else {
+        // Otherwise, show a permission error
+        echo '<div class="alert alert-danger">You do not have permission to view this page.</div>';
+    }
 }
+
 ?>
