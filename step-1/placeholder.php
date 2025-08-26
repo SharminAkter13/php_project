@@ -49,6 +49,8 @@ $rolePages = [
         26 => "pages/admin/volunteers/volunteers_summery_analyticts.php",
         27 => "pages/admin/logout/logout.php",
         28 => "pages/admin/profile/user_profile.php",
+        29 => "pages/admin/funds/manage_funds.php",
+        30 => "pages/admin/funds/funds_reports.php",
     ],
     'beneficiary' => [
         5 => "pages/admin/events/add_events.php",

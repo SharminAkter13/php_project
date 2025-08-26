@@ -188,6 +188,35 @@ $userRole = $_SESSION['user_role'] ?? '';
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <!-- <i class="fa-solid fa-wallet"></i>  -->
+                                <p> &nbsp;
+                                 <b style="font-size: 16pt;">$</b> &nbsp; Funds
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=24" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Volunteer</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=29" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Manage Funds</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=30" class="nav-link">
+                                        <i class="far fa-chart-bar nav-icon"></i>
+                                        <p>Funds Reports</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         
                 <?php
                         // No break here, as some sections might be common to multiple roles
