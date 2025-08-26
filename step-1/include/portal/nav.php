@@ -1,58 +1,33 @@
-<!-- Messages Dropdown Menu -->
-<li class="nav-item dropdown">
-  <a class="nav-link" data-toggle="dropdown" href="#">
-    <i class="far fa-comments"></i>
-    <span class="badge badge-danger navbar-badge">3</span>
-  </a>
-  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-    <!-- Messages content goes here -->
-    <!-- Same as before... -->
-  </div>
-</li>
+ <div class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            
+            <a href="index.php" class="navbar-brand">DonorHub</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<!-- Notifications Dropdown Menu -->
-<li class="nav-item dropdown">
-  <a class="nav-link" data-toggle="dropdown" href="#">
-    <i class="far fa-bell"></i>
-    <span class="badge badge-warning navbar-badge">15</span>
-  </a>
-  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-    <!-- Notifications content goes here -->
-    <!-- Same as before... -->
-  </div>
-</li>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav ms-auto">
+                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="about.html" class="nav-item nav-link">About</a>
+                    <a href="causes.html" class="nav-item nav-link">Causes</a>
+                    <a href="event.html" class="nav-item nav-link">Events</a>
+                    <a href="blog.html" class="nav-item nav-link">Blog</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu">
+                            <a href="single.html" class="dropdown-item">Detail Page</a>
+                            <a href="service.html" class="dropdown-item">What We Do</a>
+                            <a href="team.html" class="dropdown-item">Meet The Team</a>
+                            <a href="donate.html" class="dropdown-item">Donate Now</a>
+                            <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    <a href="login.php" class="nav-item nav-link">Sign In</a>
+                    <a href="reg.php" class="nav-item nav-link">Sign Up</a>
 
-<!-- Fullscreen Button -->
-<li class="nav-item">
-  <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-    <i class="fas fa-expand-arrows-alt"></i>
-  </a>
-</li>
-
-<!-- Sidebar Toggle -->
-<li class="nav-item">
-  <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-    <i class="fas fa-th-large"></i>
-  </a>
-</li>
-<!-- User Account Dropdown -->
-<li class="nav-item dropdown">
-  <a class="nav-link" data-toggle="dropdown" href="#">
-    <i class="fas fa-user-circle fa-lg"></i>
-  </a>
-  <div class="dropdown-menu dropdown-menu-right">
-    <a class="dropdown-item" href="home.php?page=28">
-      <i class="fas fa-user mr-2"></i> View Profile
-    </a>
-    <a class="dropdown-item" href="manage_system.php">
-      <i class="fas fa-cogs mr-2"></i> Manage System
-    </a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item text-danger" href="home.php?page=27">
-      <i class="fas fa-sign-out-alt mr-2"></i> Logout
-    </a>
-  </div>
-</li>
-
-</ul>
-</nav>
+                </div>
+            </div>
+        </div>
+    </div>
