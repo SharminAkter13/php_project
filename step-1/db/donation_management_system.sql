@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 09:02 AM
+-- Generation Time: Aug 26, 2025 at 09:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -146,7 +146,8 @@ CREATE TABLE `donors` (
 --
 
 INSERT INTO `donors` (`id`, `name`, `contact`, `type`, `user_id`, `pledge_id`) VALUES
-(11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2);
+(11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2),
+(13, 'Ayaan Mohammad\r\n', 'ayaan@gmail.com', 'Individual', 9, 3);
 
 -- --------------------------------------------------------
 
@@ -181,20 +182,21 @@ INSERT INTO `events` (`id`, `name`, `location`, `date`) VALUES
 CREATE TABLE `funds` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `status` varchar(255) DEFAULT NULL
+  `status` varchar(255) DEFAULT NULL,
+  `collected_amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `funds`
 --
 
-INSERT INTO `funds` (`id`, `name`, `status`) VALUES
-(1, 'Disaster Relief Fund', 'Active'),
-(2, 'Education Scholarship', 'Inactive'),
-(3, 'Medical Aid', 'Active'),
-(4, 'Community Development', 'Active'),
-(5, 'Orphanage Support', 'Active'),
-(6, 'Environmental Protection', 'Inactive');
+INSERT INTO `funds` (`id`, `name`, `status`, `collected_amount`) VALUES
+(1, 'Disaster Relief Fund', 'Active', 0),
+(2, 'Education Scholarship', 'Inactive', 0),
+(3, 'Medical Aid', 'Active', 0),
+(4, 'Community Development', 'Active', 0),
+(5, 'Orphanage Support', 'Active', 0),
+(6, 'Environmental Protection', 'Inactive', 0);
 
 -- --------------------------------------------------------
 
@@ -316,7 +318,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role
 (8, 'Diana', 'Miller', 'diana.m@email.com', 'passwordabc', 3, '2025-08-16 06:57:21'),
 (9, 'Ayaan', 'Mohammad', 'ayaan@gmail.com', '$2y$10$JryyXYRfPOi50gP9asod3uJDcim3CpJMkKfz36K54QeH74iJojE2O', 2, '2025-08-20 03:18:34'),
 (11, 'johnny', 'jonh', 'johnny@gmail.com', '$2y$10$N.PTawvJGtDua0OCtc6GDO2gnqqNpjh6Y8lME0bBYo7unLwOxg8bG', 5, '2025-08-20 03:53:04'),
-(12, 'john', 'doe', 'john@gmail.com', '$2y$10$wWbdTZSK1gJqQ0sK4aXDTeFlbo8jnRGOUmG2pWBr/1dllyHjAc2Ei', 5, '2025-08-20 03:53:57');
+(12, 'john', 'doe', 'john@gmail.com', '$2y$10$wWbdTZSK1gJqQ0sK4aXDTeFlbo8jnRGOUmG2pWBr/1dllyHjAc2Ei', 5, '2025-08-20 03:53:57'),
+(13, 'Charlie', 'Brown', 'charlie@email.com', '$2y$10$uGnCIrpDti80H8ei5iEBkeEPuEk9eWMGPYp4CwG1I4E.4yAIsrDe2', 5, '2025-08-25 04:25:16');
 
 -- --------------------------------------------------------
 
@@ -481,7 +484,7 @@ ALTER TABLE `donations`
 -- AUTO_INCREMENT for table `donors`
 --
 ALTER TABLE `donors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -523,7 +526,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `volunteer`
