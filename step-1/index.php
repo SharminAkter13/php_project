@@ -17,52 +17,14 @@ require_once("pages/portal/about.php");
 <?php 
 require_once("pages/portal/service.php");
 ?>
+<?php 
+require_once("pages/portal/facts.php");
+?>
    
     
    
    
-    <div class="facts" data-parallax="scroll" data-image-src="assets/img/img/img17.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="facts-item">
-                        <i class="flaticon-home"></i>
-                        <div class="facts-text">
-                            <h3 class="facts-plus" data-toggle="counter-up">150</h3>
-                            <p>Countries</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="facts-item">
-                        <i class="flaticon-charity"></i>
-                        <div class="facts-text">
-                            <h3 class="facts-plus" data-toggle="counter-up">400</h3>
-                            <p>Volunteers</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="facts-item">
-                        <i class="flaticon-kindness"></i>
-                        <div class="facts-text">
-                            <h3 class="facts-dollar" data-toggle="counter-up">10000</h3>
-                            <p>Our Goal</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="facts-item">
-                        <i class="flaticon-donation"></i>
-                        <div class="facts-text">
-                            <h3 class="facts-dollar" data-toggle="counter-up">5000</h3>
-                            <p>Raised</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
    <!-- Causes Start -->
 <div class="container-fluid causes">
     <div class="container py-5">
