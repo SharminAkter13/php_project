@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2025 at 09:16 AM
+-- Generation Time: Aug 26, 2025 at 09:58 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -159,19 +159,21 @@ CREATE TABLE `events` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `descriptons` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `image_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `name`, `location`, `date`) VALUES
-(1, 'Charity Run 2025', 'Central Park, New York', '2025-09-15 03:00:00'),
-(2, 'Food Donation Drive', 'Community Hall, Boston', '2025-08-25 04:00:00'),
-(3, 'School Fundraising Gala', 'Hilton Hotel, Chicago', '2025-10-05 13:00:00'),
-(4, 'Emergency Relife  ', ' Gaza, Palestine', '2025-11-20 08:00:00'),
-(5, 'Health Checkup Camp', 'Community Center, Dallas', '2025-09-30 02:30:00');
+INSERT INTO `events` (`id`, `name`, `location`, `descriptons`, `date`, `image_url`) VALUES
+(1, 'Charity Run 2025', 'Central Park, New York', 'Whether you\'re keen to walk, run, cycle or swim take a look below and sign up today to fundraise for Save the Children. We\'ll support you every step of the', '2025-08-26 19:26:46', ''),
+(2, 'Food Donation Drive', 'Community Hall, Boston', 'Support our food donation drives in Singapore! Learn more about making food donations or money donations and helping with food distribution drives.', '2025-08-26 19:27:49', ''),
+(3, 'School Fundraising Gala', 'Hilton Hotel, Chicago', 'A high school fundraising gala serves as a platform for high schools to gather funds and resources while unifying the community in support of a common cause ...\r\n', '2025-08-26 19:28:38', ''),
+(4, 'Emergency Relife  ', ' Gaza, Palestine', 'Emergency relief means providing immediate assistance to the victims of conflicts or disaster situations. For more than 50 years, the World Food Programme ...', '2025-08-26 19:29:18', ''),
+(5, 'Health Checkup Camp', 'Community Center, Dallas', 'Held from 9am to 2pm, the event offered free healthcare services including specialist doctor consultation and blood sugar Body Mass Index (BMI) ', '2025-08-26 19:29:57', '');
 
 -- --------------------------------------------------------
 
@@ -191,12 +193,11 @@ CREATE TABLE `funds` (
 --
 
 INSERT INTO `funds` (`id`, `name`, `status`, `collected_amount`) VALUES
-(1, 'Disaster Relief Fund', 'Active', 0),
-(2, 'Education Scholarship', 'Inactive', 0),
-(3, 'Medical Aid', 'Active', 0),
-(4, 'Community Development', 'Active', 0),
-(5, 'Orphanage Support', 'Active', 0),
-(6, 'Environmental Protection', 'Inactive', 0);
+(1, 'Disaster Relief Fund', 'Active', 10000),
+(2, 'Education Scholarship', 'Inactive', 200000),
+(3, 'Medical Aid', 'Active', 50000),
+(4, 'Community Development', 'Active', 150000),
+(5, 'Orphanage Support', 'Active', 100000);
 
 -- --------------------------------------------------------
 
