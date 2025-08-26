@@ -92,67 +92,59 @@ include 'config.php';
     <script type="text/javascript">
         $(function () {
             // Save
-            $("#save").click(function () {
-                var name = $("#f_name").val();
-                var status = $("#f_status").val();
-                var amount = $("#f_amount").val();
-                $.ajax({
-                    url: "ajax/funds_crud.php",
-                    type: "post",
-                    data: {
-                        "name": name,
-                        "status": status,
-                        "amount": amount
-                    },
-                    success: function (data) {
-                        $(".result").html(data);
-                        location.reload();
-                    }
-                }).fail(function() {
-                    $(".result").html("<span class='text-danger'>AJAX request failed</span>");
-                });
-            });
+            // Save
+$("#save").click(function () {
+    $.ajax({
+        url: "ajax/funds_crud.php",
+        type: "post",
+        data: {
+            action: "save",
+            name: $("#f_name").val(),
+            status: $("#f_status").val(),
+            amount: $("#f_amount").val()
+        },
+        success: function (data) {
+            $(".result").html(data);
+            location.reload();
+        }
+    });
+});
 
-            // Update
-            $("#update").click(function () {
-                var id = $("#id").val();
-                var name = $("#f_name").val();
-                var status = $("#f_status").val();
-                var amount = $("#f_amount").val();
-                $.ajax({
-                    url: "ajax/funds_crud.php",
-                    type: "post",
-                    data: {
-                        "upid": id,
-                        "name": name,
-                        "status": status,
-                        "amount": amount
-                    },
-                    success: function (data) {
-                        $(".result").html(data);
-                        location.reload();
-                    }
-                }).fail(function() {
-                    $(".result").html("<span class='text-danger'>AJAX request failed</span>");
-                });
-            });
+// Update
+$("#update").click(function () {
+    $.ajax({
+        url: "ajax/funds_crud.php",
+        type: "post",
+        data: {
+            action: "update",
+            id: $("#id").val(),
+            name: $("#f_name").val(),
+            status: $("#f_status").val(),
+            amount: $("#f_amount").val()
+        },
+        success: function (data) {
+            $(".result").html(data);
+            location.reload();
+        }
+    });
+});
 
-            // Delete
-            $("#delete").click(function () {
-                var id = $("#id").val();
-                $.ajax({
-                    url: "ajax/funds_crud.php",
-                    type: "post",
-                    data: {
-                        "id": id
-                    },
-                    success: function (data) {
-                        $(".result").html(data);
-                        location.reload();
-                    }
-                }).fail(function() {
-                    $(".result").html("<span class='text-danger'>AJAX request failed</span>");
-                });
+// Delete
+$("#delete").click(function () {
+    $.ajax({
+        url: "ajax/funds_crud.php",
+        type: "post",
+        data: {
+            action: "delete",
+            id: $("#id").val()
+        },
+        success: function (data) {
+            $(".result").html(data);
+            location.reload();
+        }
+    });
+});
+
             });
 
             // Fill form when clicking row

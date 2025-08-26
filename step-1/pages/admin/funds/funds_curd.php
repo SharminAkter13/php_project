@@ -1,45 +1,51 @@
 <?php
-include("../connect.php"); // adjust path if needed
+include("../connect.php");
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    // Create (Save)
-    if (isset($_POST['name']) && isset($_POST['status']) && isset($_POST['amount']) && !isset($_POST['upid']) && !isset($_POST['id'])) {
-        $name   = $dms->real_escape_string($_POST['name']);
-        $status = $dms->real_escape_string($_POST['status']);
-        $amount = (float) $_POST['amount'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $action = $_POST["action"] ?? "";
 
-        $query = "INSERT INTO funds (name, status, collected_amount) VALUES ('$name', '$status', $amount)";
-        if ($dms->query($query)) {
+    if ($action == "save") {
+        $name = $_POST["name"];
+        $status = $_POST["status"];
+        $amount = $_POST["amount"];
+
+        $stmt = $connection->prepare("INSERT INTO funds (name, status, collected_amount) VALUES (?, ?, ?)");
+        $stmt->bind_param("ssi", $name, $status, $amount);
+        if ($stmt->execute()) {
             echo "<span class='text-success'>Fund saved successfully</span>";
         } else {
-            echo "<span class='text-danger'>Error: " . $dms->error . "</span>";
+            echo "<span class='text-danger'>Error: " . $stmt->error . "</span>";
         }
+        $stmt->close();
     }
 
-    // Update
-    if (isset($_POST['upid'])) {
-        $id     = (int) $_POST['upid'];
-        $name   = $dms->real_escape_string($_POST['name']);
-        $status = $dms->real_escape_string($_POST['status']);
-        $amount = (float) $_POST['amount'];
+    elseif ($action == "update") {
+        $id = $_POST["id"];
+        $name = $_POST["name"];
+        $status = $_POST["status"];
+        $amount = $_POST["amount"];
 
-        $query = "UPDATE funds SET name='$name', status='$status', collected_amount=$amount WHERE id=$id";
-        if ($dms->query($query)) {
-            echo "<span class='text-primary'>Fund updated successfully</span>";
+        $stmt = $connection->prepare("UPDATE funds SET name=?, status=?, collected_amount=? WHERE id=?");
+        $stmt->bind_param("ssii", $name, $status, $amount, $id);
+        if ($stmt->execute()) {
+            echo "<span class='text-success'>Fund updated successfully</span>";
         } else {
-            echo "<span class='text-danger'>Error: " . $dms->error . "</span>";
+            echo "<span class='text-danger'>Error: " . $stmt->error . "</span>";
         }
+        $stmt->close();
     }
 
-    // Delete
-    if (isset($_POST['id']) && !isset($_POST['name'])) {
-        $id = (int) $_POST['id'];
-        $query = "DELETE FROM funds WHERE id=$id";
-        if ($dms->query($query)) {
-            echo "<span class='text-danger'>Fund deleted successfully</span>";
+    elseif ($action == "delete") {
+        $id = $_POST["id"];
+
+        $stmt = $connection->prepare("DELETE FROM funds WHERE id=?");
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<span class='text-success'>Fund deleted successfully</span>";
         } else {
-            echo "<span class='text-danger'>Error: " . $dms->error . "</span>";
+            echo "<span class='text-danger'>Error: " . $stmt->error . "</span>";
         }
+        $stmt->close();
     }
 }
 ?>
