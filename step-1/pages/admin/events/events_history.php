@@ -82,7 +82,7 @@ $dms->close();
 </head>
 <body class="p-4">
 
-<div class="container">
+<div class="container-fluid p-5">
     <div class="mb-5 text-center text-md-start">
         <h1 class="fw-bold text-dark">Donation Dashboard</h1>
         <p class="lead text-muted mt-2">A visual overview of event donation performance.</p>
@@ -92,7 +92,7 @@ $dms->close();
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
         <!-- Total Events Card -->
         <div class="col">
-            <div class="card shadow-sm border-0 rounded-4">
+            <div class="card shadow-sm border-1 rounded-4">
                 <div class="card-body d-flex align-items-center justify-content-between p-4">
                     <div>
                         <p class="text-muted fw-bold mb-1">Total Events</p>
@@ -107,7 +107,7 @@ $dms->close();
 
         <!-- Total Donations Card -->
         <div class="col">
-            <div class="card shadow-sm border-0 rounded-4">
+            <div class="card shadow-sm border-1 rounded-4">
                 <div class="card-body d-flex align-items-center justify-content-between p-4">
                     <div>
                         <p class="text-muted fw-bold mb-1">Total Donations</p>
@@ -122,12 +122,12 @@ $dms->close();
 
         <!-- Top Event Card -->
         <div class="col">
-            <div class="card shadow-sm border-0 rounded-4">
+            <div class="card shadow-sm border-1 rounded-4">
                 <div class="card-body d-flex align-items-center justify-content-between p-4">
                     <div>
                         <p class="text-muted fw-bold mb-1">Top Event</p>
                         <p class="h4 fw-bold mb-0 text-dark"><?= htmlspecialchars($top_event_name) ?></p>
-                        <p class="text-muted small mt-1">Amount: $<?= number_format($top_donation_amount, 2) ?></p>
+                        <p class="text-muted small mt-1 fw-bold">Amount: $<?= number_format($top_donation_amount, 2) ?></p>
                     </div>
                     <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-circle">
                         <i class="fas fa-trophy fa-2x"></i>
@@ -138,7 +138,7 @@ $dms->close();
     </div>
 
     <!-- Chart Section -->
-    <div class="card shadow-sm border-0 rounded-4">
+    <div class="card shadow-sm border-1 rounded-4">
         <div class="card-header bg-white rounded-4 p-4 pb-0">
             <h3 class="card-title fw-bold text-dark mb-0">Donations per Event</h3>
         </div>

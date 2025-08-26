@@ -76,33 +76,31 @@ if ($result && $result->num_rows > 0) {
 
         /* Adjust the chart container to limit its height and make it responsive */
         .chart-container {
-            max-width: 100%;
+            width: 100%;
             height: 300px;
-            /* You can adjust this height to your desired size */
+            position: relative;
         }
 
         canvas {
             width: 100% !important;
-            /* Make the canvas take the full width */
             height: 100% !important;
-            /* Make the canvas take the full height */
         }
     </style>
 </head>
 
 <body>
-    <div class="content-wrapper" style="min-height: 2838.44px;">
+    <div class="container-fluid p-5" style="min-height: 2838.44px;">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Users Interface</h1>
+                        <h1>Pledges Interface</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-                            <li class="breadcrumb-item active">Add Users</li>
+                            <li class="breadcrumb-item active">Pledges</li>
                         </ol>
                     </div>
                 </div>
@@ -111,13 +109,10 @@ if ($result && $result->num_rows > 0) {
 
         <!-- Main content -->
         <section class="content">
-
-
             <!-- Default box -->
             <div class="card">
-                <div class="card-header ">
-                    <h3 class="card-title">Add Users</h3>
-
+                <div class="card-header">
+                    <h3 class="card-title">Pledges Summary</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -130,7 +125,6 @@ if ($result && $result->num_rows > 0) {
                 <div class="card-body">
                     <div class="container-fluid py-4">
                         <h1 class="mb-4">Pledge Tracking Dashboard</h1>
-
                         <div class="row g-4 mb-4">
                             <div class="col-md-3">
                                 <div class="card text-white bg-primary h-100">
@@ -180,15 +174,11 @@ if ($result && $result->num_rows > 0) {
                     </div>
                 </div>
                 <!-- /.card-body -->
-
             </div>
             <!-- /.card -->
-
         </section>
         <!-- /.content -->
     </div>
-    <!-- ./Add users -->
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -202,14 +192,14 @@ if ($result && $result->num_rows > 0) {
                     datasets: [{
                         label: 'Amount (USD)',
                         data: [
-                            <?php echo $total_pledged; ?>,
-                            <?php echo $total_fulfilled; ?>,
-                            <?php echo $outstanding_pledges; ?>
+                            <?php echo json_encode($total_pledged); ?>,
+                            <?php echo json_encode($total_fulfilled); ?>,
+                            <?php echo json_encode($outstanding_pledges); ?>
                         ],
                         backgroundColor: [
                             'rgba(54, 162, 235, 0.5)', // Blue for Pledged
                             'rgba(75, 192, 192, 0.5)', // Green for Fulfilled
-                            'rgba(255, 206, 86, 0.5)' // Yellow for Outstanding
+                            'rgba(255, 206, 86, 0.5)'  // Yellow for Outstanding
                         ],
                         borderColor: [
                             'rgba(54, 162, 235, 1)',
@@ -236,7 +226,6 @@ if ($result && $result->num_rows > 0) {
             });
         });
     </script>
-
 </body>
 
 </html>

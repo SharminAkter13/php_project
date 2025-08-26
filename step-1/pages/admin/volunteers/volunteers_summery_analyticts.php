@@ -69,7 +69,7 @@ if ($result) {
     </style>
 </head>
 <body>
-    <div class="content-wrapper" style="min-height: 2838.44px;">
+    <div class="container-fluid p-5" style="min-height: 2838.44px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">

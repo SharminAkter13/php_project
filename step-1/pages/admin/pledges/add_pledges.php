@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="hold-transition">
   <!-- Page Content Wrapper -->
-  <div class="content-wrapper" style="min-height: 2838.44px;">
+  <div class="container-fluid p-5" style="min-height: 2838.44px;">
     <!-- Page Header -->
     <section class="content-header">
       <div class="container-fluid">

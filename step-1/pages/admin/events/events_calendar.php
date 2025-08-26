@@ -48,18 +48,8 @@ body {
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <h3 class="text-center">Menu</h3>
-    <ul class="nav flex-column">
-        <li class="nav-item"><a href="home.php" class="nav-link text-white">Home</a></li>
-        <li class="nav-item"><a href="events_calendar.php" class="nav-link text-white">Events Calendar</a></li>
-        <li class="nav-item"><a href="add_event.php" class="nav-link text-white">Add Event</a></li>
-    </ul>
-</div>
-
 <!-- Main content -->
-<div class="content">
+<div class="container-fluid p-5">
     <h1 class="mb-4">Ongoing & Upcoming Events</h1>
 
     <div class="row">

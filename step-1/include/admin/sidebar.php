@@ -4,29 +4,27 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Retrieve the user's role and username from the session
 $userRole = $_SESSION['user_role'] ?? '';
+$username = $_SESSION['username'] ?? 'Guest'; // Assumes the username is stored in $_SESSION['username']
 ?>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
     <a href="home.php" class="brand-link">
         <img src="assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light"> DonorHub</span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="assets/dist/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block" id="username">Sharmin Akter</a>
+                <a href="#" class="d-block fw-bold" id="username" style="text-decoration: none;"><?php echo htmlspecialchars($username); ?></a>
             </div>
         </div>
 
-        <!-- SidebarSearch Form -->
         <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
@@ -38,11 +36,9 @@ $userRole = $_SESSION['user_role'] ?? '';
             </div>
         </div>
 
-        <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                <!-- Dashboard Section (Always visible) -->
                 <li class="nav-item">
                     <a href="home.php?page=0" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -55,7 +51,6 @@ $userRole = $_SESSION['user_role'] ?? '';
                 switch ($userRole) {
                     case 'admin':
                 ?>
-                        <!-- User Management Section for Admin -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-users-cog"></i>
@@ -86,7 +81,6 @@ $userRole = $_SESSION['user_role'] ?? '';
                             </ul>
                         </li>
                         
-                        <!-- Campaigns Section for Admin -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-bullhorn"></i>
@@ -123,7 +117,6 @@ $userRole = $_SESSION['user_role'] ?? '';
                             </ul>
                         </li>
 
-                        <!-- Beneficiary Section for Admin -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-hands-helping"></i>
@@ -161,38 +154,8 @@ $userRole = $_SESSION['user_role'] ?? '';
                         </li>
                           <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-hands-helping"></i>
-                                <p>
-                                    Volunteers
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="home.php?page=24" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Volunteer</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="home.php?page=25" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Manage Volunteers</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="home.php?page=26" class="nav-link">
-                                        <i class="far fa-chart-bar nav-icon"></i>
-                                        <p>Volunteers Summery</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <!-- <i class="fa-solid fa-wallet"></i>  -->
                                 <p> &nbsp;
-                                 <b style="font-size: 16pt;">$</b> &nbsp; Funds
+                                  <b style="font-size: 16pt;">$</b> &nbsp; Funds
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -212,13 +175,41 @@ $userRole = $_SESSION['user_role'] ?? '';
                                 </li>
                             </ul>
                         </li>
+                           <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-handshake"></i>
+                                <p>
+                                    Pledges
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=21" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Pledge</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=22" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Manage Pledges</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=23" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p> Pledges Summery</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         
                 <?php
                         // No break here, as some sections might be common to multiple roles
                         // Fall-through to shared sections
                     case 'campaign_manager':
                 ?>
-                        <!-- Campaigns Section (shared with admin) -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-bullhorn"></i>
@@ -258,7 +249,6 @@ $userRole = $_SESSION['user_role'] ?? '';
                         break;
                     case 'donor':
                 ?>
-                        <!-- Donations Section for Donor -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-donate"></i>
@@ -294,7 +284,6 @@ $userRole = $_SESSION['user_role'] ?? '';
                                 </li>
                             </ul>
                         </li>
-                        <!-- Pledges Section for Donor -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-handshake"></i>
@@ -316,14 +305,18 @@ $userRole = $_SESSION['user_role'] ?? '';
                                         <p>Manage Pledges</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=23" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p> Pledges Summery</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                 <?php
                         break;
                     case 'volunteer':
                 ?>
-                        <!-- Volunteer Section -->
-                         
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-hands-helping"></i>
@@ -357,7 +350,6 @@ $userRole = $_SESSION['user_role'] ?? '';
                         break;
                 }
                 ?>
-                <!-- Shared Sections (Events & Profile) -->
                 <?php if (in_array($userRole, ['admin', 'beneficiary', 'campaign_manager', 'donor', 'volunteer'])): ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
