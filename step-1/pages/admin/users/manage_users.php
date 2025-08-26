@@ -30,7 +30,7 @@ if (isset($_POST["btnDelete"])) {
     </style>
 </head>
 <body>
-<div class="content-wrapper">
+<div class="container-fluid p-5">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">

@@ -197,12 +197,7 @@ $userRole = $_SESSION['user_role'] ?? '';
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="home.php?page=24" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Volunteer</p>
-                                    </a>
-                                </li>
+                                
                                 <li class="nav-item">
                                     <a href="home.php?page=29" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>

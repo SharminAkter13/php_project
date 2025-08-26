@@ -75,8 +75,8 @@ $js_border_colors = json_encode(array_slice($border_colors, 0, count($labels)));
 </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-    <div class="content-wrapper">
+
+    <div class="container-fluid p-5">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -161,7 +161,7 @@ $js_border_colors = json_encode(array_slice($border_colors, 0, count($labels)));
             </div>
         </section>
     </div>
-</div>
+
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

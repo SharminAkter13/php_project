@@ -106,13 +106,14 @@ mysqli_close($dms);
         .fw-bold {
             font-weight: 700 !important;
         }
+       
     </style>
 </head>
 <body>
 
-<div class="container-fluid mt-4 p-5">
+<div class="container-fluid camp mt-4 p-5">
      <div class="row">
-        <div class="col-md-9 offset-md-3">
+        <div class="col-md-9 mx-auto ">
 
             <!-- Page Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">

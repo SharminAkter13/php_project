@@ -1,6 +1,6 @@
 <?php
 // Include the database connection file
-include("connect.php");
+include("config.php");
 ?>
 
 <!doctype html>
@@ -15,7 +15,7 @@ include("connect.php");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
-            margin-top: 50px;
+            margin: 100px auto;
         }
         .form-container {
             padding: 20px;
@@ -95,7 +95,7 @@ include("connect.php");
     </div>
 
     <!-- jQuery and Bootstrap JS from CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -103,7 +103,7 @@ include("connect.php");
             // Function to load data into the table
             function loadFunds() {
                 $.ajax({
-                    url: "funds_data.php",
+                    url: "funds_curd.php",
                     type: "POST",
                     dataType: "json",
                     data: { action: 'read' },
@@ -141,7 +141,7 @@ include("connect.php");
                 var collected_amount = $('#collected_amount').val();
 
                 $.ajax({
-                    url: "funds_data.php",
+                    url: "funds_curd.php",
                     type: "POST",
                     dataType: "json",
                     data: {
@@ -169,7 +169,7 @@ include("connect.php");
                 var collected_amount = $('#collected_amount').val();
 
                 $.ajax({
-                    url: "funds_data.php",
+                    url: "funds_curd.php",
                     type: "POST",
                     dataType: "json",
                     data: {
@@ -196,7 +196,7 @@ include("connect.php");
 
                 if (confirm("Are you sure you want to delete this fund?")) {
                     $.ajax({
-                        url: "funds_data.php",
+                        url: "funds_curd.php",
                         type: "POST",
                         dataType: "json",
                         data: {

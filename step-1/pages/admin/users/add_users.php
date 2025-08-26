@@ -51,19 +51,8 @@ if ($result_roles = $dms->query($sql_roles)) {
 $dms->close();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add User</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-</head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-    <div class="content-wrapper">
+
+    <div class="container-fluid p-5">
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -82,7 +71,7 @@ $dms->close();
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
-                        <div class="card card-primary card-outline">
+                        <div class="card  ">
                             <div class="card-header">
                                 <h3 class="card-title">Add New User</h3>
                                 <div class="card-tools">
@@ -131,9 +120,3 @@ $dms->close();
         </section>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/js/adminlte.min.js"></script>
-</body>
-</html>
