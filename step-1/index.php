@@ -29,202 +29,24 @@ require_once("pages/portal/donate.php");
 <?php 
 require_once("pages/portal/event.php");
 ?>
+<?php 
+require_once("pages/portal/team.php");
+?>
+<?php 
+require_once("pages/portal/volunteer.php");
+?>
+<?php 
+require_once("pages/portal/testimonial.php");
+?>
    
     
    
    
     
   
-    <!-- Team Section -->
-    
-    <div class="team">
-        <div class="container">
-            <div class="section-header text-center">
-                <p>Meet Our Team</p>
-                <h2>Awesome guys behind our charity activities</h2>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-item">
-                        <div class="team-img">
-                            <img src="assets/img/img/team-4.jpg" alt="Team Image">
-                        </div>
-                        <div class="team-text">
-                            <h2>Donald John</h2>
-                            <p>Founder & CEO</p>
-                            <div class="team-social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-item">
-                        <div class="team-img">
-                            <img src="assets/img/img/team-2.jpg" alt="Team Image">
-                        </div>
-                        <div class="team-text">
-                            <h2>Rachel Phillips</h2>
-                            <p>Chef Executive</p>
-                            <div class="team-social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-item">
-                        <div class="team-img">
-                            <img src="assets/img/img/team-3.jpg" alt="Team Image">
-                        </div>
-                        <div class="team-text">
-                            <h2>Tiara Olsen</h2>
-                            <p>Chef Advisor</p>
-                            <div class="team-social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-item">
-                        <div class="team-img">
-                            <img src="assets/img/img/team-1.jpg" alt="Team Image">
-                        </div>
-                        <div class="team-text">
-                            <h2>James Alien</h2>
-                            <p>Advisor</p>
-                            <div class="team-social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Team Section -->
-
-    <div class="volunteer" data-parallax="scroll" data-image-src="assets/img/img/volunteer.jpg">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-5">
-                    <div class="volunteer-form">
-                        <form>
-                            <div class="control-group">
-                                <input type="text" class="form-control" placeholder="Name" required="required" />
-                            </div>
-                            <div class="control-group">
-                                <input type="email" class="form-control" placeholder="Email" required="required" />
-                            </div>
-                            <div class="control-group">
-                                <textarea class="form-control" placeholder="Why you want to become a volunteer?" required="required"></textarea>
-                            </div>
-                            <div>
-                                <button class="btn btn-custom" type="submit">Become a volunteer</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="volunteer-content">
-                        <div class="section-header">
-                            <p>Become A Volunteer</p>
-                            <h2>Let’s make a difference in the lives of others</h2>
-                        </div>
-                        <div class="volunteer-text">
-                            <p>
-                                Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non. Aliquam metus tortor, auctor id gravida, viverra quis sem. Curabitur non nisl nec nisi maximus. Aenean convallis porttitor. Aliquam interdum at lacus non blandit.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Testimonial Starts -->
-    <div class="testimonial">
-        <div class="container">
-            <div class="section-header text-center">
-                <p>Testimonial</p>
-                <h2>What people are talking about our charity activities</h2>
-            </div>
-            <div class="owl-carousel testimonials-carousel">
-                <div class="testimonial-item">
-                    <div class="testimonial-profile">
-                        <img src="assets/img/testimonial-1.jpg" alt="Image">
-                        <div class="testimonial-name">
-                            <h3>Person Name</h3>
-                            <p>Profession</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-text">
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu metus tortor, auctor id gravid vivera quis
-                        </p>
-                    </div>
-                </div>
-                <div class="testimonial-item">
-                    <div class="testimonial-profile">
-                        <img src="assets/img/testimonial-2.jpg" alt="Image">
-                        <div class="testimonial-name">
-                            <h3>Person Name</h3>
-                            <p>Profession</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-text">
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu metus tortor, auctor id gravid vivera quis
-                        </p>
-                    </div>
-                </div>
-                <div class="testimonial-item">
-                    <div class="testimonial-profile">
-                        <img src="assets/img/testimonial-3.jpg" alt="Image">
-                        <div class="testimonial-name">
-                            <h3>Person Name</h3>
-                            <p>Profession</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-text">
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu metus tortor, auctor id gravid vivera quis
-                        </p>
-                        </p>
-                    </div>
-                </div>
-                <div class="testimonial-item">
-                    <div class="testimonial-profile">
-                        <img src="assets/img/testimonial-4.jpg" alt="Image">
-                        <div class="testimonial-name">
-                            <h3>Person Name</h3>
-                            <p>Profession</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-text">
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu metus tortor, auctor id gravid vivera quis
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Testimonial Starts -->
-
+  
+   
     <div class="contact">
         <div class="container">
             <div class="section-header text-center">
