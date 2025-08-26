@@ -1,81 +1,45 @@
 <?php
-// Include the database connection script
-include("config.php");
+include("../connect.php"); // adjust path if needed
 
-// Set content type to JSON for a cleaner API-like response
-header('Content-Type: application/json');
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    // Create (Save)
+    if (isset($_POST['name']) && isset($_POST['status']) && isset($_POST['amount']) && !isset($_POST['upid']) && !isset($_POST['id'])) {
+        $name   = $dms->real_escape_string($_POST['name']);
+        $status = $dms->real_escape_string($_POST['status']);
+        $amount = (float) $_POST['amount'];
 
-$response = [
-    'success' => false,
-    'message' => ''
-];
-
-try {
-    // Handle Save operation (Create)
-    if (isset($_POST['save_name'])) {
-        $name = $connection->real_escape_string(trim($_POST['save_name']));
-        $status = $connection->real_escape_string(trim($_POST['status']));
-        $collected_amount = (int)$_POST['collected_amount'];
-
-        $sql = "INSERT INTO funds (name, status, collected_amount) VALUES ('$name', '$status', $collected_amount)";
-        if ($connection->query($sql) === TRUE) {
-            $response['success'] = true;
-            $response['message'] = "Fund saved successfully.";
+        $query = "INSERT INTO funds (name, status, collected_amount) VALUES ('$name', '$status', $amount)";
+        if ($dms->query($query)) {
+            echo "<span class='text-success'>Fund saved successfully</span>";
         } else {
-            throw new Exception("Error: " . $connection->error);
+            echo "<span class='text-danger'>Error: " . $dms->error . "</span>";
         }
     }
 
-    // Handle Update operation
-    else if (isset($_POST['update_id'])) {
-        $id = (int)$_POST['update_id'];
-        $name = $connection->real_escape_string(trim($_POST['name']));
-        $status = $connection->real_escape_string(trim($_POST['status']));
-        $collected_amount = (int)$_POST['collected_amount'];
+    // Update
+    if (isset($_POST['upid'])) {
+        $id     = (int) $_POST['upid'];
+        $name   = $dms->real_escape_string($_POST['name']);
+        $status = $dms->real_escape_string($_POST['status']);
+        $amount = (float) $_POST['amount'];
 
-        $sql = "UPDATE funds SET name='$name', status='$status', collected_amount=$collected_amount WHERE id=$id";
-        if ($connection->query($sql) === TRUE) {
-            $response['success'] = true;
-            $response['message'] = "Fund updated successfully.";
+        $query = "UPDATE funds SET name='$name', status='$status', collected_amount=$amount WHERE id=$id";
+        if ($dms->query($query)) {
+            echo "<span class='text-primary'>Fund updated successfully</span>";
         } else {
-            throw new Exception("Error: " . $connection->error);
+            echo "<span class='text-danger'>Error: " . $dms->error . "</span>";
         }
     }
 
-    // Handle Delete operation
-    else if (isset($_POST['delete_id'])) {
-        $id = (int)$_POST['delete_id'];
-        $sql = "DELETE FROM funds WHERE id=$id";
-        if ($connection->query($sql) === TRUE) {
-            $response['success'] = true;
-            $response['message'] = "Fund deleted successfully.";
+    // Delete
+    if (isset($_POST['id']) && !isset($_POST['name'])) {
+        $id = (int) $_POST['id'];
+        $query = "DELETE FROM funds WHERE id=$id";
+        if ($dms->query($query)) {
+            echo "<span class='text-danger'>Fund deleted successfully</span>";
         } else {
-            throw new Exception("Error: " . $connection->error);
+            echo "<span class='text-danger'>Error: " . $dms->error . "</span>";
         }
     }
-
-    // Handle Read operation (Display data)
-    else if (isset($_POST['action']) && $_POST['action'] === 'read') {
-        $sql = "SELECT id, name, status, collected_amount FROM funds ORDER BY id ASC";
-        $result = $connection->query($sql);
-        $funds = [];
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $funds[] = $row;
-            }
-        }
-        echo json_encode(['success' => true, 'funds' => $funds]);
-        exit; // Exit after sending JSON to prevent further output
-    }
-
-} catch (Exception $e) {
-    $response['success'] = false;
-    $response['message'] = $e->getMessage();
 }
-
-// Close the database connection
-$connection->close();
-
-// Send the JSON response back to the client
-echo json_encode($response);
+?>

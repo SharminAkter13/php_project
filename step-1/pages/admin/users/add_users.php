@@ -70,7 +70,7 @@ $dms->close();
         <section class="content">
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="card  ">
                             <div class="card-header">
                                 <h3 class="card-title">Add New User</h3>

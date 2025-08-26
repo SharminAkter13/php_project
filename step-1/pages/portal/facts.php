@@ -1,4 +1,4 @@
-<div class="facts" data-parallax="scroll" data-image-src="../../assets/img/img/img2.jpg">
+<div class="facts" data-parallax="scroll" data-image-src="assets/img/img/volunteer.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
