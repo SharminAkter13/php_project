@@ -28,18 +28,18 @@ $total_beneficiaries = count($beneficiaries);
     </style>
 <!-- Beneficiariers Report Start -->
 
-<div class="content-wrapper" style="min-height: 2838.44px;">
+<div class="container-fluid p-5" style="min-height: 2838.44px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Users Interface</h1>
+            <h1>Benefciaries Interface</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-              <li class="breadcrumb-item active">Add Users</li>
+              <li class="breadcrumb-item active">Benefciaries</li>
             </ol>
           </div>
         </div>
@@ -52,7 +52,7 @@ $total_beneficiaries = count($beneficiaries);
       <!-- Default box -->
       <div class="card">
         <div class="card-header ">
-          <h3 class="card-title">Add Users</h3>
+          <h3 class="card-title">Benefciaries Reports</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

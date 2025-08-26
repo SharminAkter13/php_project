@@ -90,7 +90,7 @@ if ($result) {
 </head>
 <body>
 
-<div class="content-wrapper" style="min-height: 2838.44px;">
+<div class="container-fluid p-5" style="min-height: 2838.44px;">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">

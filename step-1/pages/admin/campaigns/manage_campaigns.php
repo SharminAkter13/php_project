@@ -99,7 +99,7 @@ if ($event_result) {
 </head>
 <body>
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="container-fluid p-5">
     <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">

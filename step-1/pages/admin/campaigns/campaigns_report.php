@@ -9,7 +9,7 @@
 <body>
   <div class="container-fluid mt-3 p-5">
     <div class="row">
-        <div class="col-md-9 offset-md-3">
+        <div class="col-md-9 mx-auto">
             <h1 class="mb-4">Campaign Reports Dashboard</h1>
 
             <!-- Summary Cards -->

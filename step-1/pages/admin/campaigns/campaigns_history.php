@@ -9,7 +9,7 @@
 <body>
   <div class="container-fluid p-5 my-4">
     <div class="row">
-        <div class="col-md-9 offset-md-3">
+        <div class="col-md-9 mx-auto">
             <h1 class="mb-4">Campaign History</h1>
 
             <!-- Search and Filter -->

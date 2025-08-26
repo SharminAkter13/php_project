@@ -127,7 +127,7 @@ if (isset($_GET['search']) || isset($_GET['status']) || isset($_GET['from_date']
 
 <div class="container-fluid mt-4 p-5">
     <div class="row">
-        <div class="col-md-9 offset-md-3">
+        <div class="col-md-12 mx-auto">
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="fw-bold"><i class="bi bi-clock-history"></i> Beneficiary History</h4>

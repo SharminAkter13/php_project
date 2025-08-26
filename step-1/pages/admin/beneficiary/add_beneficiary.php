@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="container my-5 p-5">
     <div class="row">
-        <div class="col-md-9 offset-md-3">
+        <div class="col-md-12 mx-auto">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="card">
