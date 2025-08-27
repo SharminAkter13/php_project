@@ -1,5 +1,15 @@
 <?php
-include 'config.php';
+// Set up error reporting for debugging
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Include database connection
+// Make sure this file correctly connects to your database and sets the $dms variable
+if (file_exists('config.php')) {
+    include 'config.php';
+} else {
+    die("Error: config.php file not found. Please create it with your database connection details.");
+}
 
 // Prepare response
 $response = [
@@ -9,25 +19,31 @@ $response = [
 ];
 
 try {
-    // Query to get all upcoming events from 'events' table
-    $query = "SELECT `name`, `location`, `descriptions`, `date`, `image_url` FROM `events` ORDER BY `date` ASC";
-    $result = $dms->query($query); // Corrected variable from $dms to $dms
+    // Corrected query to get upcoming events that are "Active"
+    // The query filters events with a date greater than or equal to the current date
+    // and where the status is 'Active'.
+    $query = "SELECT `name`, `location`, `descriptions`, `date`, `image_url` 
+              FROM `events` 
+              WHERE `date` >= CURDATE() AND `status` = 'Active' 
+              ORDER BY `date` ASC";
+    
+    // Execute the query
+    $result = $dms->query($query);
 
     $events = [];
 
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            // Format the event date
             $event_date = date("d-M-y", strtotime($row['date']));
             $event_time = date("H:i", strtotime($row['date']));
 
             $events[] = [
                 'name' => $row['name'],
                 'location' => $row['location'],
-                'date' => $event_date,  // Corrected from 'event_date' to 'date'
+                'date' => $event_date,
                 'descriptions' => $row['descriptions'],
                 'event_time' => $event_time,
-                'image_url' => $row['image_url'], // Corrected from 'image' to 'image_url'
+                'image_url' => $row['image_url'],
             ];
         }
     }
@@ -54,13 +70,11 @@ $jsonData = json_encode($response);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upcoming Charity Events</title>
-    <!-- Add your CSS links here -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<!-- Event Section -->
 <div class="event">
     <div class="container">
         <div class="section-header text-center">
@@ -68,20 +82,18 @@ $jsonData = json_encode($response);
             <h2>Be ready for our upcoming charity events</h2>
         </div>
         <div class="row" id="events-list">
-            <!-- Dynamic events will be inserted here -->
-        </div>
+            </div>
     </div>
 </div>
 
-<!-- JavaScript to handle dynamic events rendering -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const data = <?php echo $jsonData; ?>;
     const eventsContainer = document.getElementById('events-list');
 
+    // Check if the API call was successful and returned data
     if (data.success && data.data.length > 0) {
-        eventsContainer.innerHTML = '';  
-
+        eventsContainer.innerHTML = ''; 
         data.data.forEach(event => {
             const eventItem = `
                 <div class="col-lg-6">
@@ -105,31 +117,17 @@ document.addEventListener('DOMContentLoaded', function() {
             eventsContainer.insertAdjacentHTML('beforeend', eventItem);
         });
     } else {
-        // If no events are available, show a static placeholder
+        // Display a message if no events are available
         eventsContainer.innerHTML = `
-            <div class="col-lg-6">
-                <div class="event-item">
-                    <img src="assets/img/img/event.jpg" alt="Image">
-                    <div class="event-content">
-                        <div class="event-meta">
-                            <p><i class="fa fa-calendar-alt"></i>17-Aug-25</p>
-                            <p><i class="far fa-clock"></i>8:00 - 10:00</p>
-                            <p><i class="fa fa-map-marker-alt"></i>New York</p>
-                        </div>
-                        <div class="event-text">
-                            <h3>Uniting Voices for Global Democracy: Pledge4Peace Conference 2025</h3>
-                            <p>Be part of a global gathering dedicated to resolving conflict, defending democracy, and building lasting peace through people power</p>
-                            <a class="btn btn-custom" href="#">Join Now</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-12 text-center">
+                <p>No upcoming events found at this time.</p>
             </div>
         `;
+        console.error('Failed to fetch events or no upcoming events:', data.message);
     }
 });
 </script>
 
-<!-- Add your JS scripts here -->
 <script src="assets/js/script.js"></script>
 </body>
 </html>
