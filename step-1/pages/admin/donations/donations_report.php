@@ -50,9 +50,9 @@ $chart_border_colors = json_encode(array_map(fn($i)=>"rgba(54, 162, 235, 1)", $c
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper p-4">
 
-    <div class="content-wrapper">
+
+    <div class="container-fluid p-5">
         <section class="content-header">
             <div class="container-fluid mb-3">
                 <div class="row">
@@ -126,7 +126,7 @@ $chart_border_colors = json_encode(array_map(fn($i)=>"rgba(54, 162, 235, 1)", $c
             </div>
         </section>
     </div>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

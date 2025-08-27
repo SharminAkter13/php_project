@@ -71,8 +71,8 @@ $dms->close();
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 
-<div class="wrapper">
-    <div class="content-wrapper p-4">
+
+    <div class="container-fluid p-4">
         <!-- Status Boxes -->
         <div class="row mb-4">
             <div class="col-lg-4 col-6">
@@ -151,7 +151,7 @@ $dms->close();
             </div>
         </div>
     </div>
-</div>
+
 
 <script>
 const ctx = document.getElementById('donorPieChart').getContext('2d');
