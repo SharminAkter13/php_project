@@ -1312,27 +1312,31 @@ color: #0c6b6c !important;
 
 /*******************************/
 /********** Event CSS **********/
-/*******************************/
+/*******************************//* General Event Styling */
 .event {
     position: relative;
     width: 100%;
     padding: 45px 0 15px 0;
     background-color: #ffffff;
-
 }
 
 .event .event-item {
     margin-bottom: 30px;
     background: #f0f0f0;
+    border-radius: 8px; /* Added border radius for a cleaner look */
+    overflow: hidden; /* Prevents image overflow */
 }
 
 .event .event-item img {
     width: 100%;
+    height: auto; /* Ensures image aspect ratio is maintained */
 }
 
 .event .event-content {
     padding: 30px;
     display: flex;
+    flex-direction: row; /* Ensures row layout on larger screens */
+    align-items: flex-start; /* Align items to the start of the container */
 }
 
 .event .event-meta {
@@ -1397,20 +1401,35 @@ color: #0c6b6c !important;
 .event .btn.btn-custom {
     margin-top: 20px;
     padding: 8px 30px;
+    background-color: #0c6b6c;
+    color: white;
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
+.event .btn.btn-custom:hover {
+    background-color: #0ec2cf;
+    cursor: pointer;
+}
+
+/* Responsive Design for Small Screens */
 @media (max-width: 575.98px) {
     .event .event-content {
-        flex-direction: column;
+        flex-direction: column; /* Stack the event meta and text vertically */
+        padding: 15px; /* Adjust padding for smaller screens */
     }
 
     .event .event-meta {
         flex-direction: row;
+        margin-bottom: 10px; /* Reduce margin */
     }
 
     .event .event-meta p {
         font-size: 14px;
         padding-right: 7px;
+        margin-right: 7px; /* Adjust for smaller spacing */
     }
 
     .event .event-meta p:last-child {
@@ -1424,12 +1443,23 @@ color: #0c6b6c !important;
     .event .event-text {
         margin: 0;
         padding: 0;
+        padding-left: 0; /* Remove padding on smaller screens */
     }
 
     .event .event-text::before,
     .event .event-text::after {
-        display: none;
+        display: none; /* Hide the before and after pseudo-elements on small screens */
     }
+
+    /* Button Adjustments for Smaller Screens */
+    .event .btn.btn-custom {
+        width: 100%; /* Full width on smaller screens */
+        padding: 10px 20px;
+    }
+    .event .event-item {
+    border: 2px solid red; /* Debugging border */
+}
+
 }
 
 

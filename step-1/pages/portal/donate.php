@@ -1,7 +1,5 @@
 <?php
-session_start(); // Start the session
-// Check if user is logged in
-$is_logged_in = isset($_SESSION['user_id']); // Check for logged-in status
+$is_logged_in = isset($_SESSION['user_id']); 
 ?>
 
 <div class="donate" data-parallax="scroll" data-image-src="assets/img/donate.jpg">
