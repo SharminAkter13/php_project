@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2025 at 09:58 PM
+-- Generation Time: Aug 27, 2025 at 09:54 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,6 +61,7 @@ CREATE TABLE `campaigns` (
   `name` varchar(255) NOT NULL,
   `descriptions` varchar(400) NOT NULL,
   `goal_amount` int(11) DEFAULT NULL,
+  `total_raised` int(11) NOT NULL,
   `start_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `end_date` date DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
@@ -72,12 +73,12 @@ CREATE TABLE `campaigns` (
 -- Dumping data for table `campaigns`
 --
 
-INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `start_date`, `end_date`, `status`, `event_id`, `file_path`) VALUES
-(1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, '2025-08-15 18:00:00', '2025-08-31', 'Active', 1, 'charity_run.jpg'),
-(2, 'Food Donation Drive', 'Collecting and distributing food for underprivileged families.', 15000, '2025-08-16 07:57:17', '2025-02-15', 'Inactive', 2, 'food_drive.jpg'),
-(4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, '2025-08-22 18:00:00', '2025-09-09', 'Active', 4, 'emergency_relief.jpg'),
-(5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, '2025-09-30 18:00:00', '2025-11-01', 'Active', 5, 'health_camp.jpg'),
-(6, 'Fresh Water ', 'Fresh water for village people', 100000, '2025-08-22 18:00:00', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
+INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `total_raised`, `start_date`, `end_date`, `status`, `event_id`, `file_path`) VALUES
+(1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, 0, '2025-08-27 03:23:51', '2025-08-31', 'Active', 1, 'uploads/cause-3.jpg'),
+(2, 'Food Donation Drive', 'Collecting and distributing food for underprivileged families.', 15000, 0, '2025-08-27 03:23:43', '2025-02-15', 'Inactive', 2, 'uploads/cause-3.jpg'),
+(4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, 25000, '2025-08-27 04:09:49', '2025-09-09', 'Active', 4, 'uploads/cause-3.jpg'),
+(5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, 6000, '2025-08-27 05:30:02', '2025-11-01', 'Active', 5, 'uploads/cause-3.jpg'),
+(6, 'Fresh Water ', 'Fresh water for village people', 20000, 5000, '2025-08-27 06:24:39', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
 
 -- --------------------------------------------------------
 
@@ -124,7 +125,29 @@ CREATE TABLE `donations` (
 --
 
 INSERT INTO `donations` (`id`, `name`, `amount`, `date`, `payment_id`, `fund_id`, `donor_id`, `pledge_id`, `campaign_id`) VALUES
-(1, 'Bob Smith', 500, '2025-08-16 18:44:44', 3, 3, 11, NULL, 5);
+(3, 'Rayaan Mohammad', 5000, '2025-08-26 18:00:00', 2, 5, 14, NULL, 6),
+(4, 'Ayaan Mohammad', 25000, '2025-08-26 18:00:00', 5, 3, 13, NULL, 4),
+(5, 'Bob Smith', 6000, '2025-08-26 18:00:00', 5, 4, 11, NULL, 5);
+
+--
+-- Triggers `donations`
+--
+DELIMITER $$
+CREATE TRIGGER `update_campaign_total_raised_after_delete` AFTER DELETE ON `donations` FOR EACH ROW BEGIN
+    UPDATE campaigns
+    SET total_raised = (SELECT COALESCE(SUM(amount), 0) FROM donations WHERE campaign_id = OLD.campaign_id)
+    WHERE id = OLD.campaign_id;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_campaign_total_raised_after_insert` AFTER INSERT ON `donations` FOR EACH ROW BEGIN
+    UPDATE campaigns
+    SET total_raised = (SELECT COALESCE(SUM(amount), 0) FROM donations WHERE campaign_id = NEW.campaign_id)
+    WHERE id = NEW.campaign_id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -147,7 +170,8 @@ CREATE TABLE `donors` (
 
 INSERT INTO `donors` (`id`, `name`, `contact`, `type`, `user_id`, `pledge_id`) VALUES
 (11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2),
-(13, 'Ayaan Mohammad\r\n', 'ayaan@gmail.com', 'Individual', 9, 3);
+(13, 'Ayaan Mohammad\r\n', 'ayaan@gmail.com', 'Individual', 9, 3),
+(14, 'Rayaan Mohammad', 'rayaan@gmail.com', 'Individual', 14, NULL);
 
 -- --------------------------------------------------------
 
@@ -161,19 +185,20 @@ CREATE TABLE `events` (
   `location` varchar(255) DEFAULT NULL,
   `descriptons` varchar(255) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `image_url` varchar(255) NOT NULL
+  `image_url` varchar(255) NOT NULL,
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `name`, `location`, `descriptons`, `date`, `image_url`) VALUES
-(1, 'Charity Run 2025', 'Central Park, New York', 'Whether you\'re keen to walk, run, cycle or swim take a look below and sign up today to fundraise for Save the Children. We\'ll support you every step of the', '2025-08-26 19:26:46', ''),
-(2, 'Food Donation Drive', 'Community Hall, Boston', 'Support our food donation drives in Singapore! Learn more about making food donations or money donations and helping with food distribution drives.', '2025-08-26 19:27:49', ''),
-(3, 'School Fundraising Gala', 'Hilton Hotel, Chicago', 'A high school fundraising gala serves as a platform for high schools to gather funds and resources while unifying the community in support of a common cause ...\r\n', '2025-08-26 19:28:38', ''),
-(4, 'Emergency Relife  ', ' Gaza, Palestine', 'Emergency relief means providing immediate assistance to the victims of conflicts or disaster situations. For more than 50 years, the World Food Programme ...', '2025-08-26 19:29:18', ''),
-(5, 'Health Checkup Camp', 'Community Center, Dallas', 'Held from 9am to 2pm, the event offered free healthcare services including specialist doctor consultation and blood sugar Body Mass Index (BMI) ', '2025-08-26 19:29:57', '');
+INSERT INTO `events` (`id`, `name`, `location`, `descriptons`, `date`, `image_url`, `status`) VALUES
+(1, 'Charity Run 2025', 'Central Park, New York', 'Whether you\'re keen to walk, run, cycle or swim take a look below and sign up today to fundraise for Save the Children. We\'ll support you every step of the', '2025-09-29 19:26:46', '', 'Active'),
+(2, 'Food Donation Drive', 'Community Hall, Boston', 'Support our food donation drives in Singapore! Learn more about making food donations or money donations and helping with food distribution drives.', '2025-09-30 07:49:29', '', 'Inactive'),
+(3, 'School Fundraising Gala', 'Hilton Hotel, Chicago', 'A high school fundraising gala serves as a platform for high schools to gather funds and resources while unifying the community in support of a common cause ...\r\n', '2025-09-19 19:28:38', '', 'Active'),
+(4, 'Emergency Relife  ', ' Gaza, Palestine', 'Emergency relief means providing immediate assistance to the victims of conflicts or disaster situations. For more than 50 years, the World Food Programme ...', '2025-08-30 19:29:18', '', 'Active'),
+(5, 'Health Checkup Camp', 'Community Center, Dallas', 'Held from 9am to 2pm, the event offered free healthcare services including specialist doctor consultation and blood sugar Body Mass Index (BMI) ', '2025-08-26 19:29:57', '', 'Active');
 
 -- --------------------------------------------------------
 
@@ -193,11 +218,11 @@ CREATE TABLE `funds` (
 --
 
 INSERT INTO `funds` (`id`, `name`, `status`, `collected_amount`) VALUES
-(1, 'Disaster Relief Fund', 'Active', 10000),
-(2, 'Education Scholarship', 'Inactive', 200000),
-(3, 'Medical Aid', 'Active', 50000),
-(4, 'Community Development', 'Active', 150000),
-(5, 'Orphanage Support', 'Active', 100000);
+(1, 'Charity Run 2025', 'Active', 10000),
+(2, 'Food Donation Drive', 'Inactive', 200000),
+(3, 'Emergency Relief', 'Active', 50000),
+(4, 'Health Checkup Camp', 'Active', 150000),
+(5, 'Fresh Water ', 'Active', 100000);
 
 -- --------------------------------------------------------
 
@@ -320,7 +345,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role
 (9, 'Ayaan', 'Mohammad', 'ayaan@gmail.com', '$2y$10$JryyXYRfPOi50gP9asod3uJDcim3CpJMkKfz36K54QeH74iJojE2O', 2, '2025-08-20 03:18:34'),
 (11, 'johnny', 'jonh', 'johnny@gmail.com', '$2y$10$N.PTawvJGtDua0OCtc6GDO2gnqqNpjh6Y8lME0bBYo7unLwOxg8bG', 5, '2025-08-20 03:53:04'),
 (12, 'john', 'doe', 'john@gmail.com', '$2y$10$wWbdTZSK1gJqQ0sK4aXDTeFlbo8jnRGOUmG2pWBr/1dllyHjAc2Ei', 5, '2025-08-20 03:53:57'),
-(13, 'Charlie', 'Brown', 'charlie@email.com', '$2y$10$uGnCIrpDti80H8ei5iEBkeEPuEk9eWMGPYp4CwG1I4E.4yAIsrDe2', 5, '2025-08-25 04:25:16');
+(13, 'Charlie', 'Brown', 'charlie@email.com', '$2y$10$uGnCIrpDti80H8ei5iEBkeEPuEk9eWMGPYp4CwG1I4E.4yAIsrDe2', 5, '2025-08-25 04:25:16'),
+(14, 'Rayaan', 'Mohammad', 'rayaan@gmail.com', '$2y$10$SFOOq4rXStYELlPKeBoy7Orhm.RrNB2TrfpFc1eSbiFCR8uydV/5.', 2, '2025-08-27 04:01:51');
 
 -- --------------------------------------------------------
 
@@ -479,13 +505,13 @@ ALTER TABLE `campaign_management`
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `donors`
 --
 ALTER TABLE `donors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -527,7 +553,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `volunteer`
