@@ -1,20 +1,21 @@
 <?php
-    // include("config.php");
+// Include the database connection file
+include("config.php");
 ?>
 
 <style>
-        .causes-item .progress {
-            height: 10px;
-            border-radius: 0;
-            margin-bottom: 20px;
-        }
-        .progress-bar {
-            background-color: #6c5ce7; /* Custom color */
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-        }
-    </style>
+    .causes-item .progress {
+        height: 10px;
+        border-radius: 0;
+        margin-bottom: 20px;
+    }
+    .progress-bar {
+        background-color: #6c5ce7; /* Custom color */
+        color: white;
+        font-weight: bold;
+        font-size: 12px;
+    }
+</style>
 
 
 <div class="container-fluid causes">
@@ -26,18 +27,15 @@
         </div>
         <div class="row g-2">
             <?php
-            // Include the database connection file
-            include("config.php");
-
-            // Fetch data from the 'causes' table
-            $sql = "SELECT * FROM campaigns";
+            // Fetch data from the 'campaigns' table where the status is 'Active'
+            $sql = "SELECT * FROM campaigns WHERE status = 'Active'";
             $result = $dms->query($sql);
 
             if ($result->num_rows > 0) {
                 // Loop through each row and display the data
                 while ($row = $result->fetch_assoc()) {
                     $goal = $row["goal_amount"];
-                    $raised = $row["raised_amount"]; // Assuming you have a raised_amount column
+                    $raised = $row["total_raised"]; // Assuming you have a total_raised column
 
                     // Calculate the progress percentage
                     $progress_percent = ($goal > 0) ? ($raised / $goal) * 100 : 0;
@@ -69,13 +67,12 @@
             <?php
                 }
             } else {
-                echo "<p>No causes found.</p>";
+                echo "<p>No active campaigns found.</p>";
             }
 
-            $conn->close();
+            // Close the database connection
+            $dms->close();
             ?>
         </div>
     </div>
 </div>
-</body>
-</html>
