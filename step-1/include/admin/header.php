@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
   <style>
       .wrapper{
         margin: auto ;

@@ -738,8 +738,8 @@ opacity: 0.8;
   height: 100%;
   /* Remove the animation properties */
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  align-items: center;  justify-content: flex-end;
+
   color: white;
   font-size: 10px;
   padding-right: 5px;
@@ -1417,8 +1417,8 @@ color: #0c6b6c !important;
 /* Responsive Design for Small Screens */
 @media (max-width: 575.98px) {
     .event .event-content {
-        flex-direction: column; /* Stack the event meta and text vertically */
-        padding: 15px; /* Adjust padding for smaller screens */
+        flex-direction: column; 
+        padding: 15px; 
     }
 
     .event .event-meta {

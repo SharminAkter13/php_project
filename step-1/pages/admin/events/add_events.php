@@ -1,37 +1,50 @@
 <?php
 include('config.php');
 
-// Initialize variables for messages and data
+// Initialize variables
 $errors = [];
 $success = false;
-$mysqli = $dms; // Use the provided $dms variable for consistency
+$mysqli = $dms; // DB connection
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
     $name = trim($_POST['name'] ?? '');
     $location = trim($_POST['location'] ?? '');
     $date = $_POST['date'] ?? '';
+    $descriptions = trim($_POST['descriptions'] ?? '');
+    $status = $_POST['status'] ?? 'Inactive';
 
-    // Simple validation
+    // Image upload handling
+    $image_url = '';
+    if (!empty($_FILES['image']['name'])) {
+        $targetDir = "uploads/";
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+        $fileName = time() . "_" . basename($_FILES["image"]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+            $image_url = $targetFilePath;
+        } else {
+            $errors[] = "Failed to upload image.";
+        }
+    }
+
+    // Validation
     if (empty($name)) $errors[] = "Please enter an event name.";
     if (empty($location)) $errors[] = "Please enter an event location.";
-    if (empty($date)) $errors[] = "Please select an event date and time.";
+    if (empty($date)) $errors[] = "Please select an event date.";
+    if (empty($descriptions)) $errors[] = "Please enter event descriptions.";
 
-    // If no validation errors, proceed with database insertion
+    // If valid, insert into DB
     if (empty($errors)) {
-        // Use a prepared statement to prevent SQL injection
-        $stmt = $mysqli->prepare("INSERT INTO events (name, location, date) VALUES (?, ?, ?)");
-        
+        $stmt = $mysqli->prepare("INSERT INTO events (name, location, descriptions, date, image_url, status) VALUES (?, ?, ?, ?, ?, ?)");
         if (!$stmt) {
             die("Prepare failed: " . $mysqli->error);
         }
+        $stmt->bind_param("ssssss", $name, $location, $descriptions, $date, $image_url, $status);
 
-        // Bind parameters and execute
-        // 'sss' corresponds to string, string, string
-        $stmt->bind_param("sss", $name, $location, $date);
-        
-        // Check for success and close the statement
         if ($stmt->execute()) {
             $success = true;
         } else {
@@ -56,8 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition">
-  <!-- Page Content Wrapper -->
-  <div class="container-fluid p-5" style="min-height: 2838.44px;">
+  <div class="container-fluid p-5">
     <!-- Page Header -->
     <section class="content-header">
       <div class="container-fluid">
@@ -85,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="card-body">
             <!-- Success/Error Messages -->
             <?php if ($success): ?>
-              <div class="alert alert-success">Event added successfully!</div>
+              <div class="alert alert-success">✅ Event added successfully!</div>
             <?php endif; ?>
             <?php if (!empty($errors)): ?>
               <div class="alert alert-danger">
@@ -97,44 +109,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             <?php endif; ?>
 
-            <form method="post" action="" novalidate>
+            <form method="post" action="" enctype="multipart/form-data" novalidate>
               <!-- Event Name -->
               <div class="mb-3">
                 <label for="name" class="form-label">Event Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  name="name"
-                  required
-                  value="<?= htmlspecialchars($_POST['name'] ?? '') ?>"
-                />
+                <input type="text" class="form-control" id="name" name="name" required
+                  value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" />
               </div>
 
               <!-- Location -->
               <div class="mb-3">
                 <label for="location" class="form-label">Location</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="location"
-                  name="location"
-                  required
-                  value="<?= htmlspecialchars($_POST['location'] ?? '') ?>"
-                />
+                <input type="text" class="form-control" id="location" name="location" required
+                  value="<?= htmlspecialchars($_POST['location'] ?? '') ?>" />
+              </div>
+
+              <!-- Description -->
+              <div class="mb-3">
+                <label for="descriptions" class="form-label">Descriptions</label>
+                <textarea class="form-control" id="descriptions" name="descriptions" rows="4" required><?= htmlspecialchars($_POST['descriptions'] ?? '') ?></textarea>
               </div>
 
               <!-- Date -->
               <div class="mb-3">
                 <label for="date" class="form-label">Date and Time</label>
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="date"
-                  name="date"
-                  required
-                  value="<?= htmlspecialchars($_POST['date'] ?? '') ?>"
-                />
+                <input type="datetime-local" class="form-control" id="date" name="date" required
+                  value="<?= htmlspecialchars($_POST['date'] ?? '') ?>" />
+              </div>
+
+              <!-- Image -->
+              <div class="mb-3">
+                <label for="image" class="form-label">Event Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" />
+              </div>
+
+              <!-- Status -->
+              <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                  <option value="Active" <?= (($_POST['status'] ?? '') === 'Active') ? 'selected' : '' ?>>Active</option>
+                  <option value="Inactive" <?= (($_POST['status'] ?? '') === 'Inactive') ? 'selected' : '' ?>>Inactive</option>
+                </select>
               </div>
 
               <button type="submit" class="btn btn-success">Save Event</button>
