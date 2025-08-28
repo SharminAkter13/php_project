@@ -4,7 +4,7 @@ $is_logged_in = isset($_SESSION['user_id']);
 
 <div class="volunteer" data-parallax="scroll" data-image-src="assets/img/img/volunteer.jpg">
     <div class="container">
-        <div class="row align-items-center p-5">
+        <div class="row align-items-center p-5 ">
             <div class="col-lg-5 vform">
                 <div class="volunteer-form rounded">
                     <form action="" method="POST" class="rounded">
