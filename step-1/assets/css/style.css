@@ -1262,7 +1262,7 @@ color: #0c6b6c !important;
     font-size: 18px;
 }
 .vform{
-     height: 400px!important;
+     height: 300px!important;
      margin: 20px!important;
 }
 .volunteer .volunteer-form {
@@ -1281,7 +1281,7 @@ color: #0c6b6c !important;
     color: #ffffff;
     padding: 0 15px;
     border-radius: 0;
-    border: 1px solid #ffffff;
+    border: 1px solid #ffffff!important;
     background: transparent;
 }
 

@@ -7,7 +7,7 @@ $is_logged_in = isset($_SESSION['user_id']);
         <div class="row align-items-center p-5">
             <div class="col-lg-5 vform">
                 <div class="volunteer-form rounded">
-                    <form action="" method="POST">
+                    <form action="" method="POST" class="rounded">
                         <div class="control-group btn-outline-dark">
                             <input type="text" class="form-control rounded" placeholder="Name" name="name" required />
                         </div>
