@@ -1,180 +1,140 @@
 <?php
 include 'config.php';
 
-$message = "";
-
-// Fetch dropdown data
-function fetchData($dms, $table, $idColumn, $nameColumn) {
-    $data = [];
-    $sql = "SELECT $idColumn, $nameColumn FROM `$table` ORDER BY $nameColumn ASC";
-    $result = $dms->query($sql);
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-    }
-    return $data;
+// --- START SESSION ---
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-$payments = fetchData($dms, 'payment_methods', 'id', 'type');
-$funds = fetchData($dms, 'funds', 'id', 'name');
-$donors = fetchData($dms, 'donors', 'id', 'name');
-$pledges = fetchData($dms, 'pledges', 'id', 'name');
-$campaigns = fetchData($dms, 'campaigns', 'id', 'name');
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $dms->real_escape_string(trim($_POST['name']));
-    $amount = filter_var($_POST['amount'], FILTER_VALIDATE_FLOAT);
-    if ($amount === false) {
-        $message = "<div class='alert alert-danger'>Invalid amount</div>";
+// --- GET LOGGED IN DONOR ---
+$donor_id = null;
+$donor = null;
+if (isset($_SESSION['user_id']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'donor') {
+    $donor_id = $_SESSION['user_id'];
+    // fetch donor details
+    $sql = "SELECT id, name FROM donors WHERE id = ?";
+    $stmt = $dms->prepare($sql);
+    $stmt->bind_param("i", $donor_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result && $result->num_rows > 0) {
+        $donor = $result->fetch_assoc();
     }
-    $date = $dms->real_escape_string(trim($_POST['date']));
-    $payment_id = filter_var($_POST['payment_id'], FILTER_VALIDATE_INT);
-    $fund_id = filter_var($_POST['fund_id'], FILTER_VALIDATE_INT);
-    $donor_id = filter_var($_POST['donor_id'], FILTER_VALIDATE_INT);
-    $pledge_id = empty($_POST['pledge_id']) ? NULL : filter_var($_POST['pledge_id'], FILTER_VALIDATE_INT);
-    $campaign_id = empty($_POST['campaign_id']) ? NULL : filter_var($_POST['campaign_id'], FILTER_VALIDATE_INT);
+}
 
-    if ($amount === false || $payment_id === false || $fund_id === false || $donor_id === false) {
-        $message = "<div class='alert alert-danger'>Error: Invalid input. Please check your data.</div>";
-    } else {
-        $sql = "INSERT INTO donations (name, amount, date, payment_id, fund_id, donor_id, pledge_id, campaign_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+// --- FETCH FOREIGN KEY OPTIONS ---
+$campaigns = $dms->query("SELECT id, name FROM campaigns WHERE status = 'active'")->fetch_all(MYSQLI_ASSOC);
+$payments  = $dms->query("SELECT id, type FROM payment_methods")->fetch_all(MYSQLI_ASSOC);
+$funds     = $dms->query("SELECT id, name FROM funds")->fetch_all(MYSQLI_ASSOC);
+$pledges   = $dms->query("SELECT id, name FROM pledges")->fetch_all(MYSQLI_ASSOC); // title consistent
+
+// --- HANDLE FORM SUBMISSION ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $donor_id    = $_POST['donor_id'] ?? null;
+    $campaign_id = $_POST['campaign_id'] ?? null;
+    $payment_id  = $_POST['payment_id'] ?? null;
+    $fund_id     = $_POST['fund_id'] ?? null;
+    $pledge_id   = $_POST['pledge_id'] ?? null;
+    $amount      = $_POST['amount'] ?? null;
+    $date        = date('Y-m-d H:i:s');
+
+    if ($donor_id && $campaign_id && $payment_id && $fund_id && $amount) {
+        // allow NULL for pledge
+        $sql = "INSERT INTO donations (donor_id, campaign_id, payment_id, fund_id, pledge_id, amount, donation_date) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $dms->prepare($sql);
-        $types = "sdssiiii";
-        $stmt->bind_param($types, $name, $amount, $date, $payment_id, $fund_id, $donor_id, $pledge_id, $campaign_id);
+
+        // convert empty pledge to null
+        $pledge_id_param = !empty($pledge_id) ? $pledge_id : null;
+
+        $stmt->bind_param("iiiiids", $donor_id, $campaign_id, $payment_id, $fund_id, $pledge_id_param, $amount, $date);
 
         if ($stmt->execute()) {
-            $message = "<div class='alert alert-success'>Donation added successfully!</div>";
+            echo "<div class='alert alert-success'>Donation added successfully!</div>";
         } else {
-            $message = "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
+            echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
         }
-        $stmt->close();
+    } else {
+        echo "<div class='alert alert-warning'>Please fill all required fields.</div>";
     }
 }
-
-$dms->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Donation</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <title>Add Donation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper p-5">
-   
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 rounded-3">
+        <h2 class="mb-4 text-center">Add Donation</h2>
+        <form method="POST">
 
-    <!-- Content Wrapper -->
-    <div class="container-fluid p-5">
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6"><h1>Donate</h1></div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-                            <li class="breadcrumb-item active">Donation</li>
-                        </ol>
-                    </div>
-                </div>
+            <!-- Donor -->
+            <div class="mb-3">
+                <label class="form-label">Donor Name</label>
+                <input type="text" class="form-control" 
+                       value="<?= htmlspecialchars($donor['name'] ?? 'Guest') ?>" readonly>
+                <input type="hidden" name="donor_id" 
+                       value="<?= htmlspecialchars($donor['id'] ?? '') ?>">
             </div>
-        </section>
 
-        <!-- Main content -->
-        <section class="container-fluid">
-            <div class="container-fluid">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title">Donation Form</h3>
-                    </div>
-                    <div class="card-body">
-                        <?= $message ?>
-                        <form method="post" action="">
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="name" class="form-label">Donation Name</label>
-                                    <input type="text" name="name" id="name" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="amount" class="form-label">Amount</label>
-                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="e.g., 150.50" required>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="donor_id" class="form-label">Donor</label>
-                                    <select name="donor_id" id="donor_id" class="form-control" required>
-                                        <option value="">Select Donor</option>
-                                        <?php foreach ($donors as $donor) : ?>
-                                            <option value="<?= htmlspecialchars($donor['id']) ?>"><?= htmlspecialchars($donor['name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label for="fund_id" class="form-label">Fund</label>
-                                    <select name="fund_id" id="fund_id" class="form-control" required>
-                                        <option value="">Select Fund</option>
-                                        <?php foreach ($funds as $fund) : ?>
-                                            <option value="<?= htmlspecialchars($fund['id']) ?>"><?= htmlspecialchars($fund['name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="payment_id" class="form-label">Payment Method</label>
-                                    <select name="payment_id" id="payment_id" class="form-control" required>
-                                        <option value="">Select Payment</option>
-                                        <?php foreach ($payments as $payment) : ?>
-                                            <option value="<?= htmlspecialchars($payment['id']) ?>"><?= htmlspecialchars($payment['type']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="pledge_id" class="form-label">Pledge (Optional)</label>
-                                    <select name="pledge_id" id="pledge_id" class="form-control">
-                                        <option value="">None</option>
-                                        <?php foreach ($pledges as $pledge) : ?>
-                                            <option value="<?= htmlspecialchars($pledge['id']) ?>"><?= htmlspecialchars($pledge['name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="campaign_id" class="form-label">Campaign (Optional)</label>
-                                    <select name="campaign_id" id="campaign_id" class="form-control">
-                                        <option value="">None</option>
-                                        <?php foreach ($campaigns as $campaign) : ?>
-                                            <option value="<?= htmlspecialchars($campaign['id']) ?>"><?= htmlspecialchars($campaign['name']) ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle me-2"></i> Add Donation</button>
-                        </form>
-                    </div>
-                </div>
+            <!-- Campaign -->
+            <div class="mb-3">
+                <label class="form-label">Campaign</label>
+                <select class="form-select" name="campaign_id" required>
+                    <option value="">-- Select Campaign --</option>
+                    <?php foreach ($campaigns as $row): ?>
+                        <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-        </section>
+
+            <!-- Payment -->
+            <div class="mb-3">
+                <label class="form-label">Payment Method</label>
+                <select class="form-select" name="payment_id" required>
+                    <option value="">-- Select Payment --</option>
+                    <?php foreach ($payments as $row): ?>
+                        <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['type']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Fund -->
+            <div class="mb-3">
+                <label class="form-label">Fund</label>
+                <select class="form-select" name="fund_id" required>
+                    <option value="">-- Select Fund --</option>
+                    <?php foreach ($funds as $row): ?>
+                        <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Pledge (nullable) -->
+            <div class="mb-3">
+                <label class="form-label">Pledge (optional)</label>
+                <select class="form-select" name="pledge_id">
+                    <option value="">-- No Pledge --</option>
+                    <?php foreach ($pledges as $row): ?>
+                        <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['title']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Amount -->
+            <div class="mb-3">
+                <label class="form-label">Amount</label>
+                <input type="number" step="0.01" class="form-control" name="amount" min="0.01" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Add Donation</button>
+        </form>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/js/adminlte.min.js"></script>
 </body>
 </html>
