@@ -17,14 +17,6 @@
 </head>
 <body>
 
-    <?php
-    // Get the data from funds_reports.php by including it
-    ob_start(); // Start output buffering
-    include 'funds_reports.php';
-    $jsonData = ob_get_clean(); // Get the content and clean the buffer
-    $data = json_decode($jsonData, true);
-    ?>
-
     <div class="facts" data-parallax="scroll" data-image-src="assets/img/img/volunteer.jpg">
         <div class="container">
             <div class="row">
@@ -41,8 +33,8 @@
                     <div class="facts-item">
                         <i class="flaticon-charity"></i>
                         <div class="facts-text">
-                            <h3 class="facts-plus" data-target="<?php echo htmlspecialchars($data['data']['totalCampaigns'] ?? 0); ?>">0</h3>
-                            <p>Campaigns</p>
+                            <h3 class="facts-plus" data-target="400">0</h3>
+                            <p>Volunteers</p>
                         </div>
                     </div>
                 </div>
@@ -59,7 +51,7 @@
                     <div class="facts-item">
                         <i class="flaticon-donation"></i>
                         <div class="facts-text">
-                            <h3 class="facts-dollar" data-target="<?php echo htmlspecialchars($data['data']['totalFunds'] ?? 0); ?>">0</h3>
+                            <h3 class="facts-dollar" data-target="5000">0</h3>
                             <p>Raised</p>
                         </div>
                     </div>
@@ -96,10 +88,10 @@
                         };
                         
                         requestAnimationFrame(animate);
-                        observer.unobserve(counter); // Stop observing once animated
+                        observer.unobserve(counter);
                     }
                 });
-            }, { threshold: 0.5 }); // Trigger when 50% of the element is visible
+            }, { threshold: 0.5 });
 
             counters.forEach(counter => {
                 observer.observe(counter);
