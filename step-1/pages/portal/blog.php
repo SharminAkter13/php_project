@@ -1,7 +1,7 @@
  <div class="blog">
         <div class="container">
             <div class="section-header text-center">
-                <p>Our Blog</p>
+                <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Our Blog</p>
                 <h2>Latest news & articles directly from our blog</h2>
             </div>
             <div class="row">

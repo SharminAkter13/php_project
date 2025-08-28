@@ -4,7 +4,7 @@
     <div class="team">
         <div class="container">
             <div class="section-header text-center">
-                <p>Meet Our Team</p>
+                <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Meet Our Team</p>
                 <h2>Awesome guys behind our charity activities</h2>
             </div>
             <div class="row">

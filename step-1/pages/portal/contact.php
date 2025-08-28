@@ -1,7 +1,7 @@
     <div class="contact">
         <div class="container">
             <div class="section-header text-center">
-                <p>Get In Touch</p>
+                <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Get In Touch</p>
                 <h2>Contact for any query</h2>
             </div>
             <div class="contact-img">

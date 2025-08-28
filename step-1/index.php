@@ -36,7 +36,7 @@ require_once("pages/portal/team.php");
 require_once("pages/portal/volunteer.php");
 ?>
 <?php 
-require_once("pages/portal/testimonial.php");
+// require_once("pages/portal/testimonial.php");
 ?>
 <?php 
 require_once("pages/portal/contact.php");

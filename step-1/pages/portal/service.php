@@ -1,7 +1,7 @@
  <div class="service">
         <div class="container">
             <div class="section-header text-center">
-                <p>What We Do?</p>
+                <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">What We Do?</p>
                 <h2>We believe that we can save more lifes with you</h2>
             </div>
             <div class="row">

@@ -33,7 +33,7 @@ $is_logged_in = isset($_SESSION['user_id']);
             <div class="col-lg-6">
                 <div class="volunteer-content">
                     <div class="section-header">
-                        <p>Become A Volunteer</p>
+                        <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Become A Volunteer</p>
                         <h2>Let’s make a difference in the lives of others</h2>
                     </div>
                     <div class="volunteer-text">

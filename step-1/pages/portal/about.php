@@ -7,7 +7,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="section-header">
-                        <p>Learn About Us</p>
+                        <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Learn About Us</p>
                         <h2>Worldwide non-profit charity organization</h2>
                     </div>
                     <div class="about-tab">

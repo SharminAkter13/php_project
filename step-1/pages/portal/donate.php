@@ -8,7 +8,7 @@ $is_logged_in = isset($_SESSION['user_id']);
             <div class="col-lg-7">
                 <div class="donate-content">
                     <div class="section-header">
-                        <p>Donate Now</p>
+                        <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Donate Now</p>
                         <h2>Let's donate to needy people for better lives</h2>
                     </div>
                     <div class="donate-text">
@@ -32,7 +32,7 @@ $is_logged_in = isset($_SESSION['user_id']);
                             <label class="btn btn-custom" for="option1">$10</label>
 
                             <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-                            <label class="btn btn-custom" for="option2">$20</label>
+                            <label class="btn btn-custom " for="option2">$20</label>
 
                             <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
                             <label class="btn btn-custom" for="option3">$30</label>

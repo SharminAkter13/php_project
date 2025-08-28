@@ -865,7 +865,7 @@ color: #0c6b6c !important;
 
 .donate .donate-form .btn.btn-custom:hover,
 .donate .donate-form .btn.btn-custom.active {
-    color: #0c6b6c;
+    color: #0c6b6c!important;
     border: 2px solid #0ec2cf!important;
     box-shadow: inset 0 0 0 30px #ffffff!important;
     background-color: #ffffff;  /* White background on hover */

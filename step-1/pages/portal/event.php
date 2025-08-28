@@ -17,7 +17,7 @@ if (!$result) {
 <div class="event">
     <div class="container">
         <div class="section-header text-center">
-            <p>Upcoming Events</p>
+            <p style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Upcoming Events</p>
             <h2>Be ready for our upcoming charity events</h2>
         </div>
         <div class="row">

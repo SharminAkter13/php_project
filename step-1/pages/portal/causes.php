@@ -21,7 +21,7 @@ include("config.php");
 <div class="container-fluid causes">
     <div class="container py-5">
         <div class="text-center mx-auto pb-5" style="max-width: 800px;">
-            <h5 class="text-uppercase text-custom">Recent Causes</h5>
+            <h5 class="text-uppercase text-custom" style="color: #06cfd3ff!important;font-weight:bold;font-size:20pt;">Recent Causes</h5>
             <h1 class="mb-4">The environment needs our protection</h1>
             <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
         </div>
