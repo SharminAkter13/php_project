@@ -151,7 +151,6 @@ a:focus {
     position: absolute;
     height: 45px;
     width: 100%;
-    background: rgba(0, 0, 0, 0.007)!important;
     top: 0;
     left: 0;
     z-index: 3;
@@ -1005,7 +1004,7 @@ color: #0c6b6c !important;
     position: relative;
     width: 100%;
     min-height: 500px;
-    margin: 45px 0;
+   
     display: flex;
     align-items: center;
     background: rgba(24, 23, 23, 0.815);

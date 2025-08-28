@@ -40,11 +40,11 @@ $amounts_json = json_encode($amounts);
     </style>
 </head>
 <body>
-<div class="container my-5">
+<div class="container-fluid my-5 p-2">
     <h1 class="text-center mb-4">Funds Report Dashboard</h1>
 <div class="row">
     <!-- Fund Status Pie Chart -->
-    <div class="card chart-card shadow-sm">
+    <div class="card chart-card shadow-sm col-lg-5">
         <div class="card-body">
             <h5 class="card-title text-center">Active / Inactive Funds</h5>
             <canvas id="statusChart"></canvas>
@@ -52,7 +52,7 @@ $amounts_json = json_encode($amounts);
     </div>
     
     <!-- Collected Amount Bar Chart -->
-    <div class="card chart-card shadow-sm">
+    <div class="card chart-card shadow-sm col-lg-5">
         <div class="card-body">
             <h5 class="card-title text-center">Collected Amounts</h5>
             <canvas id="amountChart"></canvas>
