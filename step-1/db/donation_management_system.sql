@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2025 at 09:54 AM
+-- Generation Time: Aug 28, 2025 at 03:16 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -78,7 +78,7 @@ INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `total_rai
 (2, 'Food Donation Drive', 'Collecting and distributing food for underprivileged families.', 15000, 0, '2025-08-27 03:23:43', '2025-02-15', 'Inactive', 2, 'uploads/cause-3.jpg'),
 (4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, 25000, '2025-08-27 04:09:49', '2025-09-09', 'Active', 4, 'uploads/cause-3.jpg'),
 (5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, 6000, '2025-08-27 05:30:02', '2025-11-01', 'Active', 5, 'uploads/cause-3.jpg'),
-(6, 'Fresh Water ', 'Fresh water for village people', 20000, 5000, '2025-08-27 06:24:39', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
+(6, 'Fresh Water ', 'Freshwater camping area provides shady, sheltered sites set among scribbly gum woodland about 500m inland from the beach.\r\n', 20000, 5000, '2025-08-27 23:20:54', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
 
 -- --------------------------------------------------------
 
@@ -183,8 +183,8 @@ CREATE TABLE `events` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `descriptons` varchar(255) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `descriptions` varchar(255) NOT NULL,
+  `date` date DEFAULT NULL,
   `image_url` varchar(255) NOT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -193,12 +193,12 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `name`, `location`, `descriptons`, `date`, `image_url`, `status`) VALUES
-(1, 'Charity Run 2025', 'Central Park, New York', 'Whether you\'re keen to walk, run, cycle or swim take a look below and sign up today to fundraise for Save the Children. We\'ll support you every step of the', '2025-09-29 19:26:46', '', 'Active'),
-(2, 'Food Donation Drive', 'Community Hall, Boston', 'Support our food donation drives in Singapore! Learn more about making food donations or money donations and helping with food distribution drives.', '2025-09-30 07:49:29', '', 'Inactive'),
-(3, 'School Fundraising Gala', 'Hilton Hotel, Chicago', 'A high school fundraising gala serves as a platform for high schools to gather funds and resources while unifying the community in support of a common cause ...\r\n', '2025-09-19 19:28:38', '', 'Active'),
-(4, 'Emergency Relife  ', ' Gaza, Palestine', 'Emergency relief means providing immediate assistance to the victims of conflicts or disaster situations. For more than 50 years, the World Food Programme ...', '2025-08-30 19:29:18', '', 'Active'),
-(5, 'Health Checkup Camp', 'Community Center, Dallas', 'Held from 9am to 2pm, the event offered free healthcare services including specialist doctor consultation and blood sugar Body Mass Index (BMI) ', '2025-08-26 19:29:57', '', 'Active');
+INSERT INTO `events` (`id`, `name`, `location`, `descriptions`, `date`, `image_url`, `status`) VALUES
+(1, 'Charity Run 2025', 'Central Park, New York', 'Whether you\'re keen to walk, run, cycle or swim take a look below and sign up today to fundraise for Save the Children. We\'ll support you every step of the', '2025-09-30', '', 'Active'),
+(2, 'Food Donation Drive', 'Community Hall, Boston', 'Support our food donation drives in Singapore! Learn more about making food donations or money donations and helping with food distribution drives.', '2025-08-26', '', 'Inactive'),
+(3, 'School Fundraising Gala', 'Hilton Hotel, Chicago', 'A high school fundraising gala serves as a platform for high schools to gather funds and resources while unifying the community in support of a common cause ...\r\n', '2025-09-20', '', 'Active'),
+(4, 'Emergency Relife  ', ' Gaza, Palestine', 'Emergency relief means providing immediate assistance to the victims of conflicts or disaster situations. For more than 50 years, the World Food Programme ...', '2025-09-30', '', 'Active'),
+(5, 'Health Checkup Camp', 'Community Center, Dallas', 'Held from 9am to 2pm, the event offered free healthcare services including specialist doctor consultation and blood sugar Body Mass Index (BMI) ', '2025-09-27', '', 'Active');
 
 -- --------------------------------------------------------
 
@@ -517,7 +517,7 @@ ALTER TABLE `donors`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `funds`
