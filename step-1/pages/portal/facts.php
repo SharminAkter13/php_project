@@ -1,22 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>DonorHub Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="assets/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
-    <style>
-        .wrapper {
-            margin: auto;
-            margin-left: 180px;
-        }
-    </style>
-</head>
-<body>
 
+    <!-- ✅ Animated Facts Section -->
     <div class="facts" data-parallax="scroll" data-image-src="assets/img/img/volunteer.jpg">
         <div class="container">
             <div class="row">
@@ -60,6 +43,7 @@
         </div>
     </div>
 
+    <!-- ✅ Counter Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const counters = document.querySelectorAll('[data-target]');
@@ -77,26 +61,19 @@
                             const progress = timestamp - startTime;
                             const increment = Math.min(progress / duration, 1);
                             const currentValue = Math.floor(increment * target);
-                            
                             counter.innerText = (isDollar ? '$' : '') + currentValue;
-
                             if (increment < 1) {
                                 requestAnimationFrame(animate);
                             } else {
                                 counter.innerText = (isDollar ? '$' : '') + target;
                             }
                         };
-                        
                         requestAnimationFrame(animate);
                         observer.unobserve(counter);
                     }
                 });
             }, { threshold: 0.5 });
 
-            counters.forEach(counter => {
-                observer.observe(counter);
-            });
+            counters.forEach(counter => observer.observe(counter));
         });
     </script>
-</body>
-</html>

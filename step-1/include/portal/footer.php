@@ -79,9 +79,7 @@
 <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
 
 <script src="assets/js/main.js"></script>
-    <script>
-        
-    </script>
+   
 </body>
 
 </html>

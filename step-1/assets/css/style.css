@@ -37,7 +37,7 @@ a:focus {
     font-weight: 500;
     color: #ffffff;
     border-radius: 5px; /* Rounded corners for a modern look */
-    border: 2px solid #0c6b6c;
+    border: 1px solid #eaf5f5;
     background-color: #0c6b6c;
     transition: ease-out 0.3s;
 }
@@ -76,7 +76,7 @@ a:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #ffffff;
+    background: #ffffff04;
     opacity: 0;
     visibility: hidden;
     -webkit-transition: opacity .3s ease-out, visibility 0s linear .3s;
@@ -151,6 +151,7 @@ a:focus {
     position: absolute;
     height: 45px;
     width: 100%;
+    background: rgba(0, 0, 0, 0.007)!important;
     top: 0;
     left: 0;
     z-index: 3;

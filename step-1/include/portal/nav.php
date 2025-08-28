@@ -1,4 +1,4 @@
- <div class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid">
             
             <a href="index.php" class="navbar-brand">DonorHub</a>
@@ -31,3 +31,17 @@
             </div>
         </div>
     </div>
+<!-- <script>
+    window.addEventListener("scroll", function () {
+        const navbar = document.querySelector('.navbar');
+        const topBar = document.querySelector('.top-bar');
+
+        if (window.scrollY > 45) {
+            navbar.classList.add("nav-sticky");
+            if (topBar) topBar.style.display = "none";
+        } else {
+            navbar.classList.remove("nav-sticky");
+            if (topBar) topBar.style.display = "flex";
+        }
+    });
+</script> -->
