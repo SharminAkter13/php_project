@@ -4,18 +4,18 @@ $is_logged_in = isset($_SESSION['user_id']);
 
 <div class="volunteer" data-parallax="scroll" data-image-src="assets/img/img/volunteer.jpg">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-5">
+        <div class="row align-items-center p-5">
+            <div class="col-lg-5 vform">
                 <div class="volunteer-form rounded">
                     <form action="" method="POST">
                         <div class="control-group btn-outline-dark">
-                            <input type="text" class="form-control" placeholder="Name" name="name" required />
+                            <input type="text" class="form-control rounded" placeholder="Name" name="name" required />
                         </div>
                         <div class="control-group btn-outline-dark">
-                            <input type="email" class="form-control" placeholder="Email" name="email" required />
+                            <input type="email" class="form-control rounded" placeholder="Email" name="email" required />
                         </div>
                         <div class="control-group btn-outline-dark">
-                            <textarea class="form-control" placeholder="Why do you want to become a volunteer?" name="reason" rows="4" required></textarea>
+                            <textarea class="form-control rounded" placeholder="Why do you want to become a volunteer?" name="reason" rows="4" required></textarea>
                         </div>
 
                         <div>
@@ -24,13 +24,13 @@ $is_logged_in = isset($_SESSION['user_id']);
                                 <button class="btn btn-custom btn-outline-light" type="submit" formaction="volunteer_submit.php">Become a Volunteer</button>
                             <?php else: ?>
                                 <!-- Prompt login if not logged in -->
-                                <button class="btn btn-custom btn-outline-light" type="submit" formaction="login.php">Log in/Register to Volunteer</button>
+                                <button class="btn btn-custom btn-outline-light" type="submit" formaction="login.php">Log in/Register to be a Volunteer</button>
                             <?php endif; ?>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-6">
                 <div class="volunteer-content">
                     <div class="section-header">
                         <p>Become A Volunteer</p>
