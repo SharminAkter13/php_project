@@ -22,14 +22,12 @@ $error_message = '';
 // === SQL Queries to Fetch Report Data ===
 
 // 1. Total Donations Summary
-$totalDonationsQuery = "SELECT
-    SUM(CASE WHEN t.currency_type = 'Cash' THEN t.amount ELSE 0 END) AS totalCashDonations,
-    SUM(CASE WHEN t.currency_type = 'Item' THEN t.amount ELSE 0 END) AS totalItemDonations
-FROM donations d
-JOIN transactions t ON d.transaction_id = t.id";
+// The database schema doesn't differentiate between Cash and Item donations,
+// so we will display the total amount donated overall.
+$totalDonationsQuery = "SELECT SUM(amount) AS totalDonations FROM donations";
 
 $totalDonationsResult = mysqli_query($dms, $totalDonationsQuery);
-$donationTotals = ['totalCashDonations' => 0, 'totalItemDonations' => 0];
+$donationTotals = ['totalDonations' => 0];
 if ($totalDonationsResult) {
     $donationTotals = mysqli_fetch_assoc($totalDonationsResult);
 } else {
@@ -37,13 +35,13 @@ if ($totalDonationsResult) {
 }
 
 // 2. Campaign Summary (Total amount raised per campaign)
+// This query now correctly joins donations to campaigns and sums the amounts.
 $campaignSummaryQuery = "SELECT
     c.name,
-    SUM(t.amount) AS total_amount_raised,
+    SUM(d.amount) AS total_amount_raised,
     COUNT(d.id) AS total_donations
 FROM campaigns c
 LEFT JOIN donations d ON c.id = d.campaign_id
-LEFT JOIN transactions t ON d.transaction_id = t.id
 GROUP BY c.id
 ORDER BY total_amount_raised DESC";
 
@@ -58,13 +56,15 @@ if ($campaignSummaryResult) {
 }
 
 // 3. Top Donors (Total amount donated per donor)
+// This query now correctly joins donors to users to get the email,
+// then joins to donations to sum the total amount donated.
 $topDonorsQuery = "SELECT
     d.name,
-    d.email,
-    SUM(t.amount) AS total_donated
+    u.email,
+    SUM(don.amount) AS total_donated
 FROM donors d
+JOIN users u ON d.user_id = u.id
 JOIN donations don ON d.id = don.donor_id
-JOIN transactions t ON don.transaction_id = t.id
 GROUP BY d.id
 ORDER BY total_donated DESC
 LIMIT 10";
@@ -148,28 +148,15 @@ if ($topDonorsResult) {
     <div class="report-section">
         <h4><i class="fas fa-hand-holding-usd me-2"></i>Overall Donation Summary</h4>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card bg-success text-white">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title">Total Cash Donations</h5>
-                                <h1 class="card-text fw-bold">$<?= number_format($donationTotals['totalCashDonations'] ?? 0, 2) ?></h1>
+                                <h5 class="card-title">Total Donations (Cash & Items)</h5>
+                                <h1 class="card-text fw-bold">$<?= number_format($donationTotals['totalDonations'] ?? 0, 2) ?></h1>
                             </div>
                             <i class="fas fa-dollar-sign fa-4x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card bg-info text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="card-title">Total Item Donations (Value)</h5>
-                                <h1 class="card-text fw-bold">$<?= number_format($donationTotals['totalItemDonations'] ?? 0, 2) ?></h1>
-                            </div>
-                            <i class="fas fa-box-open fa-4x opacity-50"></i>
                         </div>
                     </div>
                 </div>
