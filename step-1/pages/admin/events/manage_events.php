@@ -1,5 +1,25 @@
 <?php
+// Start the session to access session variables
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
 include('config.php');
+
+// Define allowed roles for this page
+$allowedRoles = ['admin', 'campaign_manager', 'volunteer'];
+$userRole = $_SESSION['user_role'] ?? '';
+
+// Check if the user's role is in the allowed roles list
+if (!in_array($userRole, $allowedRoles)) {
+    // If not authorized, display an error message and exit
+    echo "<div class='alert alert-danger'>Access Denied. You do not have permission to manage events.</div>";
+    exit(); // Stop script execution
+}
 
 // Handle DELETION using a prepared statement for security
 if (isset($_POST["btnDelete"])) {
@@ -60,11 +80,8 @@ if (isset($_POST["btnEdit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage events</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Custom Styles -->
     <style>
         body { background-color: #f4f6f9; }
         .content-wrapper { padding: 20px; }
@@ -73,9 +90,7 @@ if (isset($_POST["btnEdit"])) {
     </style>
 </head>
 <body>
-<!-- Content Wrapper. Contains page content -->
 <div class="container-fluid p-5">
-    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -92,9 +107,7 @@ if (isset($_POST["btnEdit"])) {
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header bg-info text-white">
                 <h3 class="card-title">Manage Events</h3>
@@ -186,7 +199,6 @@ if (isset($_POST["btnEdit"])) {
     </section>
 </div>
 
-<!-- View event Modal -->
 <div class="modal fade" id="eventViewModal" tabindex="-1" aria-labelledby="eventViewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -207,7 +219,6 @@ if (isset($_POST["btnEdit"])) {
     </div>
 </div>
 
-<!-- Edit event Modal -->
 <div class="modal fade" id="eventEditModal" tabindex="-1" aria-labelledby="eventEditModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -240,7 +251,6 @@ if (isset($_POST["btnEdit"])) {
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -259,10 +269,8 @@ if (isset($_POST["btnEdit"])) {
     </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<!-- Initialize Tooltips & Modal -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Tooltips

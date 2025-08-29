@@ -1,10 +1,29 @@
 <?php
+// Start the session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 // Include the database configuration file
 include('config.php');
 
 // Define the table names
 $campaignsTable = "campaigns";
-$eventsTable = "events"; // Assuming your events table is named 'events'
+$eventsTable = "events";
+
+// --- PERMISSION CHECK ---
+$userRole = $_SESSION['user_role'] ?? '';
+$isAdmin = ($userRole === 'admin');
+$isCampaignManager = ($userRole === 'campaign_manager');
+
+// Redirect if not authorized
+if (!$isAdmin && !$isCampaignManager) {
+    echo "<div class='alert alert-danger'>Access Denied. You do not have permission to view this page.</div>";
+    exit;
+}
 
 // --- CRUD Operations ---
 
@@ -14,14 +33,13 @@ if (isset($_POST['btnSave'])) {
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
     $status = $_POST['status'];
-    $eventId = $_POST['eventId']; 
-    $filePath = $_POST['filePath']; // New: Get file path from form
+    $eventId = $_POST['eventId'];
+    $filePath = $_POST['filePath'];
 
     // Use prepared statements to prevent SQL injection
     $stmt = $dms->prepare("INSERT INTO $campaignsTable (name, start_date, end_date, status, event_id, file_path) VALUES (?, ?, ?, ?, ?, ?)");
-    // New: Added 's' for the new file_path string parameter
     $stmt->bind_param("ssssis", $name, $startDate, $endDate, $status, $eventId, $filePath);
-    
+
     if ($stmt->execute()) {
         echo "<div class='alert alert-success'>Campaign added successfully.</div>";
     } else {
@@ -37,14 +55,13 @@ if (isset($_POST['btnEdit'])) {
     $startDate = $_POST['startDate'];
     $endDate = $_POST['endDate'];
     $status = $_POST['status'];
-    $eventId = $_POST['eventId']; 
-    $filePath = $_POST['filePath']; // New: Get file path from form
+    $eventId = $_POST['eventId'];
+    $filePath = $_POST['filePath'];
 
     // Use prepared statements to prevent SQL injection
     $stmt = $dms->prepare("UPDATE $campaignsTable SET name=?, start_date=?, end_date=?, status=?, event_id=?, file_path=? WHERE id=?");
-    // New: Added 's' for the new file_path string parameter
     $stmt->bind_param("ssssisi", $name, $startDate, $endDate, $status, $eventId, $filePath, $id);
-    
+
     if ($stmt->execute()) {
         echo "<div class='alert alert-success'>Campaign updated successfully.</div>";
     } else {
@@ -56,7 +73,7 @@ if (isset($_POST['btnEdit'])) {
 // Delete a campaign
 if (isset($_POST['btnDelete'])) {
     $id = $_POST['txtId'];
-    
+
     // Use prepared statements for safe deletion
     $stmt = $dms->prepare("DELETE FROM $campaignsTable WHERE id=?");
     $stmt->bind_param("i", $id);
@@ -79,17 +96,14 @@ if ($event_result) {
     }
 }
 ?>
-<!DOCTYPE ahtml>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Campaigns</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Custom Styles -->
     <style>
         body { background-color: #f4f6f9; }
         .content-wrapper { padding: 20px; }
@@ -98,9 +112,7 @@ if ($event_result) {
     </style>
 </head>
 <body>
-<!-- Content Wrapper. Contains page content -->
 <div class="container-fluid p-5">
-    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -117,9 +129,7 @@ if ($event_result) {
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Campaigns</h3>
@@ -134,10 +144,11 @@ if ($event_result) {
             </div>
 
             <div class="card-body">
-                <!-- Add Campaign Button -->
-                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#campaignModal" id="addCampaignBtn">
-                    + Add New Campaign
-                </button>
+                <?php if ($isAdmin || $isCampaignManager): ?>
+                    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#campaignModal" id="addCampaignBtn">
+                        + Add New Campaign
+                    </button>
+                <?php endif; ?>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle">
@@ -160,7 +171,7 @@ if ($event_result) {
                                 echo "<tr><td colspan='8' class='text-center text-danger'>Connection failed: " . $dms->connect_error . "</td></tr>";
                             } else {
                                 // Fetch all campaigns with their associated event names using a JOIN
-                                $sql = "SELECT c.id, c.name, c.start_date, c.end_date, c.status, c.file_path, e.name AS event_name, c.event_id 
+                                $sql = "SELECT c.id, c.name, c.start_date, c.end_date, c.status, c.file_path, e.name AS event_name, c.event_id
                                         FROM $campaignsTable AS c
                                         LEFT JOIN $eventsTable AS e ON c.event_id = e.id";
                                 $campaigns = $dms->query($sql);
@@ -174,7 +185,7 @@ if ($event_result) {
                                         $statusMap = ['Active' => 'success', 'Inactive' => 'danger'];
                                         $badgeClass = $statusMap[$row['status']] ?? 'primary';
                                         $statusBadge = "<span class='badge bg-{$badgeClass}'>{$row['status']}</span>";
-                                        
+
                                         $eventName = $row['event_name'] ?? 'N/A';
                                         $filePath = htmlspecialchars($row['file_path'] ?? 'N/A');
                                         $filePathLink = ($filePath !== 'N/A') ? "<a href='{$filePath}' target='_blank'>View File</a>" : "N/A";
@@ -188,7 +199,6 @@ if ($event_result) {
                                             <td>{$eventName}</td>
                                             <td>{$filePathLink}</td>
                                             <td class='d-flex justify-content-center align-items-center'>
-                                                <!-- View Button -->
                                                 <button type='button' class='btn btn-info btn-sm view-btn me-2' data-bs-toggle='modal' data-bs-target='#viewCampaignModal'
                                                     data-id='{$row['id']}'
                                                     data-name='{$row['name']}'
@@ -199,23 +209,27 @@ if ($event_result) {
                                                     data-file-path='{$filePath}'
                                                     title='View Campaign'>
                                                     <i class='fas fa-eye'></i>
-                                                </button>
-                                                <button type='button' class='btn btn-warning btn-sm edit-btn me-2' data-bs-toggle='modal' data-bs-target='#campaignModal'
-                                                    data-id='{$row['id']}'
-                                                    data-name='{$row['name']}'
-                                                    data-start='{$row['start_date']}'
-                                                    data-end='{$row['end_date']}'
-                                                    data-status='{$row['status']}'
-                                                    data-event-id='{$row['event_id']}'
-                                                    data-file-path='{$filePath}'
-                                                    title='Edit Campaign'>
-                                                    <i class='fas fa-edit'></i>
-                                                </button>
-                                                <button type='button' class='btn btn-danger btn-sm delete-btn' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='{$row['id']}' title='Delete Campaign'>
-                                                    <i class='fas fa-trash-alt'></i>
-                                                </button>
-                                            </td>
-                                        </tr>";
+                                                </button>";
+
+                                        // Only show Edit and Delete buttons for authorized users
+                                        if ($isAdmin || $isCampaignManager) {
+                                            echo "<button type='button' class='btn btn-warning btn-sm edit-btn me-2' data-bs-toggle='modal' data-bs-target='#campaignModal'
+                                                data-id='{$row['id']}'
+                                                data-name='{$row['name']}'
+                                                data-start='{$row['start_date']}'
+                                                data-end='{$row['end_date']}'
+                                                data-status='{$row['status']}'
+                                                data-event-id='{$row['event_id']}'
+                                                data-file-path='{$filePath}'
+                                                title='Edit Campaign'>
+                                                <i class='fas fa-edit'></i>
+                                            </button>
+                                            <button type='button' class='btn btn-danger btn-sm delete-btn' data-bs-toggle='modal' data-bs-target='#deleteConfirmModal' data-id='{$row['id']}' title='Delete Campaign'>
+                                                <i class='fas fa-trash-alt'></i>
+                                            </button>";
+                                        }
+
+                                        echo "</td></tr>";
                                     }
                                 } else {
                                     echo "<tr><td colspan='8' class='text-center'>No campaigns found.</td></tr>";
@@ -226,7 +240,7 @@ if ($event_result) {
                     </table>
                 </div>
             </div>
-            
+
             <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
                     <li class="page-item"><a class="page-link" href="#">«</a></li>
@@ -240,7 +254,6 @@ if ($event_result) {
     </section>
 </div>
 
-<!-- Add/Edit Campaign Modal -->
 <div class="modal fade" id="campaignModal" tabindex="-1" aria-labelledby="campaignModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form id="campaignForm" class="modal-content" method="post">
@@ -281,7 +294,6 @@ if ($event_result) {
                         <?php endforeach; ?>
                     </select>
                 </div>
-                 <!-- New: File Path Input Field -->
                 <div class="mb-3">
                     <label for="filePath" class="form-label">File Path (URL)</label>
                     <input type="url" class="form-control" id="filePath" name="filePath" placeholder="e.g., https://example.com/file.pdf" />
@@ -295,7 +307,6 @@ if ($event_result) {
     </div>
 </div>
 
-<!-- View Campaign Modal -->
 <div class="modal fade" id="viewCampaignModal" tabindex="-1" aria-labelledby="viewCampaignModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -322,7 +333,6 @@ if ($event_result) {
                 <div class="mb-3">
                     <strong>Event Name:</strong> <span id="viewEventName"></span>
                 </div>
-                 <!-- New: View File Path -->
                 <div class="mb-3">
                     <strong>File Path:</strong> <span id="viewFilePath"></span>
                 </div>
@@ -334,7 +344,6 @@ if ($event_result) {
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -356,9 +365,7 @@ if ($event_result) {
     </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!-- Initialize Tooltips & Modal -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -372,11 +379,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const campaignForm = document.getElementById('campaignForm');
         const saveButton = document.getElementById('saveCampaignBtn');
         const campaignIdInput = document.getElementById('campaignId');
-        
+
         campaignModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             const isEdit = button.classList.contains('edit-btn');
-            
+
             if (isEdit) {
                 modalTitle.textContent = 'Edit Campaign';
                 saveButton.textContent = 'Update Campaign';
@@ -414,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('viewName').textContent = button.getAttribute('data-name');
             document.getElementById('viewStart').textContent = button.getAttribute('data-start');
             document.getElementById('viewEnd').textContent = button.getAttribute('data-end');
-            
+
             // Recreate the status badge for the view modal
             const status = button.getAttribute('data-status');
             const statusBadgeSpan = document.createElement('span');
