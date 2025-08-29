@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2025 at 09:48 AM
+-- Generation Time: Aug 29, 2025 at 06:28 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -74,11 +74,11 @@ CREATE TABLE `campaigns` (
 --
 
 INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `total_raised`, `start_date`, `end_date`, `status`, `event_id`, `file_path`) VALUES
-(1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, 0, '2025-08-27 03:23:51', '2025-08-31', 'Active', 1, 'uploads/cause-3.jpg'),
+(1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, 10000, '2025-08-29 16:25:45', '2025-08-31', 'Active', 1, 'uploads/cause-3.jpg'),
 (2, 'Food Donation Drive', 'Collecting and distributing food for underprivileged families.', 15000, 0, '2025-08-27 03:23:43', '2025-02-15', 'Inactive', 2, 'uploads/cause-3.jpg'),
 (4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, 25000, '2025-08-27 04:09:49', '2025-09-09', 'Active', 4, 'uploads/cause-3.jpg'),
 (5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, 6000, '2025-08-27 05:30:02', '2025-11-01', 'Active', 5, 'uploads/cause-3.jpg'),
-(6, 'Fresh Water ', 'Freshwater camping area provides shady, sheltered sites set among scribbly gum woodland about 500m inland from the beach.\r\n', 20000, 5000, '2025-08-27 23:20:54', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
+(6, 'Fresh Water ', 'Freshwater camping area provides shady, sheltered sites set among scribbly gum woodland about 500m inland from the beach.\r\n', 20000, 5000, '2025-08-29 16:11:26', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
 
 -- --------------------------------------------------------
 
@@ -117,26 +117,30 @@ CREATE TABLE `donations` (
   `fund_id` int(11) DEFAULT NULL,
   `donor_id` int(11) DEFAULT NULL,
   `pledge_id` int(11) DEFAULT NULL,
-  `campaign_id` int(11) DEFAULT NULL
+  `campaign_id` int(11) DEFAULT NULL,
+  `payment_reference` varchar(255) DEFAULT NULL,
+  `status` enum('pending','verified') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `donations`
 --
 
-INSERT INTO `donations` (`id`, `name`, `amount`, `date`, `payment_id`, `fund_id`, `donor_id`, `pledge_id`, `campaign_id`) VALUES
-(3, 'Rayaan Mohammad', 5000, '2025-08-26 18:00:00', 2, 5, 14, NULL, 6),
-(4, 'Ayaan Mohammad', 25000, '2025-08-26 18:00:00', 5, 3, 13, NULL, 4),
-(5, 'Bob Smith', 6000, '2025-08-26 18:00:00', 5, 4, 11, NULL, 5);
+INSERT INTO `donations` (`id`, `name`, `amount`, `date`, `payment_id`, `fund_id`, `donor_id`, `pledge_id`, `campaign_id`, `payment_reference`, `status`) VALUES
+(3, 'Rayaan Mohammad', 5000, '2025-08-29 16:27:33', 2, 5, 14, NULL, 6, NULL, 'verified'),
+(4, 'Ayaan Mohammad', 25000, '2025-08-29 16:27:44', 5, 3, 13, NULL, 4, NULL, 'verified'),
+(5, 'Bob Smith', 6000, '2025-08-29 16:28:01', 5, 4, 11, NULL, 5, NULL, 'verified'),
+(8, 'Ayaan Mohammad', 10000, '2025-08-29 03:59:02', 5, 1, 13, NULL, 1, NULL, 'verified'),
+(9, 'Ayaan Mohammad', 10000, '2025-08-29 03:59:46', 5, 1, 13, NULL, 1, NULL, 'verified');
 
 --
 -- Triggers `donations`
 --
 DELIMITER $$
-CREATE TRIGGER `update_campaign_total_raised_after_delete` AFTER DELETE ON `donations` FOR EACH ROW BEGIN
-    UPDATE campaigns
-    SET total_raised = (SELECT COALESCE(SUM(amount), 0) FROM donations WHERE campaign_id = OLD.campaign_id)
-    WHERE id = OLD.campaign_id;
+CREATE TRIGGER `update_campaign_total_on_delete` AFTER DELETE ON `donations` FOR EACH ROW BEGIN
+    UPDATE `campaigns`
+    SET `total_raised` = `total_raised` - OLD.amount
+    WHERE `id` = OLD.campaign_id;
 END
 $$
 DELIMITER ;
@@ -169,6 +173,7 @@ CREATE TABLE `donors` (
 --
 
 INSERT INTO `donors` (`id`, `name`, `contact`, `type`, `user_id`, `pledge_id`) VALUES
+(9, 'Ayaan Mohammad', 'ayaan@gmail.com', NULL, NULL, NULL),
 (11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2),
 (13, 'Ayaan Mohammad\r\n', 'ayaan@gmail.com', 'Individual', 9, 3),
 (14, 'Rayaan Mohammad', 'rayaan@gmail.com', 'Individual', 14, NULL);
@@ -505,7 +510,7 @@ ALTER TABLE `campaign_management`
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `donors`
