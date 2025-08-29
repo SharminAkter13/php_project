@@ -17,51 +17,55 @@ if (isset($_POST['submit'])) {
         // Prepare the SQL statement to prevent SQL injection.
         // It selects the user's ID, password, and role name.
         $stmt = $dms->prepare("
-            SELECT u.id, u.password, r.name as name
+            SELECT u.id, u.password, r.name as role_name, u.first_name, u.last_name
             FROM users u
             JOIN roles r ON u.role_id = r.id
             WHERE u.email = ?
         ");
         
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-        $stmt->close();
+        if ($stmt) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+            $stmt->close();
 
-        // Verify if a user was found and the password matches.
-        if ($user && password_verify($password, $user['password'])) {
-            // Store user information in the session.
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_email'] = $email;
-            $_SESSION['user_role'] = $user['name'];
+            // Verify if a user was found and the password matches.
+            if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_email'] = $email;
+                $_SESSION['user_role'] = $user['role_name'];
+                $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
 
-            // Use a switch statement to redirect to home.php with the correct page ID.
-            switch ($user['name']) {
-                case 'admin':
-                    header("Location: home.php?page=0"); // Redirects to manage_users.php
-                    break;
-                case 'beneficiary':
-                    header("Location: home.php?page=6"); // Redirects to manage_events.php
-                    break;
-                case 'campaign_manager':
-                    header("Location: home.php?page=11"); // Redirects to manage_campaigns.php
-                    break;
-                case 'donor':
-                    header("Location: home.php?page=20"); // Redirects to manage_donations.php
-                    break;
-                case 'volunteer':
-                    header("Location: home.php?page=25"); // Redirects to manage_volunteers.php
-                    break;
-                default:
-                    // Default redirection if the role is not recognized.
-                    header("Location: home.php");
-                    break;
+                // Use a switch statement to redirect to home.php with the correct page ID.
+                switch ($user['role_name']) {
+                    case 'admin':
+                        header("Location: home.php?page=0");
+                        break;
+                    case 'beneficiary':
+                        header("Location: home.php?page=6");
+                        break;
+                    case 'campaign_manager':
+                        header("Location: home.php?page=11");
+                        break;
+                    case 'donor':
+                        header("Location: home.php?page=20");
+                        break;
+                    case 'volunteer':
+                        header("Location: home.php?page=25");
+                        break;
+                    default:
+                        // Default redirection if the role is not recognized.
+                        header("Location: home.php");
+                        break;
+                }
+                exit;
+            } else {
+                // Handle invalid credentials.
+                $errors[] = "Invalid email or password.";
             }
-            exit;
         } else {
-            // Handle invalid credentials.
-            $errors[] = "Invalid email or password.";
+            $errors[] = "Database query failed.";
         }
     }
 }
@@ -74,18 +78,13 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DonorHub | Log in </title>
 
-    <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="assets/plugins/fontawesome-free/css/all.min.css">
-    <!-- icheck bootstrap -->
     <link rel="stylesheet" href="assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
     <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
-    <!-- /.login-logo -->
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
             <a href="index.php" class="h1"><b>Donor</b>Hub</a>
@@ -129,12 +128,10 @@ if (isset($_POST['submit'])) {
                             </label>
                         </div>
                     </div>
-                    <!-- /.col -->
                     <div class="col-4">
                         <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
                     </div>
-                    <!-- /.col -->
-                </div>
+                    </div>
             </form>
 
             <div class="social-auth-links text-center mt-2 mb-3">
@@ -145,8 +142,6 @@ if (isset($_POST['submit'])) {
                     <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
                 </a>
             </div>
-            <!-- /.social-auth-links -->
-
             <p class="mb-1">
                 <a href="forgot-password.php">I forgot my password</a>
             </p>
@@ -154,17 +149,10 @@ if (isset($_POST['submit'])) {
                 <a href="index.php" class="text-center">Register a new membership</a>
             </p>
         </div>
-        <!-- /.card-body -->
+        </div>
     </div>
-    <!-- /.card -->
-</div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
 <script src="assets/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
 <script src="assets/dist/js/adminlte.min.js"></script>
 </body>
 </html>
