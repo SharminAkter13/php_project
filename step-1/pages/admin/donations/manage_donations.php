@@ -27,7 +27,8 @@ if (isset($_POST["btnDelete"])) {
         $stmt->fetch();
         $stmt->close();
 
-        $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1;
+        // FIX: Check for the role name 'admin' from the correct session variable 'user_role'
+        $isAdmin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
         $isOwner = isset($_SESSION['user_id']) && $_SESSION['user_id'] == $donorUserId;
 
         // Only admin or owner can delete
@@ -74,9 +75,9 @@ if (isset($_POST["btnDelete"])) {
         <?php
         // Fetch donations with donor ownership
         $sql = "SELECT d.id, d.amount, d.date, d.donor_id, donors.name AS donor_name, donors.user_id,
-                       COALESCE(p.name, c.name) AS pledge_campaign_name,
-                       f.name AS fund_name,
-                       pm.type AS payment_method
+                        COALESCE(p.name, c.name) AS pledge_campaign_name,
+                        f.name AS fund_name,
+                        pm.type AS payment_method
                 FROM donations d
                 LEFT JOIN donors ON d.donor_id = donors.id
                 LEFT JOIN pledges p ON d.pledge_id = p.id
@@ -88,7 +89,8 @@ if (isset($_POST["btnDelete"])) {
 
         if ($donations && $donations->num_rows > 0) {
             while ($row = $donations->fetch_assoc()) {
-                $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1;
+                // Use the correct session variable 'user_role'
+                $isAdmin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
                 $isOwner = isset($_SESSION['user_id']) && $_SESSION['user_id'] == ($row['user_id'] ?? 0);
 
                 echo "<tr>
@@ -116,7 +118,8 @@ if (isset($_POST["btnDelete"])) {
                 // Edit/Delete if admin OR owner
                 if ($isAdmin || $isOwner) {
                     // Edit
-                    echo "<form action='home.php?page=3' method='post' class='me-2'>
+                    // FIX: Change the action URL to point to the correct page
+                    echo "<form action='home.php?page=17' method='post' class='me-2'>
                                 <input type='hidden' name='id' value='{$row['id']}'>
                                 <button type='submit' name='btnEdit' class='btn btn-warning btn-sm'>
                                     <i class='fas fa-edit'></i>
