@@ -2,18 +2,6 @@
 // Include your database configuration file
 include('config.php');
 
-// Replace with your actual credentials if they are not in config.php
-$dms = new mysqli('localhost', 'root', '', 'donation_management_system');
-
-if ($dms->connect_error) {
-    die("Connection failed: " . $dms->connect_error);
-}
-
-// ------------------------------------------------------------------------------------------------
-// PHP Logic to handle DELETION
-// This block will ONLY execute if a POST request with 'btnDelete' is received from a form submission.
-// This matches the logic from your working manage_events.php file.
-// ------------------------------------------------------------------------------------------------
 if (isset($_POST["btnDelete"])) {
     $p_id = $_POST["txtId"] ?? null;
 

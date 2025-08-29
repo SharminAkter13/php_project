@@ -1,6 +1,26 @@
 <?php
+// Start the session to access session variables
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
 // Database connection
 include('config.php');
+
+// Define allowed roles for this page
+$allowedRoles = ['admin', 'beneficiary'];
+$userRole = $_SESSION['user_role'] ?? '';
+
+// Check if the user's role is in the allowed roles list
+if (!in_array($userRole, $allowedRoles)) {
+    // If not authorized, display an error message and exit
+    echo "<div class='alert alert-danger'>Access Denied. You do not have permission to manage beneficiaries.</div>";
+    exit(); // Stop script execution
+}
 
 // Initialize variables for messages
 $success_message = '';
@@ -14,26 +34,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['beneficiary_phone'] ?? '';
     $address = $_POST['beneficiary_address'] ?? '';
     $needs = $_POST['beneficiary_needs'] ?? '';
-    $status = $_POST['beneficiary_status'] ?? ''; // New: Capture the status
+    $status = $_POST['beneficiary_status'] ?? '';
 
     // Simple validation
     if ($id > 0 && !empty($name) && !empty($email)) {
         // Use prepared statement to prevent SQL injection
         $stmt = $dms->prepare("UPDATE beneficiaries SET name=?, email=?, phone=?, address=?, required_support=?, status=? WHERE id=?");
         if ($stmt) {
-            $stmt->bind_param("sssssis", $name, $email, $phone, $address, $needs, $status, $id); // New: 's' for status
+            $stmt->bind_param("sssssis", $name, $email, $phone, $address, $needs, $status, $id);
             if ($stmt->execute()) {
-                $success_message = "Beneficiary updated successfully!";
+                $_SESSION['success_message'] = "Beneficiary updated successfully!";
             } else {
-                $error_message = "Error updating beneficiary: " . $stmt->error;
+                $_SESSION['error_message'] = "Error updating beneficiary: " . $stmt->error;
             }
             $stmt->close();
         } else {
-            $error_message = "Error preparing statement: " . $dms->error;
+            $_SESSION['error_message'] = "Error preparing statement: " . $dms->error;
         }
     } else {
-        $error_message = "Invalid data provided for update.";
+        $_SESSION['error_message'] = "Invalid data provided for update.";
     }
+    // Correct redirect to stay on the same page
+    header("Location: home.php?page=14");
+    exit;
 }
 
 // Handle GET request for DELETE
@@ -44,12 +67,25 @@ if (isset($_GET['delete'])) {
     if ($stmt) {
         $stmt->bind_param("i", $deleteId);
         if ($stmt->execute()) {
-            $success_message = "Beneficiary ID $deleteId deleted successfully!";
+            $_SESSION['success_message'] = "Beneficiary ID $deleteId deleted successfully!";
         } else {
-            $error_message = "Error deleting beneficiary: " . $stmt->error;
+            $_SESSION['error_message'] = "Error deleting beneficiary: " . $stmt->error;
         }
         $stmt->close();
     }
+    // Correct redirect to stay on the same page
+    header("Location: home.php?page=14");
+    exit;
+}
+
+// Check for and display messages from session
+if (isset($_SESSION['success_message'])) {
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    $error_message = $_SESSION['error_message'];
+    unset($_SESSION['error_message']);
 }
 
 // Fetch all beneficiaries from the DB to display in the table
@@ -162,6 +198,16 @@ if ($result) {
                                             echo '<span class="badge ' . $badge_class . '">' . htmlspecialchars($b['status']) . '</span>';
                                             ?>
                                         </td> <td>
+                                            <button type="button" class="btn btn-sm btn-info view-btn"
+                                                data-bs-toggle="modal" data-bs-target="#viewBeneficiaryModal"
+                                                data-id="<?= htmlspecialchars($b['id']) ?>"
+                                                data-name="<?= htmlspecialchars($b['name']) ?>"
+                                                data-email="<?= htmlspecialchars($b['email']) ?>"
+                                                data-phone="<?= htmlspecialchars($b['phone']) ?>"
+                                                data-address="<?= htmlspecialchars($b['address']) ?>"
+                                                data-needs="<?= htmlspecialchars($b['required_support']) ?>"
+                                                data-status="<?= htmlspecialchars($b['status']) ?>"> <i class="fas fa-eye"></i>
+                                            </button>
                                             <button type="button" class="btn btn-sm btn-warning edit-btn"
                                                 data-bs-toggle="modal" data-bs-target="#editBeneficiaryModal"
                                                 data-id="<?= htmlspecialchars($b['id']) ?>"
@@ -172,7 +218,9 @@ if ($result) {
                                                 data-needs="<?= htmlspecialchars($b['required_support']) ?>"
                                                 data-status="<?= htmlspecialchars($b['status']) ?>"> <i class="fas fa-edit"></i>
                                             </button>
-                                            <a href="?delete=<?= htmlspecialchars($b['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteBeneficiaryModal" data-id="<?= htmlspecialchars($b['id']) ?>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -232,6 +280,60 @@ if ($result) {
     </div>
 </div>
 
+<div class="modal fade" id="viewBeneficiaryModal" tabindex="-1" aria-labelledby="viewBeneficiaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="viewBeneficiaryModalLabel">Beneficiary Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <strong>Full Name:</strong> <span id="view_beneficiary_name"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Email Address:</strong> <span id="view_beneficiary_email"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Phone Number:</strong> <span id="view_beneficiary_phone"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Status:</strong> <span id="view_beneficiary_status"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <strong>Address:</strong> <p id="view_beneficiary_address" class="border p-2 rounded"></p>
+                </div>
+                <div class="mb-3">
+                    <strong>Needs / Support Required:</strong> <p id="view_beneficiary_needs" class="border p-2 rounded"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteBeneficiaryModal" tabindex="-1" aria-labelledby="deleteBeneficiaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteBeneficiaryModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this beneficiary? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a id="confirmDeleteLink" href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/dist/js/adminlte.min.js"></script>
@@ -247,22 +349,18 @@ if ($result) {
         });
     });
 
-    // Populate modal with data from the clicked row
+    // Populate the Edit modal with data from the clicked row
     const editBeneficiaryModal = document.getElementById('editBeneficiaryModal');
     editBeneficiaryModal.addEventListener('show.bs.modal', function (event) {
-        // Button that triggered the modal
         const button = event.relatedTarget;
-        
-        // Extract info from data-bs-* attributes
         const id = button.getAttribute('data-id');
         const name = button.getAttribute('data-name');
         const email = button.getAttribute('data-email');
         const phone = button.getAttribute('data-phone');
         const address = button.getAttribute('data-address');
         const needs = button.getAttribute('data-needs');
-        const status = button.getAttribute('data-status'); // New: Extract status
+        const status = button.getAttribute('data-status');
         
-        // Update the modal's form fields
         const modalForm = editBeneficiaryModal.querySelector('#editBeneficiaryForm');
         modalForm.querySelector('#beneficiary_id').value = id;
         modalForm.querySelector('#beneficiary_name').value = name;
@@ -270,7 +368,36 @@ if ($result) {
         modalForm.querySelector('#beneficiary_phone').value = phone;
         modalForm.querySelector('#beneficiary_address').value = address;
         modalForm.querySelector('#beneficiary_needs').value = needs;
-        modalForm.querySelector('#beneficiary_status').value = status; // New: Set status dropdown value
+        modalForm.querySelector('#beneficiary_status').value = status;
+    });
+
+    // Populate the View modal with data from the clicked row
+    const viewBeneficiaryModal = document.getElementById('viewBeneficiaryModal');
+    viewBeneficiaryModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const name = button.getAttribute('data-name');
+        const email = button.getAttribute('data-email');
+        const phone = button.getAttribute('data-phone');
+        const address = button.getAttribute('data-address');
+        const needs = button.getAttribute('data-needs');
+        const status = button.getAttribute('data-status');
+        
+        const modal = viewBeneficiaryModal;
+        modal.querySelector('#view_beneficiary_name').textContent = name;
+        modal.querySelector('#view_beneficiary_email').textContent = email;
+        modal.querySelector('#view_beneficiary_phone').textContent = phone;
+        modal.querySelector('#view_beneficiary_address').textContent = address;
+        modal.querySelector('#view_beneficiary_needs').textContent = needs;
+        modal.querySelector('#view_beneficiary_status').textContent = status;
+    });
+
+    // Set the href for the delete button inside the modal
+    const deleteBeneficiaryModal = document.getElementById('deleteBeneficiaryModal');
+    deleteBeneficiaryModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const confirmDeleteLink = deleteBeneficiaryModal.querySelector('#confirmDeleteLink');
+        confirmDeleteLink.href = '?delete=' + id;
     });
 </script>
 
