@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Retrieve the user's role and username from the session
 $userRole = $_SESSION['user_role'] ?? '';
-$username = $_SESSION['username'] ?? 'Guest'; // Assumes the username is stored in $_SESSION['username']
+$username = $_SESSION['user_name'] ?? 'Guest';
 ?>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -21,7 +21,13 @@ $username = $_SESSION['username'] ?? 'Guest'; // Assumes the username is stored 
                 <img src="assets/dist/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block fw-bold" id="username" style="text-decoration: none;"><?php echo htmlspecialchars($username); ?></a>
+                <a href="#" class="d-block fw-bold" id="username" style="text-decoration: none;">
+                    <?php echo htmlspecialchars($username); ?>
+                </a>
+                <a href="#" class="d-block">
+                    <i class="fa fa-circle text-success"></i> 
+                    <?php echo htmlspecialchars($userRole); ?>
+                </a>
             </div>
         </div>
 
@@ -402,4 +408,4 @@ $username = $_SESSION['username'] ?? 'Guest'; // Assumes the username is stored 
             </ul>
         </nav>
     </div>
-</aside>
+</aside> 

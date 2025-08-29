@@ -1,45 +1,58 @@
 <?php
 include 'config.php';
 
-// --- GET LOGGED IN DONOR ---
+// --- GET LOGGED IN DONOR INFO ---
 $donor = null;
-if (isset($_SESSION['user_id']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'donor') {
-    $donor_id = $_SESSION['user_id'];
+$donor_fk_id = null; // this will go into donations.donor_id
+if (isset($_SESSION['user_id']) && $_SESSION['user_role'] === 'donor') {
+    $user_id = $_SESSION['user_id'];
 
-    // Fetch donor details from donors table
-    $stmt = $dms->prepare("SELECT id, name, contact FROM donors WHERE id = ?");
-    if (!$stmt) {
-        die("Prepare failed: " . $dms->error);
-    }
-    $stmt->bind_param("i", $donor_id);
+    // Get user info for display
+    $stmt = $dms->prepare("SELECT first_name, last_name, email FROM users WHERE id = ?");
+    if (!$stmt) die("Prepare failed: " . $dms->error);
+    $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $res = $stmt->get_result();
     if ($res && $res->num_rows > 0) {
         $row = $res->fetch_assoc();
         $donor = [
-            'id' => $row['id'],
-            'name' => $row['name'],        // donor name
-            'contact' => $row['contact']   // donor contact
+            'name' => $row['first_name'] . ' ' . $row['last_name'],
+            'contact' => $row['email']
         ];
     }
+    $stmt->close();
+
+    // Get donor_id from donors table (FK for donation)
+    $stmt2 = $dms->prepare("SELECT id FROM donors WHERE user_id = ?");
+    if (!$stmt2) die("Prepare failed: " . $dms->error);
+    $stmt2->bind_param("i", $user_id);
+    $stmt2->execute();
+    $res2 = $stmt2->get_result();
+    if ($res2 && $res2->num_rows > 0) {
+        $row2 = $res2->fetch_assoc();
+        $donor_fk_id = $row2['id'];
+    } else {
+        die("No donor record found for this user. Please contact admin.");
+    }
+    $stmt2->close();
 }
 
 // --- FETCH DROPDOWN OPTIONS ---
 $campaigns = $dms->query("SELECT id, name FROM campaigns WHERE status='active'")->fetch_all(MYSQLI_ASSOC);
-$payments  = $dms->query("SELECT id, type FROM payment_methods")->fetch_all(MYSQLI_ASSOC);
-$funds     = $dms->query("SELECT id, name FROM funds")->fetch_all(MYSQLI_ASSOC);
-$pledges   = $dms->query("SELECT id, name FROM pledges")->fetch_all(MYSQLI_ASSOC);
+$payments = $dms->query("SELECT id, type FROM payment_methods")->fetch_all(MYSQLI_ASSOC);
+$funds = $dms->query("SELECT id, name FROM funds")->fetch_all(MYSQLI_ASSOC);
+$pledges = $dms->query("SELECT id, name FROM pledges")->fetch_all(MYSQLI_ASSOC);
 
 // --- HANDLE FORM SUBMISSION ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!$donor) {
-        echo "<div class='alert alert-danger'>You must be logged in as a donor to submit a donation.</div>";
+    if (!$donor || !$donor_fk_id) {
+        echo "<div class='alert alert-danger'>You must be logged in as a donor with a valid donor record to submit a donation.</div>";
     } else {
         $campaign_id = intval($_POST['campaign_id'] ?? 0);
-        $payment_id  = intval($_POST['payment_id'] ?? 0);
-        $fund_id     = intval($_POST['fund_id'] ?? 0);
-        $pledge_id   = !empty($_POST['pledge_id']) ? intval($_POST['pledge_id']) : null;
-        $amount      = floatval($_POST['amount'] ?? 0);
+        $payment_id = intval($_POST['payment_id'] ?? 0);
+        $fund_id = intval($_POST['fund_id'] ?? 0);
+        $pledge_id = !empty($_POST['pledge_id']) ? intval($_POST['pledge_id']) : null;
+        $amount = floatval($_POST['amount'] ?? 0);
 
         if ($campaign_id && $payment_id && $fund_id && $amount > 0) {
 
@@ -55,18 +68,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // --- STATUS ---
             $status = ($payment_type === 'Cash' || $payment_type === 'Check') ? 'Verified' : 'Pending';
-
             $date = date('Y-m-d H:i:s');
 
             // --- INSERT DONATION ---
             if ($pledge_id === null) {
-                $stmt = $dms->prepare("INSERT INTO donations (donor_id, name, campaign_id, payment_id, fund_id, amount, donation_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                if (!$stmt) die("Prepare failed: " . $dms->error);
-                $stmt->bind_param("isiiids", $donor['id'], $donor['name'], $campaign_id, $payment_id, $fund_id, $amount, $date, $status);
+                $stmt = $dms->prepare("INSERT INTO donations (donor_id, name, campaign_id, payment_id, fund_id, amount, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("isiiidss", $donor_fk_id, $donor['name'], $campaign_id, $payment_id, $fund_id, $amount, $date, $status);
             } else {
-                $stmt = $dms->prepare("INSERT INTO donations (donor_id, name, campaign_id, payment_id, fund_id, pledge_id, amount, donation_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                if (!$stmt) die("Prepare failed: " . $dms->error);
-                $stmt->bind_param("isiiiids", $donor['id'], $donor['name'], $campaign_id, $payment_id, $fund_id, $pledge_id, $amount, $date, $status);
+                $stmt = $dms->prepare("INSERT INTO donations (donor_id, name, campaign_id, payment_id, fund_id, pledge_id, amount, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("isiiiidss", $donor_fk_id, $donor['name'], $campaign_id, $payment_id, $fund_id, $pledge_id, $amount, $date, $status);
             }
 
             if ($stmt->execute()) {
@@ -74,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
             }
+            $stmt->close();
         } else {
             echo "<div class='alert alert-warning'>Please fill all required fields correctly.</div>";
         }
@@ -93,17 +104,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="card shadow-lg p-4 rounded-3">
         <h2 class="mb-4 text-center">Add Donation</h2>
 
-        <?php if (!$donor): ?>
+        <?php if (!$donor || !$donor_fk_id): ?>
             <div class="alert alert-danger text-center">
-                You must be logged in as a donor to add a donation.
+                You must be logged in as a donor with a valid donor record.
             </div>
         <?php else: ?>
             <form method="POST">
                 <div class="mb-3">
                     <label class="form-label">Donor Name</label>
                     <input type="text" class="form-control" value="<?= htmlspecialchars($donor['name'] . ' | ' . $donor['contact']) ?>" readonly>
-                    <input type="hidden" name="donor_id" value="<?= htmlspecialchars($donor['id']) ?>">
-                    <input type="hidden" name="donor_name" value="<?= htmlspecialchars($donor['name']) ?>">
                 </div>
 
                 <div class="mb-3">
