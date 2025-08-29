@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error_message'] = "Invalid data provided for update.";
     }
     // Correct redirect to stay on the same page
-    header("Location: home.php?page=14");
+    header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
 
@@ -74,7 +74,7 @@ if (isset($_GET['delete'])) {
         $stmt->close();
     }
     // Correct redirect to stay on the same page
-    header("Location: home.php?page=14");
+    header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
 

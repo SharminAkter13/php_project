@@ -51,7 +51,7 @@ $rolePages = [
         28 => "pages/admin/profile/user_profile.php",
         29 => "pages/admin/funds/manage_funds.php",
         30 => "pages/admin/funds/funds_reports.php",
-        31 => "pages/admin/donations/verify_payment.php",
+        31 => "pages/admin/reports/reports.php",
     ],
     'beneficiary' => [
         5 => "pages/admin/events/add_events.php",
