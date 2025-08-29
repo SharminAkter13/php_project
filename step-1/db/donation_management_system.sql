@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2025 at 06:28 PM
+-- Generation Time: Aug 29, 2025 at 09:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -45,7 +45,7 @@ CREATE TABLE `beneficiaries` (
 
 INSERT INTO `beneficiaries` (`id`, `name`, `email`, `phone`, `address`, `required_support`, `created_at`, `user_id`, `status`) VALUES
 (1, 'johnny', 'johnny@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:32', 11, 'Active'),
-(2, 'john', 'john@gmail.com', '021457454', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:43', 12, 'Inactive'),
+(2, 'john', 'john@gmail.com', '01545858555', '4/78 los angle,usa', 'Fresh Water', '2025-08-13 06:32:43', 12, '0'),
 (5, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:02:47', 7, 'Inactive'),
 (6, 'Charlie Brown', 'charlie.b@email.com', '0148586356', '4/78 New York,, USA', 'Emergency relief', '2025-08-20 04:20:27', 7, 'Inactive'),
 (7, 'john', 'john@gmail.com', '021457454', '4/78 los angle,usa', 'Aid', '2025-08-24 06:07:44', 12, 'Active');
@@ -75,10 +75,9 @@ CREATE TABLE `campaigns` (
 
 INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `total_raised`, `start_date`, `end_date`, `status`, `event_id`, `file_path`) VALUES
 (1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, 10000, '2025-08-29 16:25:45', '2025-08-31', 'Active', 1, 'uploads/cause-3.jpg'),
-(2, 'Food Donation Drive', 'Collecting and distributing food for underprivileged families.', 15000, 0, '2025-08-27 03:23:43', '2025-02-15', 'Inactive', 2, 'uploads/cause-3.jpg'),
 (4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, 25000, '2025-08-27 04:09:49', '2025-09-09', 'Active', 4, 'uploads/cause-3.jpg'),
 (5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, 6000, '2025-08-27 05:30:02', '2025-11-01', 'Active', 5, 'uploads/cause-3.jpg'),
-(6, 'Fresh Water ', 'Freshwater camping area provides shady, sheltered sites set among scribbly gum woodland about 500m inland from the beach.\r\n', 20000, 5000, '2025-08-29 16:11:26', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
+(6, 'Fresh Water ', 'Freshwater camping area provides shady, sheltered sites set among scribbly gum woodland about 500m inland from the beach.\r\n', 20000, 5000, '2025-08-29 16:51:03', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
 
 -- --------------------------------------------------------
 
@@ -128,10 +127,7 @@ CREATE TABLE `donations` (
 
 INSERT INTO `donations` (`id`, `name`, `amount`, `date`, `payment_id`, `fund_id`, `donor_id`, `pledge_id`, `campaign_id`, `payment_reference`, `status`) VALUES
 (3, 'Rayaan Mohammad', 5000, '2025-08-29 16:27:33', 2, 5, 14, NULL, 6, NULL, 'verified'),
-(4, 'Ayaan Mohammad', 25000, '2025-08-29 16:27:44', 5, 3, 13, NULL, 4, NULL, 'verified'),
-(5, 'Bob Smith', 6000, '2025-08-29 16:28:01', 5, 4, 11, NULL, 5, NULL, 'verified'),
-(8, 'Ayaan Mohammad', 10000, '2025-08-29 03:59:02', 5, 1, 13, NULL, 1, NULL, 'verified'),
-(9, 'Ayaan Mohammad', 10000, '2025-08-29 03:59:46', 5, 1, 13, NULL, 1, NULL, 'verified');
+(5, 'Bob Smith', 6000, '2025-08-29 16:28:01', 5, 4, 11, NULL, 5, NULL, 'verified');
 
 --
 -- Triggers `donations`
@@ -173,9 +169,8 @@ CREATE TABLE `donors` (
 --
 
 INSERT INTO `donors` (`id`, `name`, `contact`, `type`, `user_id`, `pledge_id`) VALUES
-(9, 'Ayaan Mohammad', 'ayaan@gmail.com', NULL, NULL, NULL),
+(9, 'Ayaan Mohammad', 'ayaan@gmail.com', 'Individual', 9, NULL),
 (11, 'Bob Smith\r\n', 'bob.s@email.com', 'Individual', 6, 2),
-(13, 'Ayaan Mohammad\r\n', 'ayaan@gmail.com', 'Individual', 9, 3),
 (14, 'Rayaan Mohammad', 'rayaan@gmail.com', 'Individual', 14, NULL);
 
 -- --------------------------------------------------------
@@ -200,7 +195,6 @@ CREATE TABLE `events` (
 
 INSERT INTO `events` (`id`, `name`, `location`, `descriptions`, `date`, `image_url`, `status`) VALUES
 (1, 'Charity Run 2025', 'Central Park, New York', 'Whether you\'re keen to walk, run, cycle or swim take a look below and sign up today to fundraise for Save the Children. We\'ll support you every step of the', '2025-09-30', 'uploads/event3.jpg', 'Active'),
-(2, 'Food Donation Drive', 'Community Hall, Boston', 'Support our food donation drives in Singapore! Learn more about making food donations or money donations and helping with food distribution drives.', '2025-08-26', '', 'Inactive'),
 (3, 'School Fundraising Gala', 'Hilton Hotel, Chicago', 'A high school fundraising gala serves as a platform for high schools to gather funds and resources while unifying the community in support of a common cause ...\r\n', '2025-09-20', 'uploads/event.png', 'Active'),
 (4, 'Emergency Relife  ', ' Gaza, Palestine', 'Emergency relief means providing immediate assistance to the victims of conflicts or disaster situations. For more than 50 years, the World Food Programme ...', '2025-09-30', 'uploads/event-4.jpg', 'Active'),
 (5, 'Health Checkup Camp', 'Community Center, Dallas', 'Held from 9am to 2pm, the event offered free healthcare services including specialist doctor consultation and blood sugar Body Mass Index (BMI) ', '2025-09-27', 'uploads/event2.jpg\r\n', 'Active');
@@ -272,8 +266,7 @@ CREATE TABLE `pledges` (
 --
 
 INSERT INTO `pledges` (`id`, `name`, `pledge_amount`, `pledge_date`, `status`, `donor_id`, `campaign_id`) VALUES
-(2, 'Pledge for Education', 500, '2025-08-16 07:19:06', 'Pending', 11, 1),
-(3, 'Pledge for Medical Aid', 1000, '2025-08-16 07:19:18', 'Pending', 11, 2);
+(2, 'Pledge for Education', 500, '2025-08-16 07:19:06', 'Pending', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -376,7 +369,6 @@ CREATE TABLE `volunteer` (
 
 INSERT INTO `volunteer` (`id`, `name`, `contact`, `task`, `availability_status`, `created_at`, `event_id`, `user_id`) VALUES
 (3, 'Alice Johnson', 'alice.j@email.com', 'Event Management', 'Unavailable', '2025-08-16 06:59:59', 1, 5),
-(4, 'Bob Smith', 'bob.s@email.com', 'Food Sorting', 'Available', '2025-08-16 06:59:59', 2, 5),
 (5, 'Charlie Brown', 'charlie.b@email.com', 'Community Outreach', 'Available', '2025-08-16 06:59:59', 1, 5),
 (6, 'Diana Miller', 'diana.m@email.com', 'Fundraising', 'Available', '2025-08-16 06:59:59', 3, 5);
 
