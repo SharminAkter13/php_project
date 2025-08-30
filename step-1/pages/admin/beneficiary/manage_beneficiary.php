@@ -126,7 +126,7 @@ if ($result) {
 </head>
 <body>
 
-<div class="container-fluid p-5" style="min-height: 2838.44px;">
+<div class="container-fluid p-3" style="min-height: 2838.44px;">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -145,7 +145,7 @@ if ($result) {
 
     <section class="content">
         <div class="card">
-            <div class="card-header ">
+            <div class="card-header container-fluid">
                 <h3 class="card-title">Manage Beneficiaries</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -156,9 +156,9 @@ if ($result) {
                     </button>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="container my-5">
-                    <div class="table-wrapper">
+            <div class="card-body container-fluid">
+                <div class="container-fluid ">
+                    <div class="table-responsive">
                         <?php if (!empty($success_message)): ?>
                             <div class="alert alert-success text-center"><?= htmlspecialchars($success_message) ?></div>
                         <?php endif; ?>

@@ -55,8 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $amount = floatval($_POST['amount'] ?? 0);
 
         if ($campaign_id && $payment_id && $fund_id && $amount > 0) {
-
-            // --- GET PAYMENT TYPE ---
             $ptypeStmt = $dms->prepare("SELECT type FROM payment_methods WHERE id = ?");
             if (!$ptypeStmt) die("Payment prepare failed: " . $dms->error);
             $ptypeStmt->bind_param("i", $payment_id);
@@ -66,25 +64,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $payment_type = $ptypeRow['type'] ?? '';
             $ptypeStmt->close();
 
-            // --- STATUS ---
             $status = ($payment_type === 'Cash' || $payment_type === 'Check') ? 'Verified' : 'Pending';
             $date = date('Y-m-d H:i:s');
 
-            // --- INSERT DONATION ---
-            if ($pledge_id === null) {
-                $stmt = $dms->prepare("INSERT INTO donations (donor_id, name, campaign_id, payment_id, fund_id, amount, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("isiiidss", $donor_fk_id, $donor['name'], $campaign_id, $payment_id, $fund_id, $amount, $date, $status);
-            } else {
-                $stmt = $dms->prepare("INSERT INTO donations (donor_id, name, campaign_id, payment_id, fund_id, pledge_id, amount, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            // --- USE DATABASE TRANSACTION FOR CONSISTENCY ---
+            $dms->begin_transaction();
+
+            try {
+                // INSERT into donations table
+                $donation_query = "INSERT INTO donations (donor_id, name, campaign_id, payment_id, fund_id, pledge_id, amount, date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $dms->prepare($donation_query);
+                if (!$stmt) throw new Exception("Donation statement failed: " . $dms->error);
                 $stmt->bind_param("isiiiidss", $donor_fk_id, $donor['name'], $campaign_id, $payment_id, $fund_id, $pledge_id, $amount, $date, $status);
+                
+                if (!$stmt->execute()) {
+                    throw new Exception("Donation insert failed: " . $stmt->error);
+                }
+                $donation_id = $dms->insert_id;
+                $stmt->close();
+
+                // INSERT into transactions table
+                $transaction_status = ($status === 'Verified') ? 'complete' : 'pending';
+                $transaction_query = "INSERT INTO transactions (id, status, date, amount, payment_id, donor_id, campaign_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $stmt_trans = $dms->prepare($transaction_query);
+                if (!$stmt_trans) throw new Exception("Transaction statement failed: " . $dms->error);
+                $stmt_trans->bind_param("isddiii", $donation_id, $transaction_status, $date, $amount, $payment_id, $donor_fk_id, $campaign_id);
+                
+                if (!$stmt_trans->execute()) {
+                    throw new Exception("Transaction insert failed: " . $stmt_trans->error);
+                }
+                $stmt_trans->close();
+
+                // UPDATE the campaigns table (total_raised)
+                $update_campaign_query = "UPDATE campaigns SET total_raised = total_raised + ? WHERE id = ?";
+                $stmt_camp = $dms->prepare($update_campaign_query);
+                if (!$stmt_camp) throw new Exception("Campaign statement failed: " . $dms->error);
+                $stmt_camp->bind_param("di", $amount, $campaign_id);
+                
+                if (!$stmt_camp->execute()) {
+                    throw new Exception("Campaign update failed: " . $stmt_camp->error);
+                }
+                $stmt_camp->close();
+
+                // If all queries were successful, commit the transaction
+                $dms->commit();
+                echo "<div class='alert alert-success'>Donation, transaction, and campaign update were successful!</div>";
+
+            } catch (Exception $e) {
+                // If an error occurred, roll back all changes
+                $dms->rollback();
+                echo "<div class='alert alert-danger'>Error: " . $e->getMessage() . "</div>";
             }
 
-            if ($stmt->execute()) {
-                echo "<div class='alert alert-success'>Donation from <strong>" . htmlspecialchars($donor['name']) . "</strong> (Contact: " . htmlspecialchars($donor['contact']) . ") added successfully! Status: <strong>" . htmlspecialchars($status) . "</strong></div>";
-            } else {
-                echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
-            }
-            $stmt->close();
         } else {
             echo "<div class='alert alert-warning'>Please fill all required fields correctly.</div>";
         }
