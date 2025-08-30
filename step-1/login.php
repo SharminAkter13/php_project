@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
                         header("Location: home.php?page=11");
                         break;
                     case 'donor':
-                        header("Location: home.php?page=20");
+                        header("Location: index.php");
                         break;
                     case 'volunteer':
                         header("Location: home.php?page=25");

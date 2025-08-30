@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2025 at 09:17 PM
+-- Generation Time: Aug 30, 2025 at 08:37 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -74,10 +74,10 @@ CREATE TABLE `campaigns` (
 --
 
 INSERT INTO `campaigns` (`id`, `name`, `descriptions`, `goal_amount`, `total_raised`, `start_date`, `end_date`, `status`, `event_id`, `file_path`) VALUES
-(1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, 10000, '2025-08-29 16:25:45', '2025-08-31', 'Active', 1, 'uploads/cause-3.jpg'),
+(1, 'Charity Run 2025', 'A marathon to raise funds for community development.', 20000, 30000, '2025-08-30 03:19:24', '2025-08-31', 'Active', 1, 'uploads/cause-3.jpg'),
 (4, 'Emergency Relief', 'Immediate assistance for families affected by natural disasters.', 30000, 25000, '2025-08-27 04:09:49', '2025-09-09', 'Active', 4, 'uploads/cause-3.jpg'),
 (5, 'Health Checkup Camp', 'Free medical checkups and awareness sessions for the community.', 10000, 6000, '2025-08-27 05:30:02', '2025-11-01', 'Active', 5, 'uploads/cause-3.jpg'),
-(6, 'Fresh Water ', 'Freshwater camping area provides shady, sheltered sites set among scribbly gum woodland about 500m inland from the beach.\r\n', 20000, 5000, '2025-08-29 16:51:03', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
+(6, 'Fresh Water ', 'Freshwater camping area provides shady, sheltered sites set among scribbly gum woodland about 500m inland from the beach.\r\n', 20000, 20000, '2025-08-30 03:16:19', '2025-09-12', 'Active', 1, 'uploads/cause-3.jpg');
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,12 @@ CREATE TABLE `donations` (
 
 INSERT INTO `donations` (`id`, `name`, `amount`, `date`, `payment_id`, `fund_id`, `donor_id`, `pledge_id`, `campaign_id`, `payment_reference`, `status`) VALUES
 (3, 'Rayaan Mohammad', 5000, '2025-08-29 16:27:33', 2, 5, 14, NULL, 6, NULL, 'verified'),
-(5, 'Bob Smith', 6000, '2025-08-29 16:28:01', 5, 4, 11, NULL, 5, NULL, 'verified');
+(5, 'Bob Smith', 6000, '2025-08-29 16:28:01', 5, 4, 11, NULL, 5, NULL, 'verified'),
+(11, 'Ayaan Mohammad', 25000, '2025-08-29 22:50:46', 4, 3, 9, NULL, 4, NULL, 'verified'),
+(12, 'Ayaan Mohammad', 10000, '2025-08-29 22:52:59', 2, 1, 9, NULL, 1, NULL, 'pending'),
+(13, 'Ayaan Mohammad', 10000, '2025-08-30 03:19:24', 2, 1, 9, NULL, 1, NULL, 'verified'),
+(14, 'Ayaan Mohammad', 5000, '2025-08-29 23:08:52', 5, 5, 9, NULL, 6, NULL, 'verified'),
+(15, 'Ayaan Mohammad', 5000, '2025-08-29 23:16:19', 5, 5, 9, NULL, 6, NULL, 'verified');
 
 --
 -- Triggers `donations`
@@ -311,7 +316,10 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `status`, `date`, `amount`, `payment_id`, `donor_id`, `campaign_id`) VALUES
-(3, 'complete', '2025-08-16 07:25:46', 500, 2, 11, 4);
+(3, 'complete', '2025-08-16 07:25:46', 500, 2, 11, 4),
+(13, 'complete', '2025-08-30 03:19:24', 10000, 2, 9, 1),
+(14, 'complete', '2025-08-29 23:08:52', 5000, 5, 9, 6),
+(15, 'complete', '2025-08-29 23:16:19', 5000, 5, 9, 6);
 
 -- --------------------------------------------------------
 
@@ -326,25 +334,27 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `requested_role_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role_id`, `created_at`) VALUES
-(3, 'Sharmin', 'Akter', 'sharminakter@gmail.com', '$2y$10$uzHD1Z4lXppoB/Rck.pnIOImOQryJpFIu4XgPjVfmGrF0qHqJ4/w6', 1, '2025-08-15 18:16:30'),
-(4, 'programmer', 'diva', 'programmer@gmail.com', '$2y$10$FDLcmWXz1IdOum52bD1OiO6SFVJ97Z2g1WgZlQsAdogeAJ4Lcg5Pe', 4, '2025-08-15 18:18:11'),
-(5, 'Alice', 'Johnson', 'alice.j@email.com', 'password123', 3, '2025-08-16 06:57:21'),
-(6, 'Bob', 'Smith', 'bob.s@email.com', 'password456', 3, '2025-08-16 06:57:21'),
-(7, 'Charlie', 'Brown', 'charlie.b@email.com', 'password789', 5, '2025-08-16 06:57:21'),
-(8, 'Diana', 'Miller', 'diana.m@email.com', 'passwordabc', 3, '2025-08-16 06:57:21'),
-(9, 'Ayaan', 'Mohammad', 'ayaan@gmail.com', '$2y$10$JryyXYRfPOi50gP9asod3uJDcim3CpJMkKfz36K54QeH74iJojE2O', 2, '2025-08-20 03:18:34'),
-(11, 'johnny', 'jonh', 'johnny@gmail.com', '$2y$10$N.PTawvJGtDua0OCtc6GDO2gnqqNpjh6Y8lME0bBYo7unLwOxg8bG', 5, '2025-08-20 03:53:04'),
-(12, 'john', 'doe', 'john@gmail.com', '$2y$10$wWbdTZSK1gJqQ0sK4aXDTeFlbo8jnRGOUmG2pWBr/1dllyHjAc2Ei', 5, '2025-08-20 03:53:57'),
-(13, 'Charlie', 'Brown', 'charlie@email.com', '$2y$10$uGnCIrpDti80H8ei5iEBkeEPuEk9eWMGPYp4CwG1I4E.4yAIsrDe2', 5, '2025-08-25 04:25:16'),
-(14, 'Rayaan', 'Mohammad', 'rayaan@gmail.com', '$2y$10$SFOOq4rXStYELlPKeBoy7Orhm.RrNB2TrfpFc1eSbiFCR8uydV/5.', 2, '2025-08-27 04:01:51');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role_id`, `created_at`, `requested_role_id`) VALUES
+(3, 'Sharmin', 'Akter', 'sharminakter@gmail.com', '$2y$10$uzHD1Z4lXppoB/Rck.pnIOImOQryJpFIu4XgPjVfmGrF0qHqJ4/w6', 1, '2025-08-15 18:16:30', NULL),
+(4, 'programmer', 'diva', 'programmer@gmail.com', '$2y$10$FDLcmWXz1IdOum52bD1OiO6SFVJ97Z2g1WgZlQsAdogeAJ4Lcg5Pe', 4, '2025-08-15 18:18:11', NULL),
+(5, 'Alice', 'Johnson', 'alice.j@email.com', 'password123', 3, '2025-08-16 06:57:21', NULL),
+(6, 'Bob', 'Smith', 'bob.s@email.com', 'password456', 3, '2025-08-16 06:57:21', NULL),
+(7, 'Charlie', 'Brown', 'charlie.b@email.com', 'password789', 5, '2025-08-16 06:57:21', NULL),
+(8, 'Diana', 'Miller', 'diana.m@email.com', 'passwordabc', 3, '2025-08-16 06:57:21', NULL),
+(9, 'Ayaan', 'Mohammad', 'ayaan@gmail.com', '$2y$10$JryyXYRfPOi50gP9asod3uJDcim3CpJMkKfz36K54QeH74iJojE2O', 2, '2025-08-20 03:18:34', NULL),
+(11, 'johnny', 'jonh', 'johnny@gmail.com', '$2y$10$N.PTawvJGtDua0OCtc6GDO2gnqqNpjh6Y8lME0bBYo7unLwOxg8bG', 5, '2025-08-20 03:53:04', NULL),
+(12, 'john', 'doe', 'john@gmail.com', '$2y$10$wWbdTZSK1gJqQ0sK4aXDTeFlbo8jnRGOUmG2pWBr/1dllyHjAc2Ei', 5, '2025-08-20 03:53:57', NULL),
+(13, 'Charlie', 'Brown', 'charlie@email.com', '$2y$10$uGnCIrpDti80H8ei5iEBkeEPuEk9eWMGPYp4CwG1I4E.4yAIsrDe2', 5, '2025-08-25 04:25:16', NULL),
+(14, 'Rayaan', 'Mohammad', 'rayaan@gmail.com', '$2y$10$SFOOq4rXStYELlPKeBoy7Orhm.RrNB2TrfpFc1eSbiFCR8uydV/5.', 2, '2025-08-27 04:01:51', NULL),
+(16, 'Alisha', 'Mohammad', 'alisha@gmail.com', '$2y$10$Dcpo/TfT3oHbsVT3UqtqYu6Pk9gtTWJHJPOTNqfWblrwpVAxVHEWO', 3, '2025-08-30 05:39:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -502,7 +512,7 @@ ALTER TABLE `campaign_management`
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `donors`
@@ -544,13 +554,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `volunteer`
