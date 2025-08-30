@@ -10,7 +10,7 @@ $username = $_SESSION['user_name'] ?? 'Guest';
 ?>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="home.php" class="brand-link">
+    <a href="index.php" class="brand-link">
         <img src="assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light"> DonorHub</span>
     </a>
@@ -248,6 +248,24 @@ $username = $_SESSION['user_name'] ?? 'Guest';
                                     <a href="home.php?page=33" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Transaction Reports</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Role Management
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=34" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p> Role Approve</p>
                                     </a>
                                 </li>
 

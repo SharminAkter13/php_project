@@ -53,7 +53,8 @@ $rolePages = [
         30 => "pages/admin/funds/funds_reports.php",
         31 => "pages/admin/reports/reports.php",
         32 => "pages/admin/transactions/manage_transactions.php",
-         33 => "pages/admin/transactions/transaction_reports.php",
+        33 => "pages/admin/transactions/transaction_reports.php",
+        34 => "pages/admin/role/role_approve.php",
 
     ],
     'beneficiary' => [
