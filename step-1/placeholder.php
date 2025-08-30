@@ -53,6 +53,8 @@ $rolePages = [
         30 => "pages/admin/funds/funds_reports.php",
         31 => "pages/admin/reports/reports.php",
         32 => "pages/admin/transactions/manage_transactions.php",
+         33 => "pages/admin/transactions/transaction_reports.php",
+
     ],
     'beneficiary' => [
         5 => "pages/admin/events/add_events.php",
@@ -75,6 +77,7 @@ $rolePages = [
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
         32 => "pages/admin/transactions/manage_transactions.php",
+        33 => "pages/admin/transactions/transaction_reports.php",
 
     ],
     'donor' => [
@@ -91,7 +94,7 @@ $rolePages = [
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
         32 => "pages/admin/transactions/manage_transactions.php",
-
+        33 => "pages/admin/transactions/transaction_reports.php",
     ],
     'volunteer' => [
         5 => "pages/admin/events/add_events.php",
@@ -104,6 +107,7 @@ $rolePages = [
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
         32 => "pages/admin/transactions/manage_transactions.php",
+        33 => "pages/admin/transactions/transaction_reports.php",
 
     ],
 ];

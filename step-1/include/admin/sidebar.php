@@ -229,6 +229,30 @@ $username = $_SESSION['user_name'] ?? 'Guest';
 
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Transaction
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=32" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Management</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=33" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Reports</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
                         
                 <?php
                         // No break here, as some sections might be common to multiple roles
@@ -270,6 +294,50 @@ $username = $_SESSION['user_name'] ?? 'Guest';
                                 </li>
                             </ul>
                         </li>
+                         <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Overall Reports
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=31" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reports</p>
+                                    </a>
+                                </li>
+                              
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Transaction
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=32" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Management</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=33" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Reports</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        
                 <?php
                         break;
                     case 'donor':
@@ -338,6 +406,50 @@ $username = $_SESSION['user_name'] ?? 'Guest';
                                 </li>
                             </ul>
                         </li>
+                         <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Overall Reports
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=31" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reports</p>
+                                    </a>
+                                </li>
+                              
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Transaction
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=32" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Management</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=33" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Reports</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        
                 <?php
                         break;
                     case 'volunteer':
@@ -371,6 +483,51 @@ $username = $_SESSION['user_name'] ?? 'Guest';
                                 </li>
                             </ul>
                         </li>
+                         <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Overall Reports
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=31" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reports</p>
+                                    </a>
+                                </li>
+                              
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hands-helping"></i>
+                                <p>
+                                    Transaction
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="home.php?page=32" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Management</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="home.php?page=33" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaction Reports</p>
+                                    </a>
+                                </li>
+                              
+
+                            </ul>
+                        </li>
+                        
                 <?php
                         break;
                 }
