@@ -88,7 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $transaction_query = "INSERT INTO transactions (id, status, date, amount, payment_id, donor_id, campaign_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 $stmt_trans = $dms->prepare($transaction_query);
                 if (!$stmt_trans) throw new Exception("Transaction statement failed: " . $dms->error);
-                $stmt_trans->bind_param("isddiii", $donation_id, $transaction_status, $date, $amount, $payment_id, $donor_fk_id, $campaign_id);
+                
+                // CORRECTED LINE: Changed 'isddiii' to 'isssiii'
+                $stmt_trans->bind_param("isssiii", $donation_id, $transaction_status, $date, $amount, $payment_id, $donor_fk_id, $campaign_id);
                 
                 if (!$stmt_trans->execute()) {
                     throw new Exception("Transaction insert failed: " . $stmt_trans->error);

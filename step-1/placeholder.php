@@ -52,6 +52,7 @@ $rolePages = [
         29 => "pages/admin/funds/manage_funds.php",
         30 => "pages/admin/funds/funds_reports.php",
         31 => "pages/admin/reports/reports.php",
+        32 => "pages/admin/transactions/manage_transactions.php",
     ],
     'beneficiary' => [
         5 => "pages/admin/events/add_events.php",
@@ -73,6 +74,8 @@ $rolePages = [
         12 => "pages/admin/campaigns/campaigns_history.php",
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
+        32 => "pages/admin/transactions/manage_transactions.php",
+
     ],
     'donor' => [
         5 => "pages/admin/events/add_events.php",
@@ -87,6 +90,8 @@ $rolePages = [
         22 => "pages/admin/pledges/manage_pledges.php",
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
+        32 => "pages/admin/transactions/manage_transactions.php",
+
     ],
     'volunteer' => [
         5 => "pages/admin/events/add_events.php",
@@ -98,6 +103,8 @@ $rolePages = [
         26 => "pages/admin/volunteers/volunteers_summery_analyticts.php",
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
+        32 => "pages/admin/transactions/manage_transactions.php",
+
     ],
 ];
 
