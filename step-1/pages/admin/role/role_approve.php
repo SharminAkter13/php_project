@@ -24,7 +24,7 @@ if (isset($_POST['approve'])) {
     $stmt->close();
 
     $_SESSION['message'] = "Role for user ID {$user_id} has been approved.";
-    header("Location: role_approve.php");
+    header("Location:home.php?page=34");
     exit();
 }
 
@@ -38,7 +38,7 @@ if (isset($_POST['reject'])) {
     $stmt->close();
 
     $_SESSION['message'] = "Role request for user ID {$user_id} has been rejected.";
-    header("Location: role_approve.php");
+    header("Location:home.php?page=34");
     exit();
 }
 
@@ -98,7 +98,7 @@ $result = $dms->query($query);
                                 <td><?= htmlspecialchars($row['current_role_name']) ?></td>
                                 <td><?= htmlspecialchars($row['requested_role_name']) ?></td>
                                 <td>
-                                    <form method="post" action="role_approve.php">
+                                    <form method="post" action="home.php?page=34">
 
                                         <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
                                         <input type="hidden" name="new_role_id" value="<?= $row['requested_role_id'] ?>">

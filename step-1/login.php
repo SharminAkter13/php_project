@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
                         header("Location: home.php?page=0");
                         break;
                     case 'beneficiary':
-                        header("Location: home.php?page=6");
+                        header("Location: home.php?page=15");
                         break;
                     case 'campaign_manager':
                         header("Location: home.php?page=11");

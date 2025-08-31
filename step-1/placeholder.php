@@ -58,13 +58,16 @@ $rolePages = [
 
     ],
     'beneficiary' => [
-        5 => "pages/admin/events/add_events.php",
-        6 => "pages/admin/events/manage_events.php",
         7 => "pages/admin/events/events_calendar.php",
         8 => "pages/admin/events/events_history.php",
+        13 => "pages/admin/beneficiary/add_beneficiary.php",
+        14 => "pages/admin/beneficiary/manage_beneficiary.php",
+        15 => "pages/admin/beneficiary/beneficiary_report.php",
         16 => "pages/admin/beneficiary/beneficiary_history.php",
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
+        31 => "pages/admin/reports/reports.php",
+        12 => "pages/admin/campaigns/campaigns_history.php",
     ],
     'campaign_manager' => [
         5 => "pages/admin/events/add_events.php",
@@ -77,25 +80,23 @@ $rolePages = [
         12 => "pages/admin/campaigns/campaigns_history.php",
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
-        32 => "pages/admin/transactions/manage_transactions.php",
         33 => "pages/admin/transactions/transaction_reports.php",
-
+        31 => "pages/admin/reports/reports.php",
     ],
     'donor' => [
-        5 => "pages/admin/events/add_events.php",
-        6 => "pages/admin/events/manage_events.php",
         7 => "pages/admin/events/events_calendar.php",
         8 => "pages/admin/events/events_history.php",
         17 => "pages/admin/donations/add_donations.php",
         18 => "pages/admin/donations/manage_donations.php",
         19 => "pages/admin/donations/donations_report.php",
         20 => "pages/admin/donations/donations_history.php",
-        21 => "pages/admin/pledges/add_pledges.php",
         22 => "pages/admin/pledges/manage_pledges.php",
+        23 => "pages/admin/pledges/pledges_summery_analyticts.php",
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
         32 => "pages/admin/transactions/manage_transactions.php",
         33 => "pages/admin/transactions/transaction_reports.php",
+        31 => "pages/admin/reports/reports.php",
     ],
     'volunteer' => [
         5 => "pages/admin/events/add_events.php",
@@ -107,9 +108,8 @@ $rolePages = [
         26 => "pages/admin/volunteers/volunteers_summery_analyticts.php",
         28 => "pages/admin/profile/user_profile.php",
         27 => "pages/admin/logout/logout.php",
-        32 => "pages/admin/transactions/manage_transactions.php",
         33 => "pages/admin/transactions/transaction_reports.php",
-
+        31 => "pages/admin/reports/reports.php",
     ],
 ];
 
