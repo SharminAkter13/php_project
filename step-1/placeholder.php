@@ -97,6 +97,7 @@ $rolePages = [
         27 => "pages/admin/logout/logout.php",
         32 => "pages/admin/transactions/manage_transactions.php",
         33 => "pages/admin/transactions/transaction_reports.php",
+        33 => "pages/admin/transactions/generate_receipt.php",
         31 => "pages/admin/reports/reports.php",
     ],
     'volunteer' => [

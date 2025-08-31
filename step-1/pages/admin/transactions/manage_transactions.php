@@ -216,7 +216,7 @@ $payments = $dms->query("SELECT id, type FROM payment_methods")->fetch_all(MYSQL
                                     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewEditModal" data-transaction='<?= json_encode($transaction) ?>'>View/Edit</button>
                                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $transaction['id'] ?>">Delete</button>
                                     <?php if ($transaction['status'] === 'complete'): ?>
-                                        <a href="home.php?page=34&transaction_id=<?= $transaction['id'] ?>" class="btn btn-primary btn-sm mt-1">View Receipt</a>
+                                        <a href="home.php?page=35&transaction_id=<?= $transaction['id'] ?>" class="btn btn-primary btn-sm mt-1">View Receipt</a>
                                     <?php endif; ?>
                                 <?php else: ?>
                                     <button type="button" class="btn btn-secondary btn-sm" disabled>No Action</button>

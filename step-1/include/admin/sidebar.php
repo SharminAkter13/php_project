@@ -48,7 +48,7 @@ $rolePages = [
         34 => "pages/admin/role/role_approve.php",
     ],
     'beneficiary' => [
-        
+
         7 => "pages/admin/events/events_calendar.php",
         8 => "pages/admin/events/events_history.php",
         13 => "pages/admin/beneficiary/add_beneficiary.php",
@@ -87,6 +87,7 @@ $rolePages = [
         27 => "pages/admin/logout/logout.php",
         32 => "pages/admin/transactions/manage_transactions.php",
         33 => "pages/admin/transactions/transaction_reports.php",
+        35 => "pages/admin/transactions/generate_receipt.php",
         31 => "pages/admin/reports/reports.php",
     ],
     'volunteer' => [
