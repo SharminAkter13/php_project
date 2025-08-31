@@ -6,17 +6,7 @@ if (!isset($_SESSION['user_role'])) {
 }
 
 // Assume config.php and placeholder.php are in the same directory
-include('../../config.php');
-include('../../placeholder.php');
-
-// The new page ID for this file, as defined in placeholder.php
-$page_id = 34;
-
-// Check if the current user role has access to this page
-if (!isset($rolePages[$userRole]) || !in_array($page_id, array_keys($rolePages[$userRole]))) {
-    echo '<div class="alert alert-danger">You do not have permission to view this page.</div>';
-    exit();
-}
+include 'config.php';
 
 // Check if a transaction ID is provided
 if (!isset($_GET['transaction_id']) || !is_numeric($_GET['transaction_id'])) {
@@ -25,6 +15,9 @@ if (!isset($_GET['transaction_id']) || !is_numeric($_GET['transaction_id'])) {
 }
 
 $transaction_id = intval($_GET['transaction_id']);
+
+// Use the session variable directly
+$userRole = $_SESSION['user_role'] ?? '';
 
 // --- SECURITY CHECK: VERIFY DONOR OWNERSHIP ---
 $is_donor_owner = false;
@@ -150,7 +143,7 @@ if (!$transaction) {
     </style>
 </head>
 <body>
-    <div class="receipt-container">
+    <div class="receipt-container container-fluid">
         <div class="receipt-header">
             <h1>Donation Receipt</h1>
             <p class="lead">Thank you for your generous contribution.</p>
