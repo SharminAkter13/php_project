@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 
                 // Redirect to admin dashboard if the user is an admin.
                 if ($user['role_name'] == 'admin') {
-                    header("Location: home.php?page=0");
+                    header("Location: ../home.php?page=0");
                     exit;
                 } else {
                     $errors[] = "Access denied. Admins only.";
