@@ -7,11 +7,15 @@ if (isset($_POST['submit'])) {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
+    // Check if both email and password are provided.
     if (empty($email) || empty($password)) {
         $errors[] = "Please enter both email and password.";
     }
 
+    // If there are no errors, proceed with authentication.
     if (empty($errors)) {
+        // Prepare the SQL statement to prevent SQL injection.
+        // It selects the user's ID, password, and role name.
         $stmt = $dms->prepare("
             SELECT u.id, u.password, r.name as role_name, u.first_name, u.last_name
             FROM users u
@@ -26,20 +30,23 @@ if (isset($_POST['submit'])) {
             $user = $result->fetch_assoc();
             $stmt->close();
 
+            // Verify if a user was found and the password matches.
             if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_email'] = $email;
-                $_SESSION['user_role'] = $user['role_name'];
-                $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
-
-                // Redirect to admin dashboard if the user is an admin.
-                if ($user['role_name'] == 'admin') {
-                    header("Location: ../home.php?page=0");
+                // Check if the user has the 'campaign_manager' role.
+                if ($user['role_name'] === 'campaign_manager') {
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_email'] = $email;
+                    $_SESSION['user_role'] = $user['role_name'];
+                    $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
+                    
+                    header("Location: ../home.php?page=11");
                     exit;
                 } else {
-                    $errors[] = "Access denied. Admins only.";
+                    // Access is denied for all other roles.
+                    $errors[] = "Access denied. Only Campaign Managers are permitted to log in here.";
                 }
             } else {
+                // Handle invalid credentials.
                 $errors[] = "Invalid email or password.";
             }
         } else {
@@ -54,7 +61,7 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DonorHub | Admin Log in</title>
+    <title>DonorHub | Campaign Manager Log in</title>
 
     <!-- AdminLTE 3 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/css/adminlte.min.css">
@@ -68,7 +75,7 @@ if (isset($_POST['submit'])) {
                 <a href="index.php" class="h1"><b>Donor</b>Hub</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg fw-bold"> <b style="font-weight: bolder;font-size:16pt;color:#0c6b6c;">Admin Panel</b></p>
+                <p class="login-box-msg fw-bold"> <b style="font-weight: bolder;font-size:16pt;color:#0c6b6c;">Campaign Manager Panel</b></p>
 
                 <?php
                 if (!empty($errors)) {
@@ -114,6 +121,9 @@ if (isset($_POST['submit'])) {
 
                 <p class="mb-1" >
                     Forgot Password <a href="../forgot-password.php">Click Here</a>
+                </p>
+                <p class="mb-0">
+                    <a href="../index.php" class="text-center">Register a new membership</a>
                 </p>
             </div>
         </div>
