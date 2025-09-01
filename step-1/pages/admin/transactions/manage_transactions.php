@@ -48,51 +48,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $new_status = $_POST['status'];
             $new_payment_id = intval($_POST['payment_id']);
 
-            $dms->begin_transaction();
-            try {
-                // Fetch old transaction data to calculate the amount change
-                $stmt_old_data = $dms->prepare("SELECT amount, campaign_id FROM transactions WHERE id = ?");
-                $stmt_old_data->bind_param("i", $id);
-                $stmt_old_data->execute();
-                $result = $stmt_old_data->get_result();
-                $old_data = $result->fetch_assoc();
-                $stmt_old_data->close();
+            // NEW LOGIC: Only an admin can approve a transaction (change status to 'complete')
+            if ($new_status === 'complete' && $user_role !== 'admin') {
+                $error = "Only an admin can approve a transaction.";
+            } else {
+                $dms->begin_transaction();
+                try {
+                    // Fetch old transaction data to calculate the amount change
+                    $stmt_old_data = $dms->prepare("SELECT amount, campaign_id FROM transactions WHERE id = ?");
+                    $stmt_old_data->bind_param("i", $id);
+                    $stmt_old_data->execute();
+                    $result = $stmt_old_data->get_result();
+                    $old_data = $result->fetch_assoc();
+                    $stmt_old_data->close();
 
-                if ($old_data) {
-                    $amount_difference = $new_amount - $old_data['amount'];
-                    $campaign_id = $old_data['campaign_id'];
+                    if ($old_data) {
+                        $amount_difference = $new_amount - $old_data['amount'];
+                        $campaign_id = $old_data['campaign_id'];
 
-                    // Update the transactions table
-                    $stmt_trans = $dms->prepare("UPDATE transactions SET amount = ?, status = ?, payment_id = ? WHERE id = ?");
-                    $stmt_trans->bind_param("dsii", $new_amount, $new_status, $new_payment_id, $id);
-                    if (!$stmt_trans->execute()) {
-                        throw new Exception("Failed to update transaction.");
-                    }
-                    $stmt_trans->close();
+                        // Update the transactions table
+                        $stmt_trans = $dms->prepare("UPDATE transactions SET amount = ?, status = ?, payment_id = ? WHERE id = ?");
+                        $stmt_trans->bind_param("dsii", $new_amount, $new_status, $new_payment_id, $id);
+                        if (!$stmt_trans->execute()) {
+                            throw new Exception("Failed to update transaction.");
+                        }
+                        $stmt_trans->close();
 
-                    // Update the donations table
-                    $donation_status = ($new_status === 'complete') ? 'Verified' : 'Pending';
-                    $stmt_don = $dms->prepare("UPDATE donations SET amount = ?, status = ?, payment_id = ? WHERE id = ?");
-                    $stmt_don->bind_param("dsii", $new_amount, $donation_status, $new_payment_id, $id);
-                    if (!$stmt_don->execute()) {
-                        throw new Exception("Failed to update donation.");
+                        // Update the donations table
+                        $donation_status = ($new_status === 'complete') ? 'Verified' : 'Pending';
+                        $stmt_don = $dms->prepare("UPDATE donations SET amount = ?, status = ?, payment_id = ? WHERE id = ?");
+                        $stmt_don->bind_param("dsii", $new_amount, $donation_status, $new_payment_id, $id);
+                        if (!$stmt_don->execute()) {
+                            throw new Exception("Failed to update donation.");
+                        }
+                        $stmt_don->close();
+                        
+                        // Update the campaigns table
+                        $stmt_camp = $dms->prepare("UPDATE campaigns SET total_raised = total_raised + ? WHERE id = ?");
+                        $stmt_camp->bind_param("di", $amount_difference, $campaign_id);
+                        if (!$stmt_camp->execute()) {
+                            throw new Exception("Failed to update campaign total.");
+                        }
+                        $stmt_camp->close();
                     }
-                    $stmt_don->close();
-                    
-                    // Update the campaigns table
-                    $stmt_camp = $dms->prepare("UPDATE campaigns SET total_raised = total_raised + ? WHERE id = ?");
-                    $stmt_camp->bind_param("di", $amount_difference, $campaign_id);
-                    if (!$stmt_camp->execute()) {
-                        throw new Exception("Failed to update campaign total.");
-                    }
-                    $stmt_camp->close();
+
+                    $dms->commit();
+                    $message = "Transaction updated successfully!";
+                } catch (Exception $e) {
+                    $dms->rollback();
+                    $error = $e->getMessage();
                 }
-
-                $dms->commit();
-                $message = "Transaction updated successfully!";
-            } catch (Exception $e) {
-                $dms->rollback();
-                $error = $e->getMessage();
             }
 
         } elseif ($action === 'delete') {
