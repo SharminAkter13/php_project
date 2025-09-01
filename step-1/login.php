@@ -39,27 +39,23 @@ if (isset($_POST['submit'])) {
 
                 // Use a switch statement to redirect to home.php with the correct page ID.
                 switch ($user['role_name']) {
-                    case 'admin':
-                        header("Location: home.php?page=0");
-                        break;
                     case 'beneficiary':
-                        header("Location: home.php?page=15");
-                        break;
-                    case 'campaign_manager':
-                        header("Location: home.php?page=11");
+                        header("Location: index.php");
                         break;
                     case 'donor':
                         header("Location: index.php");
                         break;
                     case 'volunteer':
-                        header("Location: home.php?page=25");
+                        header("Location: index.php");
                         break;
                     default:
-                        // Default redirection if the role is not recognized.
-                        header("Location: home.php");
+                        // Default redirection if the role is not one of the allowed roles.
+                        $errors[] = "Your account role is not permitted to log in.";
                         break;
                 }
-                exit;
+                if (empty($errors)) {
+                    exit;
+                }
             } else {
                 // Handle invalid credentials.
                 $errors[] = "Invalid email or password.";
@@ -90,7 +86,7 @@ if (isset($_POST['submit'])) {
             <a href="index.php" class="h1"><b>Donor</b>Hub</a>
         </div>
         <div class="card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">Sign in for a better world</p>
 
             <?php
             if (!empty($errors)) {
@@ -131,7 +127,7 @@ if (isset($_POST['submit'])) {
                     <div class="col-4">
                         <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
                     </div>
-                    </div>
+                </div>
             </form>
 
             <div class="social-auth-links text-center mt-2 mb-3">
@@ -143,10 +139,10 @@ if (isset($_POST['submit'])) {
                 </a>
             </div>
             <p class="mb-1">
-                <a href="forgot-password.php">I forgot my password</a>
+                <a href="forgot-password.php">Forgot password</a>
             </p>
             <p class="mb-0">
-                <a href="index.php" class="text-center">Register a new membership</a>
+               New to DonorHub? <a href="index.php" class="text-center"><b>Create an account</b></a>
             </p>
         </div>
         </div>
