@@ -48,7 +48,6 @@ $rolePages = [
         34 => "pages/admin/role/role_approve.php",
     ],
     'beneficiary' => [
-
         7 => "pages/admin/events/events_calendar.php",
         8 => "pages/admin/events/events_history.php",
         13 => "pages/admin/beneficiary/add_beneficiary.php",
@@ -160,7 +159,7 @@ function canAccess($page, $role, $rolePages) {
                 <?php if (canAccess(1, $userRole, $rolePages) || canAccess(2, $userRole, $rolePages) || canAccess(4, $userRole, $rolePages)): ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-users-cog"></i>
+                            <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Users
                                 <i class="fas fa-angle-left right"></i>
@@ -170,7 +169,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(1, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=1" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-user-plus nav-icon"></i>
                                         <p>Add User</p>
                                     </a>
                                 </li>
@@ -178,7 +177,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(2, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=2" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-user-edit nav-icon"></i>
                                         <p>Manage Users</p>
                                     </a>
                                 </li>
@@ -186,7 +185,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(4, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=4" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-user-friends nav-icon"></i>
                                         <p>View Users</p>
                                     </a>
                                 </li>
@@ -208,7 +207,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(17, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=17" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-hand-holding-usd nav-icon"></i>
                                         <p>Add Donation</p>
                                     </a>
                                 </li>
@@ -216,7 +215,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(18, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=18" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-cogs nav-icon"></i>
                                         <p>Manage Donations</p>
                                     </a>
                                 </li>
@@ -224,7 +223,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(19, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=19" class="nav-link">
-                                        <i class="far fa-chart-bar nav-icon"></i>
+                                        <i class="fas fa-chart-line nav-icon"></i>
                                         <p>Donation Reports</p>
                                     </a>
                                 </li>
@@ -232,7 +231,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(20, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=20" class="nav-link">
-                                        <i class="far fa-clock nav-icon"></i>
+                                        <i class="fas fa-history nav-icon"></i>
                                         <p>Donation History</p>
                                     </a>
                                 </li>
@@ -244,7 +243,7 @@ function canAccess($page, $role, $rolePages) {
                 <?php if (canAccess(13, $userRole, $rolePages) || canAccess(14, $userRole, $rolePages) || canAccess(15, $userRole, $rolePages) || canAccess(16, $userRole, $rolePages)): ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-hands-helping"></i>
+                            <i class="nav-icon fas fa-users-cog"></i>
                             <p>
                                 Beneficiaries
                                 <i class="fas fa-angle-left right"></i>
@@ -254,7 +253,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(13, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=13" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-user-plus nav-icon"></i>
                                         <p>Add Beneficiary</p>
                                     </a>
                                 </li>
@@ -262,7 +261,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(14, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=14" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-user-edit nav-icon"></i>
                                         <p>Manage Beneficiaries</p>
                                     </a>
                                 </li>
@@ -270,7 +269,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(15, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=15" class="nav-link">
-                                        <i class="far fa-chart-bar nav-icon"></i>
+                                        <i class="fas fa-chart-bar nav-icon"></i>
                                         <p>Beneficiary Reports</p>
                                     </a>
                                 </li>
@@ -278,7 +277,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(16, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=16" class="nav-link">
-                                        <i class="far fa-clock nav-icon"></i>
+                                        <i class="fas fa-history nav-icon"></i>
                                         <p>Beneficiary History</p>
                                     </a>
                                 </li>
@@ -290,8 +289,9 @@ function canAccess($page, $role, $rolePages) {
                 <?php if (canAccess(29, $userRole, $rolePages) || canAccess(30, $userRole, $rolePages)): ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <p> &nbsp;
-                                <b style="font-size: 16pt;">$</b> &nbsp; Funds
+                            <i class="nav-icon fas fa-wallet"></i>
+                            <p>
+                                Funds
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -299,7 +299,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(29, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=29" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-coins nav-icon"></i>
                                         <p>Manage Funds</p>
                                     </a>
                                 </li>
@@ -307,7 +307,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(30, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=30" class="nav-link">
-                                        <i class="far fa-chart-bar nav-icon"></i>
+                                        <i class="fas fa-file-invoice-dollar nav-icon"></i>
                                         <p>Funds Reports</p>
                                     </a>
                                 </li>
@@ -329,7 +329,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(21, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=21" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-hand-holding-heart nav-icon"></i>
                                         <p>Add Pledge</p>
                                     </a>
                                 </li>
@@ -337,7 +337,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(22, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=22" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-tasks nav-icon"></i>
                                         <p>Manage Pledges</p>
                                     </a>
                                 </li>
@@ -345,8 +345,8 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(23, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=23" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Pledges Summery</p>
+                                        <i class="fas fa-chart-pie nav-icon"></i>
+                                        <p>Pledges Summary</p>
                                     </a>
                                 </li>
                             <?php endif; ?>
@@ -367,7 +367,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(9, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=9" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-plus-square nav-icon"></i>
                                         <p>Add Campaign</p>
                                     </a>
                                 </li>
@@ -375,7 +375,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(10, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=10" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-tasks nav-icon"></i>
                                         <p>Manage Campaigns</p>
                                     </a>
                                 </li>
@@ -383,7 +383,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(11, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=11" class="nav-link">
-                                        <i class="far fa-chart-bar nav-icon"></i>
+                                        <i class="fas fa-chart-bar nav-icon"></i>
                                         <p>Campaign Reports</p>
                                     </a>
                                 </li>
@@ -391,7 +391,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(12, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=12" class="nav-link">
-                                        <i class="far fa-clock nav-icon"></i>
+                                        <i class="fas fa-history nav-icon"></i>
                                         <p>Campaign History</p>
                                     </a>
                                 </li>
@@ -413,7 +413,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(24, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=24" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-user-plus nav-icon"></i>
                                         <p>Add Volunteer</p>
                                     </a>
                                 </li>
@@ -421,7 +421,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(25, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=25" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-user-edit nav-icon"></i>
                                         <p>Manage Volunteers</p>
                                     </a>
                                 </li>
@@ -429,8 +429,8 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(26, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=26" class="nav-link">
-                                        <i class="far fa-chart-bar nav-icon"></i>
-                                        <p>Volunteers Summery</p>
+                                        <i class="fas fa-chart-line nav-icon"></i>
+                                        <p>Volunteers Summary</p>
                                     </a>
                                 </li>
                             <?php endif; ?>
@@ -441,7 +441,7 @@ function canAccess($page, $role, $rolePages) {
                 <?php if (canAccess(31, $userRole, $rolePages)): ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-hands-helping"></i>
+                            <i class="nav-icon fas fa-chart-area"></i>
                             <p>
                                 Overall Reports
                                 <i class="fas fa-angle-left right"></i>
@@ -450,7 +450,7 @@ function canAccess($page, $role, $rolePages) {
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="home.php?page=31" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-file-alt nav-icon"></i>
                                     <p>Reports</p>
                                 </a>
                             </li>
@@ -461,9 +461,9 @@ function canAccess($page, $role, $rolePages) {
                 <?php if (canAccess(32, $userRole, $rolePages) || canAccess(33, $userRole, $rolePages)): ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-hands-helping"></i>
+                            <i class="nav-icon fas fa-exchange-alt"></i>
                             <p>
-                                Transaction
+                                Transactions
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -471,7 +471,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(32, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=32" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-credit-card nav-icon"></i>
                                         <p>Transaction Management</p>
                                     </a>
                                 </li>
@@ -479,7 +479,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(33, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=33" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-file-invoice nav-icon"></i>
                                         <p>Transaction Reports</p>
                                     </a>
                                 </li>
@@ -491,7 +491,7 @@ function canAccess($page, $role, $rolePages) {
                 <?php if (canAccess(34, $userRole, $rolePages)): ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-hands-helping"></i>
+                            <i class="nav-icon fas fa-user-tag"></i>
                             <p>
                                 Role Management
                                 <i class="fas fa-angle-left right"></i>
@@ -500,7 +500,7 @@ function canAccess($page, $role, $rolePages) {
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="home.php?page=34" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-user-check nav-icon"></i>
                                     <p>Role Approve</p>
                                 </a>
                             </li>
@@ -521,7 +521,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(5, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=5" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-plus-square nav-icon"></i>
                                         <p>Add Event</p>
                                     </a>
                                 </li>
@@ -529,7 +529,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(6, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=6" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-tasks nav-icon"></i>
                                         <p>Manage Events</p>
                                     </a>
                                 </li>
@@ -537,7 +537,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(7, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=7" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-calendar-check nav-icon"></i>
                                         <p>Events Calendar</p>
                                     </a>
                                 </li>
@@ -545,7 +545,7 @@ function canAccess($page, $role, $rolePages) {
                             <?php if (canAccess(8, $userRole, $rolePages)): ?>
                                 <li class="nav-item">
                                     <a href="home.php?page=8" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-history nav-icon"></i>
                                         <p>Events History</p>
                                     </a>
                                 </li>
