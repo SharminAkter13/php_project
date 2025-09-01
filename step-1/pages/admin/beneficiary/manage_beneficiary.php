@@ -14,12 +14,12 @@ include('config.php');
 // Define allowed roles for this page
 $allowedRoles = ['admin', 'beneficiary'];
 $userRole = $_SESSION['user_role'] ?? '';
+$userId = $_SESSION['user_id'] ?? 0;
 
 // Check if the user's role is in the allowed roles list
 if (!in_array($userRole, $allowedRoles)) {
-    // If not authorized, display an error message and exit
     echo "<div class='alert alert-danger'>Access Denied. You do not have permission to manage beneficiaries.</div>";
-    exit(); // Stop script execution
+    exit();
 }
 
 // Initialize variables for messages
@@ -36,9 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $needs = $_POST['beneficiary_needs'] ?? '';
     $status = $_POST['beneficiary_status'] ?? '';
 
-    // Simple validation
+    // Security check: Only allow updates for the logged-in user's ID unless they are an admin
+    if ($userRole !== 'admin' && $id !== $userId) {
+        $_SESSION['error_message'] = "Unauthorized action. You can only update your own profile.";
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
+    }
+
     if ($id > 0 && !empty($name) && !empty($email)) {
-        // Use prepared statement to prevent SQL injection
         $stmt = $dms->prepare("UPDATE beneficiaries SET name=?, email=?, phone=?, address=?, required_support=?, status=? WHERE id=?");
         if ($stmt) {
             $stmt->bind_param("sssssis", $name, $email, $phone, $address, $needs, $status, $id);
@@ -54,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $_SESSION['error_message'] = "Invalid data provided for update.";
     }
-    // Correct redirect to stay on the same page
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
@@ -62,7 +66,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Handle GET request for DELETE
 if (isset($_GET['delete'])) {
     $deleteId = intval($_GET['delete']);
-    // Use prepared statement for deletion
+
+    // Security check: Only allow deletion for the logged-in user's ID if they are a beneficiary
+    // Admins can delete any record, but beneficiaries can only delete their own.
+    if ($userRole === 'beneficiary' && $deleteId !== $userId) {
+        $_SESSION['error_message'] = "Unauthorized action. You can only delete your own profile.";
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
+    }
+    
     $stmt = $dms->prepare("DELETE FROM beneficiaries WHERE id=?");
     if ($stmt) {
         $stmt->bind_param("i", $deleteId);
@@ -73,7 +85,6 @@ if (isset($_GET['delete'])) {
         }
         $stmt->close();
     }
-    // Correct redirect to stay on the same page
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
@@ -88,12 +99,27 @@ if (isset($_SESSION['error_message'])) {
     unset($_SESSION['error_message']);
 }
 
-// Fetch all beneficiaries from the DB to display in the table
-$result = mysqli_query($dms, "SELECT * FROM beneficiaries");
+// Conditionally fetch beneficiaries
 $beneficiaries = [];
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $beneficiaries[] = $row;
+if ($userRole === 'admin') {
+    // Admin can see all beneficiaries
+    $result = mysqli_query($dms, "SELECT * FROM beneficiaries");
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $beneficiaries[] = $row;
+        }
+    }
+} elseif ($userRole === 'beneficiary') {
+    // Beneficiary can only see their own record
+    $stmt = $dms->prepare("SELECT * FROM beneficiaries WHERE id = ?");
+    if ($stmt) {
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $row = $result->fetch_assoc()) {
+            $beneficiaries[] = $row;
+        }
+        $stmt->close();
     }
 }
 ?>
@@ -167,8 +193,16 @@ if ($result) {
                         <?php endif; ?>
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4><i class="fas fa-users me-2"></i>Manage Beneficiaries</h4>
-                            <input type="text" id="searchBox" class="form-control w-25" placeholder="Search...">
+                            <h4><i class="fas fa-users me-2"></i>
+                            <?php if ($userRole === 'admin'): ?>
+                                All Beneficiaries
+                            <?php else: ?>
+                                Your Profile
+                            <?php endif; ?>
+                            </h4>
+                            <?php if ($userRole === 'admin'): ?>
+                                <input type="text" id="searchBox" class="form-control w-25" placeholder="Search...">
+                            <?php endif; ?>
                         </div>
 
                         <table class="table table-hover" id="beneficiaryTable">
@@ -218,9 +252,11 @@ if ($result) {
                                                 data-needs="<?= htmlspecialchars($b['required_support']) ?>"
                                                 data-status="<?= htmlspecialchars($b['status']) ?>"> <i class="fas fa-edit"></i>
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteBeneficiaryModal" data-id="<?= htmlspecialchars($b['id']) ?>">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            <?php if ($userRole === 'admin' || ($userRole === 'beneficiary' && $b['id'] === $userId)): ?>
+                                                <button type="button" class="btn btn-sm btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteBeneficiaryModal" data-id="<?= htmlspecialchars($b['id']) ?>">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -339,7 +375,8 @@ if ($result) {
 <script src="assets/dist/js/adminlte.min.js"></script>
 
 <script>
-    // Search Filter Script
+    // Search Filter Script (only for admins)
+    <?php if ($userRole === 'admin'): ?>
     document.getElementById("searchBox").addEventListener("keyup", function() {
         let filter = this.value.toLowerCase();
         let rows = document.querySelectorAll("#beneficiaryTable tbody tr");
@@ -348,6 +385,7 @@ if ($result) {
             row.style.display = text.includes(filter) ? "" : "none";
         });
     });
+    <?php endif; ?>
 
     // Populate the Edit modal with data from the clicked row
     const editBeneficiaryModal = document.getElementById('editBeneficiaryModal');

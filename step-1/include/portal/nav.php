@@ -40,21 +40,21 @@ if (isset($_SESSION['user_role'])) {
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav ms-auto">
                 <a href="index.php" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
-                <a href="causes.html" class="nav-item nav-link">Causes</a>
-                <a href="event.html" class="nav-item nav-link">Events</a>
-                <a href="blog.html" class="nav-item nav-link">Blog</a>
+                <a href="pages/portal/about.php" class="nav-item nav-link">About</a>
+                <a href="pages/portal/causes.php" class="nav-item nav-link">Causes</a>
+                <a href="pages/portal/event.php" class="nav-item nav-link">Events</a>
+                <a href="pages/portal/blog.php" class="nav-item nav-link">Blog</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu">
-                        <a href="single.html" class="dropdown-item">Detail Page</a>
-                        <a href="service.html" class="dropdown-item">What We Do</a>
-                        <a href="team.html" class="dropdown-item">Meet The Team</a>
-                        <a href="donate.html" class="dropdown-item">Donate Now</a>
-                        <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
+                        <a href="pages/portal/single.php" class="dropdown-item">Detail Page</a>
+                        <a href="pages/portal/service.php" class="dropdown-item">What We Do</a>
+                        <a href="pages/portal/team.php" class="dropdown-item">Meet The Team</a>
+                        <a href="pages/portal/donate.php" class="dropdown-item">Donate Now</a>
+                        <a href="pages/portal/volunteer.php" class="dropdown-item">Become A Volunteer</a>
                     </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="pages/portal/contact.php" class="nav-item nav-link">Contact</a>
                 
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <!-- If the user is logged in, show these links -->
