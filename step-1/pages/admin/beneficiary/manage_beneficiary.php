@@ -1,95 +1,79 @@
 <?php
-// Start the session to access session variables
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'], $_SESSION['user_role'])) {
     header("Location: login.php");
     exit;
 }
 
-// Database connection
-include('config.php');
-
-// Define allowed roles for this page
+require 'config.php';
+$userId = intval($_SESSION['user_id']);
+$userRole = $_SESSION['user_role'];
 $allowedRoles = ['admin', 'beneficiary'];
-$userRole = $_SESSION['user_role'] ?? '';
-$userId = $_SESSION['user_id'] ?? 0;
 
-// Check if the user's role is in the allowed roles list
-if (!in_array($userRole, $allowedRoles)) {
-    echo "<div class='alert alert-danger'>Access Denied. You do not have permission to manage beneficiaries.</div>";
-    exit();
+if (!in_array($userRole, $allowedRoles, true)) {
+    echo "<div class='alert alert-danger text-center'>Access Denied.</div>";
+    exit;
 }
 
-// Initialize variables for messages
-$success_message = '';
-$error_message = '';
+$success_message = $error_message = '';
 
-// Handle form submission for UPDATE
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = intval($_POST['beneficiary_id'] ?? 0);
-    $name = $_POST['beneficiary_name'] ?? '';
-    $email = $_POST['beneficiary_email'] ?? '';
-    $phone = $_POST['beneficiary_phone'] ?? '';
-    $address = $_POST['beneficiary_address'] ?? '';
-    $needs = $_POST['beneficiary_needs'] ?? '';
-    $status = $_POST['beneficiary_status'] ?? '';
+    $name = trim($_POST['beneficiary_name'] ?? '');
+    $email = trim($_POST['beneficiary_email'] ?? '');
+    $phone = trim($_POST['beneficiary_phone'] ?? '');
+    $address = trim($_POST['beneficiary_address'] ?? '');
+    $needs = trim($_POST['beneficiary_needs'] ?? '');
+    $status = trim($_POST['beneficiary_status'] ?? '');
 
-    // Security check: Only allow updates for the logged-in user's ID unless they are an admin
     if ($userRole !== 'admin' && $id !== $userId) {
-        $_SESSION['error_message'] = "Unauthorized action. You can only update your own profile.";
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit;
-    }
-
-    if ($id > 0 && !empty($name) && !empty($email)) {
-        $stmt = $dms->prepare("UPDATE beneficiaries SET name=?, email=?, phone=?, address=?, required_support=?, status=? WHERE id=?");
+        $error_message = "Unauthorized action.";
+    } elseif ($id > 0 && $name !== '' && $email !== '') {
+        $stmt = $dms->prepare("
+            UPDATE beneficiaries
+            SET name = ?, email = ?, phone = ?, address = ?, required_support = ?, status = ?
+            WHERE user_id = ?
+        ");
         if ($stmt) {
-            $stmt->bind_param("sssssis", $name, $email, $phone, $address, $needs, $status, $id);
-            if ($stmt->execute()) {
-                $_SESSION['success_message'] = "Beneficiary updated successfully!";
-            } else {
-                $_SESSION['error_message'] = "Error updating beneficiary: " . $stmt->error;
-            }
+            $stmt->bind_param("ssssssi", $name, $email, $phone, $address, $needs, $status, $id);
+            $stmt->execute() ? $success_message = "Updated successfully!" : $error_message = $stmt->error;
             $stmt->close();
         } else {
-            $_SESSION['error_message'] = "Error preparing statement: " . $dms->error;
+            $error_message = $dms->error;
         }
-    } else {
-        $_SESSION['error_message'] = "Invalid data provided for update.";
     }
+    $_SESSION['success_message'] = $success_message;
+    $_SESSION['error_message'] = $error_message;
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
 
-// Handle GET request for DELETE
 if (isset($_GET['delete'])) {
     $deleteId = intval($_GET['delete']);
-
-    // Security check: Only allow deletion for the logged-in user's ID if they are a beneficiary
-    // Admins can delete any record, but beneficiaries can only delete their own.
     if ($userRole === 'beneficiary' && $deleteId !== $userId) {
-        $_SESSION['error_message'] = "Unauthorized action. You can only delete your own profile.";
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit;
-    }
-    
-    $stmt = $dms->prepare("DELETE FROM beneficiaries WHERE id=?");
-    if ($stmt) {
-        $stmt->bind_param("i", $deleteId);
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Beneficiary ID $deleteId deleted successfully!";
+        $error_message = "Unauthorized action.";
+    } else {
+        $stmt = $dms->prepare("DELETE FROM beneficiaries WHERE user_id = ?");
+        if ($stmt) {
+            $stmt->bind_param("i", $deleteId);
+            $stmt->execute() ? $success_message = "Deleted successfully!" : $error_message = $stmt->error;
+            $stmt->close();
         } else {
-            $_SESSION['error_message'] = "Error deleting beneficiary: " . $stmt->error;
+            $error_message = $dms->error;
         }
-        $stmt->close();
     }
+    $_SESSION['success_message'] = $success_message;
+    $_SESSION['error_message'] = $error_message;
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
 
-// Check for and display messages from session
 if (isset($_SESSION['success_message'])) {
     $success_message = $_SESSION['success_message'];
     unset($_SESSION['success_message']);
@@ -99,31 +83,25 @@ if (isset($_SESSION['error_message'])) {
     unset($_SESSION['error_message']);
 }
 
-// Conditionally fetch beneficiaries
 $beneficiaries = [];
 if ($userRole === 'admin') {
-    // Admin can see all beneficiaries
-    $result = mysqli_query($dms, "SELECT * FROM beneficiaries");
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $beneficiaries[] = $row;
-        }
+    $res = $dms->query("SELECT * FROM beneficiaries");
+    while ($row = $res->fetch_assoc()) {
+        $beneficiaries[] = $row;
     }
-} elseif ($userRole === 'beneficiary') {
-    // Beneficiary can only see their own record
-    $stmt = $dms->prepare("SELECT * FROM beneficiaries WHERE id = ?");
-    if ($stmt) {
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result && $row = $result->fetch_assoc()) {
-            $beneficiaries[] = $row;
-        }
-        $stmt->close();
+} else {
+    $stmt = $dms->prepare("SELECT * FROM beneficiaries WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($row = $res->fetch_assoc()) {
+        $beneficiaries[] = $row;
+    } else {
+        $error_message = "No profile found for your account.";
     }
+    $stmt->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -3,6 +3,7 @@ session_start();
 require '../config.php';
 $errors = [];
 
+
 if (isset($_POST['submit'])) {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -46,6 +47,23 @@ if (isset($_POST['submit'])) {
             $errors[] = "Database query failed.";
         }
     }
+}
+?>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$userRole = $_SESSION['user_role'] ?? '';
+$username = $_SESSION['user_name'] ?? 'Guest';
+
+// Use role-specific session variables to prevent overwriting
+if ($userRole === 'admin') {
+    $adminUsername = $_SESSION['admin_name'] ?? '';
+    $adminRole = $_SESSION['admin_role'] ?? '';
+} elseif ($userRole === 'campaign_manager') {
+    $campaignManagerUsername = $_SESSION['cm_name'] ?? '';
+    $campaignManagerRole = $_SESSION['cm_role'] ?? '';
 }
 ?>
 
